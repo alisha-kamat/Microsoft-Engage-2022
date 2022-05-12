@@ -1,0 +1,1 @@
+<footer><center>Copyright &#169; 2022 All rights reserved<br> Saddigaddi.com</center></footer>
