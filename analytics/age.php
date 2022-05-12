@@ -1,5 +1,5 @@
 <?php
-require('./admin/db.php');
+require('../admin/db.php');
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ require('./admin/db.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" />
     <title>Sadi Gaddi</title>
-    <?php include('header.php'); ?>
+    <?php include('../header.php'); ?>
 </head>
 <body>
     <br><br>
@@ -147,6 +147,6 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 
 </body>
 <section class="bg-dark text-light p-5 p-lg-3 pt-lg-5 text-center text-sm-start">
-<?php include('footer.php'); ?>
+<?php include('../footer.php'); ?>
 </section>
 </html>

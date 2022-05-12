@@ -1,5 +1,5 @@
 <?php
-require('./admin/db.php');
+require('../admin/db.php');
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,8 @@ require('./admin/db.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" />
     <title>Sadi Gaddi</title>
-    <?php include('header.php'); ?>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <?php include('../header.php'); ?>
 </head>
 <body>
     <br><br>
@@ -19,6 +20,7 @@ require('./admin/db.php');
 
 
 
+<div style="padding: 100px 0px 200px 0px;">
     <center>
     <form action="#" method="post">
        <table cellpadding="5px" align="center">
@@ -62,6 +64,7 @@ require('./admin/db.php');
         <br><input type="submit" value="Search">
     </form>
     </center>
+    
     <br><br>
     <?php if (isset($_POST['make'])) { ?>
     <table width="100%" border="1" style="border-collapse:collapse;">
@@ -88,6 +91,10 @@ require('./admin/db.php');
 <?php
 $count=1;
 $sel_query = "Select * from demography";
+$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
+//echo $query;
+
+
 $flag = 0;
 if(isset($_POST['make'])) 
 {
@@ -102,6 +109,7 @@ if(isset($_POST['make']))
    {
    $sel_query .= " and Make = '".$_POST['make']."'";
    }
+   $query .= " and Demography.Make = '".$_POST['make']."'";
    }
 }
 if(isset($_POST['year'])) 
@@ -117,12 +125,58 @@ if(isset($_POST['year']))
    {
    $sel_query .= " and Year = '".$_POST['year']."'";
    }
+   $query .= " and Demography.Year = ".$_POST['year'];
    }
 }
 
 
 $sel_query .= ";";
+$query .=  " group by Specs.Fuel_type;";
 echo $sel_query;
+echo "<br>";
+echo $query; 
+$tbl_count=0;
+?>
+
+//echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"];
+
+//}
+//echo $data;
+//?>
+    <h2 align="center">Grouped Bar Chart</h2>
+<div style="position: relative; height:30vh; width:50vw; padding: 50px 0px 2000px 0px;">
+<canvas id="bar-chart-grouped" width="800" height="450"></canvas>
+
+<script>
+new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: ["East", "West", "North", "South"],
+      datasets: [
+          <?php 
+          $result = mysqli_query($con,$query);
+	$data = "";
+	while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
+        {
+          label: "<?php echo $row["Fuel_Type"]; ?>",
+          backgroundColor: "#3e95cd",
+          data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>]
+        }<?php $tbl_count++; } ?>
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Region-wise Fuel'
+      }
+    }
+});
+
+</script>
+</div>
+
+<?php
+
 $result = mysqli_query($con,$sel_query);
 while($row = mysqli_fetch_assoc($result)) { ?>
 <tr><td align="center"><?php echo $count; ?></td>
@@ -145,11 +199,12 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <?php $count++; } ?>
 </tbody>
 </table>
+</div>
 <?php } ?>
     <br>
 
 </body>
 <section class="bg-dark text-light p-5 p-lg-3 pt-lg-5 text-center text-sm-start">
-<?php include('footer.php'); ?>
+<?php include('../footer.php'); ?>
 </section>
 </html>
