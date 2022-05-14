@@ -1,6 +1,6 @@
 <?php
-require('../admin/db.php');
-require('../header.php');
+require('./admin/db.php');
+require('header2.php');
 ?>
 
 <body>
@@ -246,7 +246,7 @@ require('../header.php');
         </a>
       </li><!-- End Dashboard Nav -->
 
-      <?php require('../menu.php'); ?>
+      <?php require('menu.php'); ?>
 
 
       <li class="nav-heading">Pages</li>
@@ -514,5 +514,5 @@ while($row = mysqli_fetch_assoc($result)) { ?>
   </main><!-- End #main -->
 
 <?php
-require('../footer.php');
+require('footer2.php');
 ?>
