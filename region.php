@@ -327,7 +327,6 @@ require('header2.php');
        <tr>
        <th>Make</th>
        <th>Year</th>
-       <th>Region</th>
        </tr>
        <tr>
        <td>
@@ -348,15 +347,6 @@ require('header2.php');
   	  $result = mysqli_query($con,$sel_query);
 	  while($row = mysqli_fetch_assoc($result)) { ?>
           <option value="<?php echo $row["Year"]; ?>"><?php echo $row["Year"]; ?></option><?php } ?>
-       </select>
-       </td>
-       <td>
-       <select name="region" id="region">
-          <option value="">All</option>
-          <option value="Region_East">East</option>
-          <option value="Region_West">West</option>
-          <option value="Region_North">North</option>
-          <option value="Region_South">South</option>
        </select>
        </td>
     </tr>
@@ -418,49 +408,7 @@ $tbl_count=0;
     <section class="section">
     <div class="row">
 
-<div class="col-lg-6">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Grouped Bar Chart</h5>
-
-      <!-- Grouped Bar Chart -->
-<div>
-<canvas id="bar-chart-grouped" style="max-height: 400px;"></canvas>
-
-<script>
-new Chart(document.getElementById("bar-chart-grouped"), {
-    type: 'bar',
-    data: {
-      labels: ["East", "West", "North", "South"],
-      datasets: [
-          <?php 
-          $result = mysqli_query($con,$query);
-	$data = "";
-	while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
-        {
-          label: "<?php echo $row["Fuel_Type"]; ?>",
-          backgroundColor: "#3e95cd",
-          data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>]
-        }<?php $tbl_count++; } ?>
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Region-wise Fuel'
-      }
-    }
-});
-
-</script>
-</div>
-      <!-- End Grouped Bar Chart -->
-    </div>
-  </div>
-</div>
-</div>
-
-        <div class="col-lg-12">
+    <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Line Chart (Annual Region-wise Sales)</h5>
@@ -544,55 +492,170 @@ new Chart(document.getElementById("bar-chart-grouped"), {
             </div>
           </div>
         </div>
-        
+
+<div class="col-lg-6">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Grouped Bar Chart</h5>
+
+      <!-- Grouped Bar Chart -->
+<div>
+<canvas id="bar-chart-grouped" style="max-height: 400px;"></canvas>
+
+<script>
+new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: ["East", "West", "North", "South"],
+      datasets: [
+          <?php 
+            $stacked_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography group by Year;";
+            $stacked_result = mysqli_query($con,$stacked_query);
+            $data = "";
+            while($row = mysqli_fetch_assoc($stacked_result)) { if($tbl_count>0) {echo ",";} ?>
+            {
+              label: "<?php echo $row["Fuel_Type"]; ?>",
+              backgroundColor: "#3e95cd",
+              data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>]
+            }<?php $tbl_count++; } ?>
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Region-wise Fuel'
+      }
+    }
+});
+
+</script>
+</div>
+      <!-- End Grouped Bar Chart -->
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col-lg-6">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Fuel Type</h5>
+
+      <!-- Stacked Bar Chart -->
+<canvas id="stackedchart" width="450"></canvas>
+<script>
+var stackedbarchart = new Chart(stackedchart, {
+   type: 'bar',
+   data: {
+      labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
+      // create 12 datasets, since we have 12 items
+      // data[0] = labels[0] (data for first bar - 'Standing costs') 
+      // put 0, if there is no data for the particular bar
+      datasets: [           
+        <?php 
+          $tbl_count = 0;
+          $colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
+          $result = mysqli_query($con,$query);
+          $data = "";
+          while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
+          {
+            label: '<?php echo $row["Fuel_Type"]; ?>',
+            data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>],
+            backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
+          }<?php $tbl_count++; } ?>
+        ]
+   },
+   options: {
+      responsive: false,
+      legend: {
+         position: 'right' 
+      },
+      scales: {
+         xAxes: [{
+            stacked: true
+         }],
+         yAxes: [{
+            stacked: true 
+         }]
+      }
+   }
+});
+
+</script>
+      <!-- End Stacked Bar Chart -->
+    </div>
+  </div>
+</div>
+</div>      
+
         <div class="col-lg-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Bar CHart</h5>
 
-              <!-- Bar Chart -->
-              <canvas id="barChart" style="max-height: 400px;"></canvas>
+          <!-- Pie Chart -->
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Car Body Type <span>| 2021</span></h5>
+
+              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
-                  new Chart(document.querySelector('#barChart'), {
-                    type: 'bar',
-                    data: {
-                      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                      datasets: [{
-                        label: 'Bar Chart',
-                        data: [65, 59, 80, 81, 56, 55, 40],
-                        backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(255, 159, 64, 0.2)',
-                          'rgba(255, 205, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(201, 203, 207, 0.2)'
-                        ],
-                        borderColor: [
-                          'rgb(255, 99, 132)',
-                          'rgb(255, 159, 64)',
-                          'rgb(255, 205, 86)',
-                          'rgb(75, 192, 192)',
-                          'rgb(54, 162, 235)',
-                          'rgb(153, 102, 255)',
-                          'rgb(201, 203, 207)'
-                        ],
-                        borderWidth: 1
-                      }]
+                  echarts.init(document.querySelector("#trafficChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
                     },
-                    options: {
-                      scales: {
-                        y: {
-                          beginAtZero: true
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
                         }
-                      }
-                    }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [{
+                          value: 1048,
+                          name: 'Search Engine'
+                        },
+                        {
+                          value: 735,
+                          name: 'Direct'
+                        },
+                        {
+                          value: 580,
+                          name: 'Email'
+                        },
+                        {
+                          value: 484,
+                          name: 'Union Ads'
+                        },
+                        {
+                          value: 300,
+                          name: 'Video Ads'
+                        }
+                      ]
+                    }]
                   });
                 });
               </script>
-              <!-- End Bar CHart -->
+
+            </div>
+          </div><!-- End Pie Chart -->
 
             </div>
           </div>
@@ -614,16 +677,11 @@ new Chart(document.getElementById("bar-chart-grouped"), {
 <th><strong>Model</strong></th>
 <th><strong>Variant</strong></th>
 <th><strong>Year</strong></th>
-<th><strong>Total</strong></th>
-<?php if(strlen($_POST['region'])>0) { ?>
-<th><strong><?php echo substr($_POST['region'],7); ?></strong></th>
-<?php } 
-   else {?>
 <th><strong>East</strong></th>
 <th><strong>West</strong></th>
 <th><strong>North</strong></th>
 <th><strong>South</strong></th>
-<?php } ?>
+<th><strong>Total</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -683,16 +741,12 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td><?php echo $row["Model"]; ?></td>
 <td><?php echo $row["Variant"]; ?></td>
 <td><?php echo $row["Year"]; ?></td>
-<td><?php echo $row["Total"]; ?></td>
-<?php if(strlen($_POST['region'])>0) { ?>
-<td><?php echo $row[$_POST['region']]; ?></td>
-<?php } 
-   else {?>
-<td><?php echo $row["Region_East"]; ?></td>
-<td><?php echo $row["Region_West"]; ?></td>
-<td><?php echo $row["Region_North"]; ?></td>
-<td><?php echo $row["Region_South"]; ?></td>
-<?php } ?>
+<td><?php echo number_format($row["Region_East"]); ?></td>
+<td><?php echo number_format($row["Region_West"]); ?></td>
+<td><?php echo number_format($row["Region_North"]); ?></td>
+<td><?php echo number_format($row["Region_South"]); ?></td>
+<td><?php echo number_format($row["Total"]); ?></td>
+
 
 </tr>
 <?php $count++; } ?>

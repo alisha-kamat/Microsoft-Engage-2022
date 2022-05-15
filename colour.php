@@ -418,49 +418,8 @@ $tbl_count=0;
     <section class="section">
     <div class="row">
 
-<div class="col-lg-6">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Grouped Bar Chart</h5>
 
-      <!-- Grouped Bar Chart -->
-<div>
-<canvas id="bar-chart-grouped" style="max-height: 400px;"></canvas>
-
-<script>
-new Chart(document.getElementById("bar-chart-grouped"), {
-    type: 'bar',
-    data: {
-      labels: ["East", "West", "North", "South"],
-      datasets: [
-          <?php 
-          $result = mysqli_query($con,$query);
-	$data = "";
-	while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
-        {
-          label: "<?php echo $row["Fuel_Type"]; ?>",
-          backgroundColor: "#3e95cd",
-          data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>]
-        }<?php $tbl_count++; } ?>
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Region-wise Fuel'
-      }
-    }
-});
-
-</script>
-</div>
-      <!-- End Grouped Bar Chart -->
-    </div>
-  </div>
-</div>
-</div>
-
-        <div class="col-lg-12">
+    <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Line Chart (Annual Colour-wise Sales)</h5>
@@ -536,6 +495,101 @@ new Chart(document.getElementById("bar-chart-grouped"), {
           </div>
         </div>
         
+        <div class="col-lg-6">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Fuel Type</h5>
+
+      <!-- Stacked Bar Chart -->
+<canvas id="stackedchart" width="450"></canvas>
+<script>
+var stackedbarchart = new Chart(stackedchart, {
+   type: 'bar',
+   data: {
+      labels: ['Dull', 'Bright', 'Neutral'], // responsible for how many bars are gonna show on the chart
+      // create 12 datasets, since we have 12 items
+      // data[0] = labels[0] (data for first bar - 'Standing costs') 
+      // put 0, if there is no data for the particular bar
+      datasets: [           
+        <?php 
+          $tbl_count = 0;
+          $colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
+          $stacked_query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type;";
+          $result = mysqli_query($con,$stacked_query);
+          $data = "";
+          while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
+          {
+            label: '<?php echo $row["Fuel_Type"]; ?>',
+            data: [<?php echo $row["sum(Colour_Dull)"].", ".$row["sum(Colour_Bright)"].", ".$row["sum(Colour_Neutral)"]; ?>],
+            backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
+          }<?php $tbl_count++; } ?>
+        ]
+   },
+   options: {
+      responsive: false,
+      legend: {
+         position: 'right' 
+      },
+      scales: {
+         xAxes: [{
+            stacked: true
+         }],
+         yAxes: [{
+            stacked: true 
+         }]
+      }
+   }
+});
+
+</script>
+      <!-- End Stacked Bar Chart -->
+    </div>
+  </div>
+</div>
+</div>
+        
+<div class="col-lg-6">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Grouped Bar Chart</h5>
+
+      <!-- Grouped Bar Chart -->
+<div>
+<canvas id="bar-chart-grouped" style="max-height: 400px;"></canvas>
+
+<script>
+new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: ["East", "West", "North", "South"],
+      datasets: [
+          <?php 
+          $result = mysqli_query($con,$query);
+	$data = "";
+	while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
+        {
+          label: "<?php echo $row["Fuel_Type"]; ?>",
+          backgroundColor: "#3e95cd",
+          data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>]
+        }<?php $tbl_count++; } ?>
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Region-wise Fuel'
+      }
+    }
+});
+
+</script>
+</div>
+      <!-- End Grouped Bar Chart -->
+    </div>
+  </div>
+</div>
+</div>
+
         <div class="col-lg-6">
           <div class="card">
             <div class="card-body">

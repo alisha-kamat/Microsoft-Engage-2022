@@ -388,7 +388,10 @@
                   $year = "";
                   $row = mysqli_fetch_assoc($sales_result);
                   $total_sales  = $row['sales'];
-                  
+                  $old_sales = "Select sum(Total), year from sales where Year not in (select max(year) from sales) group by Make order by sum(Total) desc;";
+                  $old_result = mysqli_query($con,$old_sales);
+                  $row2 = mysqli_fetch_assoc($old_result);
+                  $sales_percent = (($row['sales']-$row2['sum(Total)'])/$row2['sum(Total)'])*100;
                 ?>
                 <div class="card-body">
                   <h5 class="card-title">Sales <span>| <?php echo $row['year']; ?></span></h5>
@@ -399,8 +402,20 @@
                     </div>
                     <div class="ps-3">
                       <h6><?php echo number_format($total_sales); ?></h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                      <?php 
+                      if($sales_percent > 0)
+                      { 
+                      ?>
+                      <span class="text-success small pt-1 fw-bold"><?php echo (int)$sales_percent; ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <?php
+                      } 
+                      else
+                      {
+                      ?>
+                      <span class="text-danger small pt-1 fw-bold"><?php echo (int)$sales_percent*-1; ?>%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <?php
+                      }
+                      ?>
                     </div>
                   </div>
                 </div>
@@ -435,9 +450,9 @@
                 </div>
 
               </div>
-            </div><!-- End Revenue Card -->
+            </div><!-- End Most popular car card -->
 
-            <!-- Customers Card -->
+            <!--  Revenue Card -->
             <div class="col-xxl-4 col-xl-12">
 
               <div class="card info-card customers-card">
@@ -447,7 +462,10 @@
                   $revenue_result = mysqli_query($con,$revenue_query);
                   $row = mysqli_fetch_assoc($revenue_result);
                   $total_revenue  = $row['revenue'];
-                  
+                  $old_revenue = "select sum(sales.total*specs.Ex_showroom_price) as revenue, year from sales, specs where sales.year not in (select max(sales.year) from sales) and sales.Make = specs.Make and sales.Model = specs.Model and sales.Variant = specs.Variant;";
+                  $old_result = mysqli_query($con,$old_revenue);
+                  $old = mysqli_fetch_assoc($old_result);
+                  $revenue_percent = (($row['revenue']-$old['revenue'])/$old['revenue'])*100;
                 ?>
 
 
@@ -460,7 +478,20 @@
                     </div>
                     <div class="ps-3">
                       <h6> ₹ <?php echo number_format($total_revenue); ?></h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <?php 
+                      if($revenue_percent > 0)
+                      { 
+                      ?>
+                      <span class="text-success small pt-1 fw-bold"><?php echo (int)$revenue_percent; ?>%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <?php
+                      } 
+                      else
+                      {
+                      ?>
+                      <span class="text-danger small pt-1 fw-bold"><?php echo (int)$revenue_percent*-1; ?>%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <?php
+                      }
+                      ?>
 
                     </div>
                   </div>
@@ -557,6 +588,55 @@
               </div>
             </div><!-- End Reports -->
 
+
+            <!-- Top 5 Selling cars -->
+            <div class="col-12">
+              <div class="card top-selling overflow-auto">
+
+                 <?php 
+                  $top_query = "Select Sales.Make, Specs.Ex_showroom_price, sum(Total), Specs.Ex_showroom_price*sum(Total) as revenue,  year from Sales, Specs where Year in (select max(year) from sales) and Specs.Make = Sales.Make group by Make order by sum(Total) desc;";
+                  $result = mysqli_query($con,$top_query);
+                  ?>
+
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Top Selling <span>| 2021</span></h5>
+
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Sold</th>
+                        <th scope="col">Revenue</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <?php
+                        $count = 0;
+                        while($row = mysqli_fetch_assoc($result))
+                        {                     
+                          if($count<5)
+                          {
+                        ?>
+                        <td><a href="#" class="text-primary fw-bold"><?php echo $row['Make']; ?></a></td>
+                        <td>₹<?php echo number_format($row['Ex_showroom_price']); ?></td>
+                        <td class="fw-bold"><?php echo number_format($row['sum(Total)']); ?></td>
+                        <td>₹<?php echo number_format($row['revenue']); ?></td>
+                      </tr>
+                          <?php $count++;
+                          }
+                        } 
+                    ?>
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Top 5 Selling Cars  -->
+
+
             <!-- Recent Sales -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
@@ -635,21 +715,8 @@
             <div class="col-12">
               <div class="card top-selling overflow-auto">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body pb-0">
-                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
+                  <h5 class="card-title">Top Selling <span>| 2021</span></h5>
 
                   <table class="table table-borderless">
                     <thead>
@@ -710,6 +777,109 @@
 
         <!-- Right side columns -->
         <div class="col-lg-4">
+
+          <!-- Car Body Type - Pie Chart -->
+          <div class="card">
+
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Car Body Type <span>| 2021</span></h5>
+
+              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#trafficChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [
+                        <?php 
+                        $tbl_count = 0;
+                        //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
+                        $query = "Select distinct(Demography.Year), Specs.Body_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;";
+                        $result = mysqli_query($con,$query);
+                        $data = "";
+                        while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>                        
+                        {
+                          value: <?php echo $row['Total']; ?>,
+                          name: '<?php echo $row['Body_Type']; ?>'
+                        }
+                        <?php $tbl_count++;} ?>
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- Car Body Type - End Pie Chart -->        
+
+
+          <!-- News & Updates Traffic -->
+          <div class="card">
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+
+              <div class="news">
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-1.jpg" alt="">
+                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
+                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-2.jpg" alt="">
+                  <h4><a href="#">Quidem autem et impedit</a></h4>
+                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-3.jpg" alt="">
+                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
+                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-4.jpg" alt="">
+                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
+                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-5.jpg" alt="">
+                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
+                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
+                </div>
+
+              </div><!-- End sidebar recent posts-->
+
+            </div>
+          </div><!-- End News & Updates -->
 
           <!-- Recent Activity -->
           <div class="card">
@@ -858,137 +1028,6 @@
             </div>
           </div><!-- End Budget Report -->
 
-          <!-- Website Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Website Traffic <span>| Today</span></h5>
-
-              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Website Traffic -->
-
-          <!-- News & Updates Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
-              <div class="news">
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-1.jpg" alt="">
-                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-2.jpg" alt="">
-                  <h4><a href="#">Quidem autem et impedit</a></h4>
-                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-3.jpg" alt="">
-                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-4.jpg" alt="">
-                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-5.jpg" alt="">
-                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                </div>
-
-              </div><!-- End sidebar recent posts-->
-
-            </div>
-          </div><!-- End News & Updates -->
 
         </div><!-- End Right side columns -->
 

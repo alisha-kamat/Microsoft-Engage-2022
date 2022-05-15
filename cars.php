@@ -462,19 +462,20 @@ require('./admin/db.php');
 <th><strong>Model</strong></th>
 <th><strong>Variant</strong></th>
 <th><strong>Price</strong></th>
-<th><strong>Cylinders</strong></th>
+<!--th><strong>Cylinders</strong></th>
 <th><strong>Drivetrain</strong></th>
 <th><strong>Engine Location</strong></th>
-<th><strong>Fuel Tank Capacity</strong></th>
+<th><strong>Fuel Tank Capacity</strong></th-->
 <th><strong>Fuel Type</strong></th>
 <th><strong>Body Type</strong></th>
 <th><strong>City Mileage</strong></th>
-<th><strong>Gears</strong></th>
+<!--th><strong>Gears</strong></th>
 <th><strong>Power</strong></th>
 <th><strong>Torque</strong></th>
-<th><strong>Seating Capacity</strong></th>
+<th><strong>Seating Capacity</strong></th-->
 <th><strong>Transmission</strong></th>
-<th><strong>Boot Space</strong></th>
+<!--th><strong>Boot Space</strong></th-->
+<th><strong>Details</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -581,19 +582,20 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td align="center"><?php echo $row["Model"]; ?></td>
 <td align="center"><?php echo $row["Variant"]; ?></td>
 <td align="center"><?php echo $row["Ex_showroom_price"]; ?></td>
-<td align="center"><?php echo $row["Cylinders"]; ?></td>
-<td align="center"><?php echo $row["Drivetrain"]; ?></td>
-<td align="center"><?php echo $row["Engine_location"]; ?></td>
-<td align="center"><?php echo $row["Fuel_tank_capacity"]; ?></td>
+<!--td align="center"><?php //echo $row["Cylinders"]; ?></td>
+<td align="center"><?php //echo $row["Drivetrain"]; ?></td>
+<td align="center"><?php //echo $row["Engine_location"]; ?></td>
+<td align="center"><?php //echo $row["Fuel_tank_capacity"]; ?></td-->
 <td align="center"><?php echo $row["Fuel_type"]; ?></td>
 <td align="center"><?php echo $row["Body_type"]; ?></td>
 <td align="center"><?php echo $row["City_mileage"]; ?></td>
-<td align="center"><?php echo $row["Gears"]; ?></td>
-<td align="center"><?php echo $row["Power"]; ?></td>
-<td align="center"><?php echo $row["Torque"]; ?></td>
-<td align="center"><?php echo $row["Seating_capacity"]; ?></td>
+<!--td align="center"><?php //echo $row["Gears"]; ?></td-->
+<!--td align="center"><?php// echo $row["Power"]; ?></td>
+<td align="center"><?php //echo $row["Torque"]; ?></td>
+<td align="center"><?php //echo $row["Seating_capacity"]; ?></td-->
 <td align="center"><?php echo $row["Transmission"]; ?></td>
-<td align="center"><?php echo $row["Boot_space"]; ?></td>
+<!--td align="center"><?php //echo $row["Boot_space"]; ?></td-->
+<td align="center">Click Here</td>
 </tr>
 <?php $count++; } ?>
 </tbody>
