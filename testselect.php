@@ -14,6 +14,202 @@ echo "{
 <body>
 
 
+
+<body>
+
+  <main id="main" class="main">
+
+<div class="row">
+    <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
+
+              <div id="pieChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#pieChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [
+                        <?php 
+                        $tbl_count = 0;
+                        //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
+                        $query = "Select distinct(Demography.Year), Specs.Transmission, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;";
+                        $result = mysqli_query($con,$query);
+                        $data = "";
+                        while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>                        
+                        {
+                          value: <?php echo $row['Total']; ?>,
+                          name: '<?php echo $row['Transmission']; ?>'
+                        }
+                        <?php $tbl_count++;} ?>
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- Car Body Type - End Pie Chart -->
+              </div>
+
+              <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Fuel Type <span>| 2021</span></h5>
+
+              <div id="piChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#piChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [
+                        <?php 
+                        $tbl_count = 0;
+                        //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
+                        $query = "Select distinct(Demography.Year), Specs.Fuel_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type;";
+                        $result = mysqli_query($con,$query);
+                        $data = "";
+                        while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>                        
+                        {
+                          value: <?php echo $row['Total']; ?>,
+                          name: '<?php echo $row['Fuel_Type']; ?>'
+                        }
+                        <?php $tbl_count++;} ?>
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- Car Body Type - End Pie Chart -->
+              </div>
+   
+      <div class="row">
+
+
+          <!-- Recent Activity -->
+          <div class="card">
+
+            <div class="card-body">
+              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+
+              <div class="activity">
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">32 min</div>
+                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                  <div class="activity-content">
+                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                  </div>
+                </div><!-- End activity item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">56 min</div>
+                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
+                  <div class="activity-content">
+                    Voluptatem blanditiis blanditiis eveniet
+                  </div>
+                </div><!-- End activity item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">2 hrs</div>
+                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                  <div class="activity-content">
+                    Voluptates corrupti molestias voluptatem
+                  </div>
+                </div><!-- End activity item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">1 day</div>
+                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+                  <div class="activity-content">
+                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
+                  </div>
+                </div><!-- End activity item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">2 days</div>
+                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
+                  <div class="activity-content">
+                    Est sit eum reiciendis exercitationem
+                  </div>
+                </div><!-- End activity item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">4 weeks</div>
+                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
+                  <div class="activity-content">
+                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                  </div>
+                </div><!-- End activity item-->
+
+              </div>
+
+            </div>
+          </div><!-- End Recent Activity -->
+
+
+
+      </div>
+
+  </main><!-- End #main -->
+
+
+----------------------------------------
         <div class="col-lg-6">
 
           <div class="card">
