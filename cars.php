@@ -64,10 +64,20 @@ require('header2.php');
         <select name="price" id="price">
 	  <option value="">All</option>
           <?php
-          $sel_query="Select DISTINCT(Ex_showroom_price) from specs;";
-  	  $result = mysqli_query($con,$sel_query);
-	  while($row = mysqli_fetch_assoc($result)) { ?>
-          <option value="<?php echo $row["Ex_showroom_price"]; ?>"><?php echo $row["Ex_showroom_price"]; ?></option><?php } ?>
+          $min_query="Select MIN(Ex_showroom_price) from specs;";
+          $max_query="Select MAX(Ex_showroom_price) from specs;";
+          $min_result = mysqli_query($con,$min_query);
+          $min_row = mysqli_fetch_assoc($min_result);
+          $max_result = mysqli_query($con,$max_query);
+          $max_row = mysqli_fetch_assoc($max_result);
+          $range = round(($max_row['MAX(Ex_showroom_price)']-$min_row['MIN(Ex_showroom_price)'])/10);
+          $iter = 10;
+          //echo $range;
+          for($i = 1; $i<=$iter;$i++)
+          {   
+          //$sel_query="Select DISTINCT(Ex_showroom_price) from specs;";
+	 // while($row = mysqli_fetch_assoc($result)) { ?>
+          <option value="<?php echo round($i*$range/100000)*100000; ?>"><?php echo "Below ₹".round($i*$range/100000)." lakh"; ?></option><?php } ?>
        </select>
        </td>
        <td>
@@ -84,11 +94,22 @@ require('header2.php');
        <select name="mileage" id="mileage">
 	  <option value="">All</option>
           <?php
-          $sel_query="Select DISTINCT(City_mileage) from specs;";
+          //$sel_query="Select DISTINCT(City_mileage) from specs;";
+          $sel_query="Select MAX(City_mileage) from specs;";
   	  $result = mysqli_query($con,$sel_query);
-	  while($row = mysqli_fetch_assoc($result)) { ?>
-          <option value="<?php echo $row["City_mileage"]; ?>"><?php echo $row["City_mileage"]; ?></option><?php } ?>
-       </select>
+      $row = mysqli_fetch_assoc($result);
+      $iter = $row['MAX(City_mileage)']/5 ;
+      echo $row['MAX(City_mileage)'];
+      $param = 5;
+      for($i = 0; $i<$iter;$i++)
+      { 
+	  /*while($row = mysqli_fetch_assoc($result)) { ?>
+          <option value="<?php echo $row["City_mileage"]; ?>"><?php echo $row["City_mileage"]; ?></option><?php } ?>*/?>
+          <option value="<?php echo $param*$i; ?>"><?php echo "Above ".$param*$i; ?></option>
+          <?php 
+          } 
+          ?>       
+          </select>
        </td>
        <td>
        <select name="transmission" id="transmission">
@@ -114,7 +135,7 @@ require('header2.php');
        <select name="seating_capacity" id="seating_capacity">
 	  <option value="">All</option>
           <?php
-          $sel_query="Select DISTINCT(Seating_capacity) from specs;";
+          $sel_query="Select DISTINCT(Seating_capacity) from specs order by Seating_capacity asc;";
   	  $result = mysqli_query($con,$sel_query);
 	  while($row = mysqli_fetch_assoc($result)) { ?>
           <option value="<?php echo $row["Seating_capacity"]; ?>"><?php echo $row["Seating_capacity"]; ?></option><?php } ?>
@@ -184,11 +205,11 @@ if(isset($_POST['price']))
    if($flag == 0)
    {
    $flag = 1;
-   $sel_query .= " where Ex_showroom_price = '".$_POST['price']."'";
+   $sel_query .= " where Ex_showroom_price <= '".$_POST['price']."'";
    }
    else
    {
-   $sel_query .= " and Ex_showroom_price = '".$_POST['price']."'";
+   $sel_query .= " and Ex_showroom_price <= '".$_POST['price']."'";
    }
    }
 }
@@ -204,6 +225,21 @@ if(isset($_POST['body_type']))
    else
    {
    $sel_query .= " and Body_type = '".$_POST['body_type']."'";
+   }
+   }
+}
+if(isset($_POST['mileage'])) 
+{
+   if(strlen($_POST['mileage'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where City_mileage >= '".$_POST['mileage']."'";
+   }
+   else
+   {
+   $sel_query .= " and City_mileage >= '".$_POST['mileage']."'";
    }
    }
 }
@@ -260,7 +296,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td align="center"><?php echo $row["Make"]; ?></td>
 <td align="center"><?php echo $row["Model"]; ?></td>
 <td align="center"><?php echo $row["Variant"]; ?></td>
-<td align="center"><?php echo $row["Ex_showroom_price"]; ?></td>
+<td align="center"><?php echo "₹".number_format($row["Ex_showroom_price"]); ?></td>
 <!--td align="center"><?php //echo $row["Cylinders"]; ?></td>
 <td align="center"><?php //echo $row["Drivetrain"]; ?></td>
 <td align="center"><?php //echo $row["Engine_location"]; ?></td>

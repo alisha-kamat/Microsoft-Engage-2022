@@ -71,7 +71,7 @@ require('header2.php');
         <br><input type="submit" value="Search">
     </form>
     </center>
-    </div>
+    </div><br>
     <?php
 $count=1;
 $sel_query = "Select * from demography";
@@ -215,7 +215,7 @@ $tbl_count=0;
 <div class="col-lg-8">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Fuel Type</h5>
+      <h5 class="card-title">Fuel Type Preferences by Gender</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="stackedchart" width="450"></canvas>
@@ -233,12 +233,19 @@ var stackedbarchart = new Chart(stackedchart, {
           $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
           $result = mysqli_query($con,$query);
           $data = "";
-          while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
+          $north = 0;
+          $south = 0;
+          $east = 0;
+          $west = 0;
+          while($row = mysqli_fetch_assoc($result)) { 
+           
+            if($tbl_count>0) {echo ",";} ?>
           {
             label: '<?php echo $row["Fuel_Type"]; ?>',
             data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>],
             backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
-          }<?php $tbl_count++; } ?>
+          }<?php $tbl_count++; 
+          } ?>
         ]
    },
    options: {
@@ -265,99 +272,286 @@ var stackedbarchart = new Chart(stackedchart, {
 
 <div class="col-lg-4">
   <div class="card">
-
-  <div class="card-body">
-              <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-  
-      <!-- End Stacked Bar Chart -->
+    <div class="card-body">
+      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
+        <?php  
+          $result = mysqli_query($con,$query);
+          $region = "";
+          while($row = mysqli_fetch_assoc($result)) 
+          {
+            $north += $row["sum(Region_North)"];
+            $south += $row["sum(Region_South)"];
+            $east += $row["sum(Region_East)"];
+            $west += $row["sum(Region_West)"];
+          }
+          if($north > $south && $north > $east && $north > $west)
+          {
+            $region = "North";
+            echo "North is leading with a total sales of ".number_format($north).".<br>";
+            $result = mysqli_query($con,$query);
+            while($row = mysqli_fetch_assoc($result)) 
+            {
+              if(strcmp($row['Fuel_Type'],"Petrol")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Petrol<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Diesel")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Diesel<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Electric")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Electric<br>";
+              }
+            }
+          }
+          else if($south > $north && $south > $east && $south > $west)
+          {
+            echo "South is leading with a total sales of ".number_format($south).".";
+          }
+          else if($east > $south && $east > $north && $east > $west)
+          {
+            echo "East is leading with a total sales of ".number_format($east).".";
+          }
+          else
+          {
+            echo "West is leading with a total sales of ".number_format($west).".";
+          }
+            ?>
+   
+      </div>
     </div>
   </div>
 </div>
-</div>  
-<div class="row">
+
+
+<div class="row"> 
 <div class="col-lg-4">
   <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
+        <?php  
+          $result = mysqli_query($con,$query);
+          $region = "";
+          while($row = mysqli_fetch_assoc($result)) 
+          {
+            $north += $row["sum(Region_North)"];
+            $south += $row["sum(Region_South)"];
+            $east += $row["sum(Region_East)"];
+            $west += $row["sum(Region_West)"];
+          }
+          if($north > $south && $north > $east && $north > $west)
+          {
+            $region = "North";
+            echo "North is leading with a total sales of ".number_format($north).".<br>";
+            $result = mysqli_query($con,$query);
+            while($row = mysqli_fetch_assoc($result)) 
+            {
+              if(strcmp($row['Fuel_Type'],"Petrol")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Petrol<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Diesel")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Diesel<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Electric")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Electric<br>";
+              }
+            }
+          }
+          else if($south > $north && $south > $east && $south > $west)
+          {
+            echo "South is leading with a total sales of ".number_format($south).".";
+          }
+          else if($east > $south && $east > $north && $east > $west)
+          {
+            echo "East is leading with a total sales of ".number_format($east).".";
+          }
+          else
+          {
+            echo "West is leading with a total sales of ".number_format($west).".";
+          }
+            ?>
+   
+    </div>
+  </div>
+</div>       
+<div class="col-lg-8">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Car Body Type Preferences by Gender</h5>
 
-  <div class="card-body">
-              <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-  
+      <!-- Stacked Bar Chart -->
+<canvas id="bodychart" width="450"></canvas>
+<script>
+var stackedbarchart = new Chart(bodychart, {
+   type: 'bar',
+   data: {
+      labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
+      // create 12 datasets, since we have 12 items
+      // data[0] = labels[0] (data for first bar - 'Standing costs') 
+      // put 0, if there is no data for the particular bar
+      datasets: [           
+        <?php 
+          $tbl_count = 0;
+          $query = "Select distinct(Demography.Year), Specs.Body_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;"; 
+          $colors = ['#5470C6','#91CC75','#FAC858','#EE6666'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
+          $result = mysqli_query($con,$query);
+          $data = "";
+          $north = 0;
+          $south = 0;
+          $east = 0;
+          $west = 0;
+          while($row = mysqli_fetch_assoc($result)) { 
+           
+            if($tbl_count>0) {echo ",";} ?>
+          {
+            label: '<?php echo $row["Body_Type"]; ?>',
+            data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>],
+            backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
+          }<?php $tbl_count++; 
+          } ?>
+        ]
+   },
+   options: {
+      responsive: false,
+      legend: {
+         position: 'right' 
+      },
+      scales: {
+         xAxes: [{
+            stacked: true
+         }],
+         yAxes: [{
+            stacked: true 
+         }]
+      }
+   }
+});
+
+</script>
       <!-- End Stacked Bar Chart -->
     </div>
   </div>
+</div>    
+
+
+<div class="row">        
+<div class="col-lg-8">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Transmission Type Preferences by Gender</h5>
+
+      <!-- Stacked Bar Chart -->
+<canvas id="stackchart" width="450"></canvas>
+<script>
+var stackedbarchart = new Chart(stackchart, {
+   type: 'bar',
+   data: {
+      labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
+      // create 12 datasets, since we have 12 items
+      // data[0] = labels[0] (data for first bar - 'Standing costs') 
+      // put 0, if there is no data for the particular bar
+      datasets: [           
+        <?php 
+          $tbl_count = 0;
+          $query = "Select distinct(Demography.Year), Specs.Transmission, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Transmission from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;"; 
+          $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
+          $result = mysqli_query($con,$query);
+          $data = "";
+          $north = 0;
+          $south = 0;
+          $east = 0;
+          $west = 0;
+          while($row = mysqli_fetch_assoc($result)) { 
+           
+            if($tbl_count>0) {echo ",";} ?>
+          {
+            label: '<?php echo $row["Transmission"]; ?>',
+            data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>],
+            backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
+          }<?php $tbl_count++; 
+          } ?>
+        ]
+   },
+   options: {
+      responsive: false,
+      legend: {
+         position: 'right' 
+      },
+      scales: {
+         xAxes: [{
+            stacked: true
+         }],
+         yAxes: [{
+            stacked: true 
+         }]
+      }
+   }
+});
+
+</script>
+      <!-- End Stacked Bar Chart -->
+    </div>
+  </div>
+</div>    
+
+<div class="col-lg-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
+        <?php  
+          $result = mysqli_query($con,$query);
+          $region = "";
+          while($row = mysqli_fetch_assoc($result)) 
+          {
+            $north += $row["sum(Region_North)"];
+            $south += $row["sum(Region_South)"];
+            $east += $row["sum(Region_East)"];
+            $west += $row["sum(Region_West)"];
+          }
+          if($north > $south && $north > $east && $north > $west)
+          {
+            $region = "North";
+            echo "North is leading with a total sales of ".number_format($north).".<br>";
+            $result = mysqli_query($con,$query);
+            while($row = mysqli_fetch_assoc($result)) 
+            {
+              if(strcmp($row['Fuel_Type'],"Petrol")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Petrol<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Diesel")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Diesel<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Electric")==0)
+              {
+                echo round($row['sum(Region_North)']/$north*100)."% Electric<br>";
+              }
+            }
+          }
+          else if($south > $north && $south > $east && $south > $west)
+          {
+            echo "South is leading with a total sales of ".number_format($south).".";
+          }
+          else if($east > $south && $east > $north && $east > $west)
+          {
+            echo "East is leading with a total sales of ".number_format($east).".";
+          }
+          else
+          {
+            echo "West is leading with a total sales of ".number_format($west).".";
+          }
+            ?>
+   
+      </div>
+    </div>
+  </div>
 </div>
-        <div class="col-lg-8">
-          <div class="card">
-            <div class="card-body">
-
-          <!-- Pie Chart -->
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Car Body Type <span>| 2021</span></h5>
-
-              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Pie Chart -->
-
-            </div>
-          </div>
-        </div>
-              </div>
+             
     </section>
     <?php if (isset($_POST['make'])) { ?>
       <section class="section">

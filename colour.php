@@ -71,7 +71,7 @@ require('header2.php');
         <br><input type="submit" value="Search">
     </form>
     </center>
-    </div>
+    </div><br>
     <?php
 $count=1;
 $sel_query = "Select * from demography";
@@ -202,7 +202,8 @@ $tbl_count=0;
           </div>
         </div>
         
-        <div class="col-lg-6">
+        <div class="row"> 
+        <div class="col-lg-8">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Fuel Type</h5>
@@ -253,11 +254,105 @@ var stackedbarchart = new Chart(stackedchart, {
     </div>
   </div>
 </div>
-</div>
         
+<div class="col-lg-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
+        <?php  
+          $result = mysqli_query($con,$query);
+          $gender = "";
+          $dull=0;
+          $bright=0;
+          $neutral=0;
+          while($row = mysqli_fetch_assoc($result)) 
+          {
+            $dull += $row["sum(Colour_Dull)"];
+            $bright += $row["sum(Colour_Bright)"];
+            $neutral += $row["sum(Colour_Neutral)"];
+          }
+          if($dull > $neutral && $dull > $bright)
+          {
+            $colour = "Dull";
+            echo "Dull is leading with a total sales of ".number_format($dull).".<br> Of which ";
+            $result = mysqli_query($con,$query);
+            while($row = mysqli_fetch_assoc($result)) 
+            {
+              if(strcmp($row['Fuel_Type'],"Petrol")==0)
+              {
+                echo round($row['sum(Colour_Dull)']/$dull*100)."% is Petrol<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Diesel")==0)
+              {
+                echo round($row['sum(Colour_Dull)']/$dull*100)."% is Diesel<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Electric")==0)
+              {
+                echo round($row['sum(Colour_Dull)']/$dull*100)."% is Electric<br>";
+              }
+            }
+          }
+          else if($neutral > $dull && $neutral > $bright)
+          {
+            $colour = "Neutral";
+            echo "Neutral is leading with a total sales of ".number_format($neutral).".<br> Of which ";
+            $result = mysqli_query($con,$query);
+            while($row = mysqli_fetch_assoc($result)) 
+            {
+              if(strcmp($row['Fuel_Type'],"Petrol")==0)
+              {
+                echo round($row['sum(Colour_Neutral)']/$dull*100)."% is Petrol<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Diesel")==0)
+              {
+                echo round($row['sum(Colour_Neutral)']/$dull*100)."% is Diesel<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Electric")==0)
+              {
+                echo round($row['sum(Colour_Neutral)']/$dull*100)."% is Electric<br>";
+              }
+            }
 
+          }
+          else
+          {
+            $colour = "Bright";
+            echo "Bright is leading with a total sales of ".number_format($bright).".<br> Of which ";
+            $result = mysqli_query($con,$query);
+            while($row = mysqli_fetch_assoc($result)) 
+            {
+              if(strcmp($row['Fuel_Type'],"Petrol")==0)
+              {
+                echo round($row['sum(Colour_Bright)']/$bright*100)."% is Petrol<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Diesel")==0)
+              {
+                echo round($row['sum(Colour_Bright)']/$bright*100)."% is Diesel<br>";
+              }
+              if(strcmp($row['Fuel_Type'],"Electric")==0)
+              {
+                echo round($row['sum(Colour_Bright)']/$bright*100)."% is Electric<br>";
+              }
+            }
+          }
+            ?>
+   
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+<div class="col-lg-4">
+  <div class="card">
 
-        <div class="col-lg-6">
+  <div class="card-body">
+              <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
+  
+      <!-- End Stacked Bar Chart -->
+    </div>
+  </div>
+</div>
+        <div class="col-lg-8">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Bar CHart</h5>
@@ -309,8 +404,104 @@ var stackedbarchart = new Chart(stackedchart, {
             </div>
           </div>
         </div>
-
+              </div>
     </section>
+
+    <?php if (isset($_POST['make'])) { ?>
+      <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+    <table class="table datatable">
+<thead>
+<tr>
+<th><strong></strong></th>
+<th><strong>Make</strong></th>
+<th><strong>Model</strong></th>
+<th><strong>Variant</strong></th>
+<th><strong>Year</strong></th>
+<th><strong>Dull</strong></th>
+<th><strong>Bright</strong></th>
+<th><strong>Neutral</strong></th>
+<th><strong>Total</strong></th>
+</tr>
+</thead>
+<tbody>
+<?php
+$count=1;
+$sel_query = "Select * from demography";
+$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
+//echo $query;
+$flag = 0;
+if(isset($_POST['make'])) 
+{
+   if(strlen($_POST['make'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Make = '".$_POST['make']."'";
+   }
+   else
+   {
+   $sel_query .= " and Make = '".$_POST['make']."'";
+   }
+   $query .= " and Demography.Make = '".$_POST['make']."'";
+   }
+}
+if(isset($_POST['year'])) 
+{
+   if(strlen($_POST['year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year = '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+
+
+$sel_query .= ";";
+$query .=  " group by Specs.Fuel_type;";
+//echo $sel_query;
+//echo $query; 
+$tbl_count=0;
+?>
+
+<?php
+
+$result = mysqli_query($con,$sel_query);
+while($row = mysqli_fetch_assoc($result)) { ?>
+<tr><td align="center"><?php echo $count; ?></td>
+<td><?php echo $row["Make"]; ?></td>
+<td><?php echo $row["Model"]; ?></td>
+<td><?php echo $row["Variant"]; ?></td>
+<td><?php echo $row["Year"]; ?></td>
+<td><?php echo number_format($row["Colour_Dull"]); ?></td>
+<td><?php echo number_format($row["Colour_Bright"]); ?></td>
+<td><?php echo number_format($row["Colour_Neutral"]); ?></td>
+<td><?php echo number_format($row["Total"]); ?></td>
+
+
+</tr>
+<?php $count++; } ?>
+</tbody>
+</table>
+</div>
+<?php } ?>
+   </div>
+   </div>
+   </div>
+   </div>
+   </section>
 
   </main><!-- End #main -->
 

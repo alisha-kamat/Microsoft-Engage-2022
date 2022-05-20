@@ -118,52 +118,53 @@ require('header2.php');
               <div class="activity">
 
                 <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
+                  <div class="activite-label">Week 1</div>
                   <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                   <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                    Initiated project related <a href="#" class="fw-bold text-dark">research</a> and creating the dataset
                   </div>
                 </div><!-- End project item-->
 
                 <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
+                  <div class="activite-label">Week 2</div>
                   <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
                   <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
+                    Created datasets for the automobile industry and developing the admin screens to access them
                   </div>
                 </div><!-- End project item-->
 
                 <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div><!-- End project item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div><!-- End project item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div><!-- End project item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
+                  <div class="activite-label">Week 2</div>
                   <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
                   <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                    Analysed possible hosting options including Heroku, Vercel, and AWS
                   </div>
                 </div><!-- End project item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">Week 3</div>
+                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                  <div class="activity-content">
+                    Started with the basic design and built the minimum functioning website for CarDB
+                  </div>
+                </div><!-- End project item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">Week 3</div>
+                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+                  <div class="activity-content">
+                    Started with ML algorithms to <a href="#" class="fw-bold text-dark">predict future sales trends </a> in the automobile industry
+                  </div>
+                </div><!-- End project item-->
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">Week 4</div>
+                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
+                  <div class="activity-content">
+                   Improved the site's UI and added additional features
+                  </div>
+                </div><!-- End project item-->
+
 
               </div>
 

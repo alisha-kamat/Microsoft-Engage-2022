@@ -215,7 +215,7 @@ require('header2.php');
                         markers: {
                           size: 4
                         },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d','#AE8A8C','#698396'],
+                        colors: ['#5470C6','#FAC858','#EE6666','#91CC75', '#698396'],
                         fill: {
                           type: "gradient",
                           gradient: {
@@ -495,32 +495,32 @@ require('header2.php');
               <div class="news">
                 <div class="post-item clearfix">
                   <img src="assets/img/news-1.jpg" alt="">
-                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
+                  <h4><a href="https://www.lhpes.com/blog/how-does-big-data-impact-automotive-industry" rel="nofollow">How Does Big Data Impact the Automotive Industry? </a></h4>
+                  <p>In general, data is collected in a number of different ways. Again, keeping the automotive industry in focus...</p>
                 </div>
 
                 <div class="post-item clearfix">
                   <img src="assets/img/news-2.jpg" alt="">
-                  <h4><a href="#">Quidem autem et impedit</a></h4>
-                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
+                  <h4><a href="https://www.dataiku.com/stories/automotive-industry/" rel="nofollow">The Automotive Industry: Driving the Future of AI</a></h4>
+                  <p>Automobile data analytics isn't just about self-driving cars; data science and machine learning technologies can help...</p>
                 </div>
 
                 <div class="post-item clearfix">
                   <img src="assets/img/news-3.jpg" alt="">
-                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
+                  <h4><a href="https://www.industryarc.com/Report/17997/automotive-data-analytics-market.html" rel="nofollow">Automotive Data Analytics Market - Forecast</a></h4>
+                  <p>Google Inc., Microsoft Corporation, Drust, Sight Machine and ZenDrive are considered to be the key...</p>
                 </div>
 
                 <div class="post-item clearfix">
                   <img src="assets/img/news-4.jpg" alt="">
-                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
+                  <h4><a href="https://www.techtarget.com/searchbusinessanalytics/feature/Customer-centric-automotive-data-analytics-proves-maturity" rel="nofollow">Automotive analytics drives consumer-focused industry</a></h4>
+                  <p> Analytics of consumer trends can help automakers identify purchase patterns, optimize vehicle manufacturing...</p>
                 </div>
 
                 <div class="post-item clearfix">
                   <img src="assets/img/news-5.jpg" alt="">
-                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
+                  <h4><a href="https://www.forbes.com/sites/markminevich/2020/07/13/the-automotive-industry-and-the-data-driven-approach/" rel="nofollow">The Automotive Industry And The Data Driven Approach</a></h4>
+                  <p>Leveraging data on millions of individual vehicle histories...</p>
                 </div>
 
               </div><!-- End sidebar recent posts-->
