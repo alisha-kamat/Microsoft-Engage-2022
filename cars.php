@@ -44,7 +44,7 @@ require('header2.php');
             <th>Make</th>
             <th>Price</th>
             <th>Type</th>
-            <th>Mileage</th>
+            <th>Mileage (kmpl)</th>
             <th>Transmission</th>
             <th>Fuel</th>
             <th>Seats</th>
@@ -101,7 +101,7 @@ require('header2.php');
       $iter = $row['MAX(City_mileage)']/5 ;
       echo $row['MAX(City_mileage)'];
       $param = 5;
-      for($i = 0; $i<$iter;$i++)
+      for($i = 1; $i<$iter;$i++)
       { 
 	  /*while($row = mysqli_fetch_assoc($result)) { ?>
           <option value="<?php echo $row["City_mileage"]; ?>"><?php echo $row["City_mileage"]; ?></option><?php } ?>*/?>

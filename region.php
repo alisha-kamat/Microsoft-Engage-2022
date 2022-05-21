@@ -43,7 +43,8 @@ require('header2.php');
        <table cellpadding="5px" align="center">
        <tr>
        <th>Make</th>
-       <th>Year</th>
+       <th>From Year</th>
+       <th>To Year</th>
        </tr>
        <tr>
        <td>
@@ -57,7 +58,17 @@ require('header2.php');
        </select>
        </td>
        <td>
-       <select name="year" id="year">
+       <select name="from_year" id="from_year">
+	  <option value="">All</option>
+          <?php
+          $sel_query="Select DISTINCT(Year) from Demography;";
+  	  $result = mysqli_query($con,$sel_query);
+	  while($row = mysqli_fetch_assoc($result)) { ?>
+          <option value="<?php echo $row["Year"]; ?>"><?php echo $row["Year"]; ?></option><?php } ?>
+       </select>
+       </td>
+       <td>
+       <select name="to_year" id="to_year">
 	  <option value="">All</option>
           <?php
           $sel_query="Select DISTINCT(Year) from Demography;";
@@ -96,9 +107,57 @@ if(isset($_POST['make']))
    $query .= " and Demography.Make = '".$_POST['make']."'";
    }
 }
-if(isset($_POST['year'])) 
+if(isset($_POST['from_year'])) 
 {
-   if(strlen($_POST['year'])>0)
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year >= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year >= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year <= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year <= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+/*else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])<=0)
    {
    if($flag == 0)
    {
@@ -112,7 +171,23 @@ if(isset($_POST['year']))
    $query .= " and Demography.Year = ".$_POST['year'];
    }
 }
+else
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
 
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year = '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}*/
 
 $sel_query .= ";";
 $query .=  " group by Specs.Fuel_type;";
@@ -125,10 +200,10 @@ $tbl_count=0;
     <section class="section">
     <div class="row">
 
-    <div class="col-lg-12">
+    <div class="col-lg-8">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Line Chart (Annual Region-wise Sales)</h5>
+              <h5 class="card-title">Region-wise Annual Sales</h5>
 
               <!-- Line Chart -->
               <canvas id="lineChart" style="max-height: 400px;"></canvas>
@@ -206,16 +281,86 @@ $tbl_count=0;
                 });
               </script>
               <!-- End Line CHart -->
-
+		</div>
             </div>
           </div>
+          <!-- Car Body Type - Pie Chart -->
+          
+    <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Region-wise Market Share</h5>
+
+              <div id="pieChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#pieChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [
+                        <?php 
+                        $breakup_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography;";
+                        $breakup_result = mysqli_query($con,$breakup_query);
+			$row = mysqli_fetch_assoc($breakup_result);
+                        $data = "";
+                        ?>                        
+                        {
+                          value: <?php echo $row['Sum(Region_East)']; ?>,
+                          name: 'East'
+                        },
+			{
+			  value: <?php echo $row['Sum(Region_West)']; ?>,
+                          name: 'West'
+			},
+			{
+                          value: <?php echo $row['Sum(Region_North)']; ?>,
+                          name: 'North'
+                        },
+			{
+			  value: <?php echo $row['Sum(Region_South)']; ?>,
+                          name: 'South'
+			}
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- Car Body Type - End Pie Chart -->
+              </div>
         </div>
 
 <div class="row">        
 <div class="col-lg-8">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Fuel Type Preferences by Gender</h5>
+      <h5 class="card-title">Fuel Type Preferences by Region</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="stackedchart" width="450"></canvas>
@@ -381,7 +526,7 @@ var stackedbarchart = new Chart(stackedchart, {
 <div class="col-lg-8">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Car Body Type Preferences by Gender</h5>
+      <h5 class="card-title">Car Body Type Preferences by Region</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="bodychart" width="450"></canvas>
@@ -442,7 +587,7 @@ var stackedbarchart = new Chart(bodychart, {
 <div class="col-lg-8">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Transmission Type Preferences by Gender</h5>
+      <h5 class="card-title">Transmission Type Preferences by Region</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="stackchart" width="450"></canvas>
@@ -502,50 +647,7 @@ var stackedbarchart = new Chart(stackchart, {
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-        <?php  
-          $result = mysqli_query($con,$query);
-          $region = "";
-          while($row = mysqli_fetch_assoc($result)) 
-          {
-            $north += $row["sum(Region_North)"];
-            $south += $row["sum(Region_South)"];
-            $east += $row["sum(Region_East)"];
-            $west += $row["sum(Region_West)"];
-          }
-          if($north > $south && $north > $east && $north > $west)
-          {
-            $region = "North";
-            echo "North is leading with a total sales of ".number_format($north).".<br>";
-            $result = mysqli_query($con,$query);
-            while($row = mysqli_fetch_assoc($result)) 
-            {
-              if(strcmp($row['Fuel_Type'],"Petrol")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Petrol<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Diesel")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Diesel<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Electric")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Electric<br>";
-              }
-            }
-          }
-          else if($south > $north && $south > $east && $south > $west)
-          {
-            echo "South is leading with a total sales of ".number_format($south).".";
-          }
-          else if($east > $south && $east > $north && $east > $west)
-          {
-            echo "East is leading with a total sales of ".number_format($east).".";
-          }
-          else
-          {
-            echo "West is leading with a total sales of ".number_format($west).".";
-          }
-            ?>
+        
    
       </div>
     </div>
@@ -598,9 +700,57 @@ if(isset($_POST['make']))
    $query .= " and Demography.Make = '".$_POST['make']."'";
    }
 }
-if(isset($_POST['year'])) 
+if(isset($_POST['from_year'])) 
 {
-   if(strlen($_POST['year'])>0)
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year >= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year >= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+/*else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year <= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year <= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])<=0)
    {
    if($flag == 0)
    {
@@ -614,11 +764,28 @@ if(isset($_POST['year']))
    $query .= " and Demography.Year = ".$_POST['year'];
    }
 }
+else
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
+
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year = '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}*/
 
 
 $sel_query .= ";";
 $query .=  " group by Specs.Fuel_type;";
-//echo $sel_query;
+echo $sel_query;
 //echo $query; 
 $tbl_count=0;
 ?>
