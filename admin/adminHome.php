@@ -6,10 +6,7 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<title>View Sales Records</title>
-<!--link rel="stylesheet" href="css/style.css" /-->
-
-
+<title>Dashboard - Secured Page</title>
 <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -41,19 +38,15 @@ session_start();
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-
    <!-- ======= Header ======= -->
    <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="../homepage.php" class="logo d-flex align-items-center">
+    <a href="../homepage" class="logo d-flex align-items-center">
       <img src="../assets/img/cardb-logo.svg" alt="">
       <span class="d-none d-lg-block">CarDB Analytics</span>
     </a>
   </div><!-- End Logo -->
-<span class="d-none d-lg-block"><p><a href="adminHome.php">Admin Dashboard</a> 
-| <a href="addSalesRecord.php">Add Sales Data</a> 
-| <a href="logout.php">Logout</a></p></span>
 
 <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -119,80 +112,29 @@ session_start();
 </header><!-- End Header -->
 </head>
 <body>
-<div class="form">
-<!--p><a href="dashboard.php">Dashboard</a> 
-| <a href="insert.php">Insert New Record</a> 
-| <a href="logout.php">Logout</a></p-->
-
 <section class="section">
 <br><br><br>
-<center><h2>View Sales Records</h2></center>
-      <div class="row">
+<div class="form">
 
+<br><br>
+       <center>
+	<div class="col-lg-6">
           <div class="card">
             <div class="card-body">
-<table class="table datatable">
-<thead>
-<tr>
-<th><strong>S.No</strong></th>
-<th><strong>Make</strong></th>
-<th><strong>Model</strong></th>
-<th><strong>Variant</strong></th>
-<th><strong>Year</strong></th>
-<th><strong>Jan</strong></th>
-<th><strong>Feb</strong></th>
-<th><strong>Mar</strong></th>
-<th><strong>Apr</strong></th>
-<th><strong>May</strong></th>
-<th><strong>Jun</strong></th>
-<th><strong>Jul</strong></th>
-<th><strong>Aug</strong></th>
-<th><strong>Sep</strong></th>
-<th><strong>Oct</strong></th>
-<th><strong>Nov</strong></th>
-<th><strong>Dec</strong></th>
-<th><strong>Total</strong></th>
-<th><strong>Edit</strong></th>
-<th><strong>Delete</strong></th>
-</tr>
-</thead>
-<tbody>
-<?php
-$count=1;
-$sel_query="Select * from sales;";
-$result = mysqli_query($con,$sel_query);
-while($row = mysqli_fetch_assoc($result)) { ?>
-<tr><td align="center"><?php echo $count; ?></td>
-<td align="center"><?php echo $row["Make"]; ?></td>
-<td align="center"><?php echo $row["Model"]; ?></td>
-<td align="center"><?php echo $row["Variant"]; ?></td>
-<td align="center"><?php echo $row["Year"]; ?></td>
-<td align="center"><?php echo number_format($row["Jan"]); ?></td>
-<td align="center"><?php echo number_format($row["Feb"]); ?></td>
-<td align="center"><?php echo number_format($row["Mar"]); ?></td>
-<td align="center"><?php echo number_format($row["Apr"]); ?></td>
-<td align="center"><?php echo number_format($row["May"]); ?></td>
-<td align="center"><?php echo number_format($row["Jun"]); ?></td>
-<td align="center"><?php echo number_format($row["Jul"]); ?></td>
-<td align="center"><?php echo number_format($row["Aug"]); ?></td>
-<td align="center"><?php echo number_format($row["Sep"]); ?></td>
-<td align="center"><?php echo number_format($row["Oct"]); ?></td>
-<td align="center"><?php echo number_format($row["Nov"]); ?></td>
-<td align="center"><?php echo number_format($row["Dcm"]); ?></td>
-<td align="center"><?php echo $row["Total"]; ?></td>
-<td>
-<a href="edit.php?id=<?php echo $row["ID"]; ?>">Edit</a>
-</td>
-<td align="center">
-<a href="delete.php?id=<?php echo $row["ID"]; ?>">Delete</a>
-</td>
-</tr>
-<?php $count++; } ?>
-</tbody>
-</table>
+              <h5 class="card-title">Admin Dashboard</h5>
+
+              <!-- List group With Icons -->
+              <ul class="list-group">
+                <a href="usersView"><li class="list-group-item"><i class="bi bi-people-fill me-1"></i> Users Data</li></a>
+                <a href="specsView"><li class="list-group-item"><i class="bi bi-cart-fill me-1"></i> Car Specifications</li></a>
+                <a href="salesView"><li class="list-group-item"><i class="bi bi-bar-chart-fill me-1"></i> Sales Data</li></a>
+                <a href="demographyView"><li class="list-group-item"><i class="bi bi-pie-chart-fill me-1"></i> Demography Data</li></a>
+              </ul><!-- End List group With Icons -->
+
+            </div>
+          </div>
 </div>
-</div></div>
-</div>
+</div></center>
 </section>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -210,5 +152,4 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <script src="../assets/js/main.js"></script>
 
 </body>
-
 </html>

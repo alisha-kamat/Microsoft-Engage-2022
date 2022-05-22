@@ -1,6 +1,7 @@
 <?php
 require('db.php');
 //include("auth.php");
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,14 +38,88 @@ require('db.php');
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+   <!-- ======= Header ======= -->
+   <header id="header" class="header fixed-top d-flex align-items-center">
+
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="../homepage" class="logo d-flex align-items-center">
+      <img src="../assets/img/cardb-logo.svg" alt="">
+      <span class="d-none d-lg-block">CarDB Analytics</span>
+    </a>
+  </div><!-- End Logo -->
+<span class="d-none d-lg-block"><p><a <p><a href="adminHome">Admin Dashboard</a> 
+| <a href="addUsersRecord">Add User</a> 
+| <a href="logout">Logout</a></p></span>
+
+<nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            
+            <?php 
+                if(isset($_SESSION["admin_username"]))
+                {
+                  echo "<span class='d-none d-md-block dropdown-toggle ps-2'>".$_SESSION['admin_username']."</span>";
+                }
+                else
+                {
+                  echo "<span class='d-none d-md-block dropdown-toggle ps-2'>Guest</span>";
+                }
+            ?>
+          </a><!-- End Profile Image Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <?php 
+                if(isset($_SESSION["admin_username"]))
+                {
+                  echo "<h6>".$_SESSION['admin_username']."</h6>";
+                  echo "<span>".$_SESSION['admin_email']."</span>";
+                }
+                else
+                {
+                  echo "<h6>Guest</h6>";
+                  echo "<span>Not logged in</span>";
+                }
+              ?>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="faq">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
 </head>
 <body>
 <div class="form">
-<p><a href="dashboard.php">Dashboard</a> 
-| <a href="insert.php">Insert New Record</a> 
-| <a href="logout.php">Logout</a></p>
-<center><h2>View Users Records</h2></center>
 <section class="section">
+<br><br><br>
+<center><h2>View Users Records</h2></center>
+
       <div class="row">
 
           <div class="card">
@@ -73,10 +148,10 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td align="center"><?php echo $row["password"]; ?></td>
 <td align="center"><?php echo $row["trn_date"]; ?></td>
 <td>
-<a href="edit.php?id=<?php echo $row["ID"]; ?>">Edit</a>
+<a href="editUsersRecord?id=<?php echo $row["ID"]; ?>">Edit</a>
 </td>
 <td align="center">
-<a href="delete.php?id=<?php echo $row["ID"]; ?>">Delete</a>
+<a href="deleteUsersRecord?id=<?php echo $row["ID"]; ?>">Delete</a>
 </td>
 </tr>
 <?php $count++; } ?>

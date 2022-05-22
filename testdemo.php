@@ -145,6 +145,7 @@ require('header2.php');
     </table>
         <br><input type="submit" value="Search">
     </form>
+    <a href="carspecs.php?id=1">CLick Here</a>
     </center>
     <br><br>
     <?php if (isset($_POST['fuel'])) { ?>
@@ -176,6 +177,7 @@ require('header2.php');
 <th><strong>Transmission</strong></th>
 <!--th><strong>Boot Space</strong></th-->
 <th><strong>Details</strong></th>
+<th><strong>Link</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -310,7 +312,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td align="center"><?php //echo $row["Seating_capacity"]; ?></td-->
 <td align="center"><?php echo $row["Transmission"]; ?></td>
 <!--td align="center"><?php //echo $row["Boot_space"]; ?></td-->
-              <td> <input type="text" id="code" value="abc" readonly /><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fullscreenModal" id="submit">
+              <td> <input type="text" id="code" value="abc" readonly /><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fullscreenModal" id="submit"><>
                 Click Here
               </button>
 

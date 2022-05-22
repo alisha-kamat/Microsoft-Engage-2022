@@ -2,7 +2,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="homepage.php" class="logo d-flex align-items-center">
+      <a href="homepage" class="logo d-flex align-items-center">
         <img src="assets/img/cardb-logo.svg" alt="">
         <span class="d-none d-lg-block">CarDB Analytics</span>
       </a>
@@ -77,20 +77,25 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
+      <!--li class="nav-item">
         <a class="nav-link collapsed" href="dashboard.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li--><!-- End Dashboard Nav -->
 
 <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#research-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Research</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="research-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="overview">
+              <i class="bi bi-circle"></i><span>Overview</span>
+            </a>
+          </li>
         <li>
-            <a href="cars.php">
+            <a href="cars">
               <i class="bi bi-circle"></i><span>Car Research</span>
             </a>
           </li>
@@ -103,22 +108,27 @@
         </a>
         <ul id="analytics-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
         <li>
-            <a href="region.php">
+            <a href="dashboard">
+              <i class="bi bi-circle"></i><span>Dashboard</span>
+            </a>
+          </li>
+        <li>
+            <a href="region">
               <i class="bi bi-circle"></i><span>Region</span>
             </a>
           </li>
           <li>
-            <a href="age.php">
+            <a href="age">
               <i class="bi bi-circle"></i><span>Age</span>
             </a>
           </li>
           <li>
-            <a href="gender.php">
+            <a href="gender">
               <i class="bi bi-circle"></i><span>Gender</span>
             </a>
           </li>
           <li>
-            <a href="colour.php">
+            <a href="colour">
               <i class="bi bi-circle"></i><span>Colour</span>
             </a>
           </li>                    

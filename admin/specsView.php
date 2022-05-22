@@ -1,6 +1,7 @@
 <?php
 //require('db.php');
 //include("auth.php");
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,34 +41,31 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-</head>
 
-<?php
-require('db.php');
-?>
-<body>
+   <!-- ======= Header ======= -->
+   <header id="header" class="header fixed-top d-flex align-items-center">
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="../homepage.php" class="logo d-flex align-items-center">
+      <img src="../assets/img/cardb-logo.svg" alt="">
+      <span class="d-none d-lg-block">CarDB Analytics</span>
+    </a>
+  </div><!-- End Logo -->
+<span class="d-none d-lg-block"><p><a href="adminHome.php">Admin Dashboard</a> 
+| <a href="addSpecsRecord.php">Add Car</a> 
+| <a href="logout.php">Logout</a></p></span>
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="../homepage.php" class="logo d-flex align-items-center">
-        <img src="../assets/img/cardb-logo.svg" alt="">
-        <span class="d-none d-lg-block">CarDB Analytics</span>
-      </a>
-    </div><!-- End Logo -->
-
-    <nav class="header-nav ms-auto">
+<nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            
             <?php 
-                if(isset($_SESSION["username"]))
+                if(isset($_SESSION["admin_username"]))
                 {
-                  echo "<span class='d-none d-md-block dropdown-toggle ps-2'>".$_SESSION['username']."</span>";
+                  echo "<span class='d-none d-md-block dropdown-toggle ps-2'>".$_SESSION['admin_username']."</span>";
                 }
                 else
                 {
@@ -79,10 +77,10 @@ require('db.php');
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <?php 
-                if(isset($_SESSION["username"]))
+                if(isset($_SESSION["admin_username"]))
                 {
-                  echo "<h6>".$_SESSION['username']."</h6>";
-                  echo "<span>".$_SESSION['email']."</span>";
+                  echo "<h6>".$_SESSION['admin_username']."</h6>";
+                  echo "<span>".$_SESSION['admin_email']."</span>";
                 }
                 else
                 {
@@ -96,7 +94,7 @@ require('db.php');
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+              <a class="dropdown-item d-flex align-items-center" href="faq.php">
                 <i class="bi bi-question-circle"></i>
                 <span>Need Help?</span>
               </a>
@@ -118,14 +116,23 @@ require('db.php');
       </ul>
     </nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->   
-  <main id="main" class="main"> 
+</header><!-- End Header -->
+</head>
+
+<?php
+require('db.php');
+?>
+
+<body>
+
 <div class="form">
-<p><a href="dashboard.php">Dashboard</a> 
+<!--p><a href="dashboard.php">Dashboard</a> 
 | <a href="insert.php">Insert New Record</a> 
-| <a href="logout.php">Logout</a></p>
-<center><h2>View Specifications Records</h2></center>
+| <a href="logout.php">Logout</a></p-->
+
 <section class="section">
+<br><br><br>
+<center><h2>View Specifications Records</h2></center>
       <div class="row">
 
           <div class="card">
@@ -165,7 +172,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td align="center"><?php echo $row["Make"]; ?></td>
 <td align="center"><?php echo $row["Model"]; ?></td>
 <td align="center"><?php echo $row["Variant"]; ?></td>
-<td align="center"><?php echo $row["Ex_showroom_price"]; ?></td>
+<td align="center"><?php echo "₹".number_format($row["Ex_showroom_price"]); ?></td>
 <td align="center"><?php echo $row["Cylinders"]; ?></td>
 <td align="center"><?php echo $row["Drivetrain"]; ?></td>
 <td align="center"><?php echo $row["Engine_location"]; ?></td>
@@ -192,7 +199,6 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 </div></div>
 </div></div>
 </section>
-</main>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->

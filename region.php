@@ -357,7 +357,7 @@ $tbl_count=0;
         </div>
 
 <div class="row">        
-<div class="col-lg-8">
+<div class="col-lg-6">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Fuel Type Preferences by Region</h5>
@@ -396,7 +396,7 @@ var stackedbarchart = new Chart(stackedchart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -415,115 +415,140 @@ var stackedbarchart = new Chart(stackedchart, {
   </div>
 </div>    
 
-<div class="col-lg-4">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-        <?php  
-          $result = mysqli_query($con,$query);
-          $region = "";
-          while($row = mysqli_fetch_assoc($result)) 
-          {
-            $north += $row["sum(Region_North)"];
-            $south += $row["sum(Region_South)"];
-            $east += $row["sum(Region_East)"];
-            $west += $row["sum(Region_West)"];
-          }
-          if($north > $south && $north > $east && $north > $west)
-          {
-            $region = "North";
-            echo "North is leading with a total sales of ".number_format($north).".<br>";
-            $result = mysqli_query($con,$query);
-            while($row = mysqli_fetch_assoc($result)) 
-            {
-              if(strcmp($row['Fuel_Type'],"Petrol")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Petrol<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Diesel")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Diesel<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Electric")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Electric<br>";
-              }
-            }
-          }
-          else if($south > $north && $south > $east && $south > $west)
-          {
-            echo "South is leading with a total sales of ".number_format($south).".";
-          }
-          else if($east > $south && $east > $north && $east > $west)
-          {
-            echo "East is leading with a total sales of ".number_format($east).".";
-          }
-          else
-          {
-            echo "West is leading with a total sales of ".number_format($west).".";
-          }
-            ?>
-   
-      </div>
-    </div>
-  </div>
-</div>
+          <!-- Market Share by Fuel Type -->
+<div class="col-lg-6">
+          <div class="card">
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Market Share of Fuel Type<span>| Percentage</span></h5>
+
+              <div id="fuelTypeChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#fuelTypeChart")).setOption({
+                    legend: {
+                      data: ['Petrol', 'Diesel', 'Electric', 'Hybrid']
+                    },
+                    radar: {
+                       shape: 'circle',
+                      indicator: [{
+                          name: 'East',
+                          max: 40
+                        },
+                        {
+                          name: 'West',
+                          max: 40
+                        },
+                        {
+                          name: 'North',
+                          max: 40
+                        },
+                        {
+                          name: 'South',
+                          max: 40
+                        }
+                      ]
+                    },
+		    tooltip: {},
+                    series: [{
+                      name: 'Budget vs spending',
+                      type: 'radar',
+                      data: [
+			<?php 
+			$count = 0;
+			$sum = 0;
+			$result = mysqli_query($con,$query);
+			while($row = mysqli_fetch_assoc($result))
+			{
+			    $sum = $row['sum(Region_East)'] + $row['sum(Region_West)'] + $row['sum(Region_North)'] + $row['sum(Region_South)'];
+			    $north = round($row['sum(Region_East)']*100/$sum);
+			    $south = round($row['sum(Region_West)']*100/$sum);
+			    $east = round($row['sum(Region_North)']*100/$sum);
+			    $west = 100-($north+$south+$east);
+			    if($count>0) echo ", ";
+			?>
+			{
+                          value: [<?php echo $east.", ".$west.", ".$north.", ".$south; ?>],
+                          name: '<?php echo $row['Fuel_type']; ?>'
+                        }<?php $count++;} ?>
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div></div>
+          </div><!-- End Market Share by Fuel Type --> 
 
 
-<div class="row"> 
-<div class="col-lg-4">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-        <?php  
-          $result = mysqli_query($con,$query);
-          $region = "";
-          while($row = mysqli_fetch_assoc($result)) 
-          {
-            $north += $row["sum(Region_North)"];
-            $south += $row["sum(Region_South)"];
-            $east += $row["sum(Region_East)"];
-            $west += $row["sum(Region_West)"];
-          }
-          if($north > $south && $north > $east && $north > $west)
-          {
-            $region = "North";
-            echo "North is leading with a total sales of ".number_format($north).".<br>";
-            $result = mysqli_query($con,$query);
-            while($row = mysqli_fetch_assoc($result)) 
-            {
-              if(strcmp($row['Fuel_Type'],"Petrol")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Petrol<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Diesel")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Diesel<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Electric")==0)
-              {
-                echo round($row['sum(Region_North)']/$north*100)."% Electric<br>";
-              }
-            }
-          }
-          else if($south > $north && $south > $east && $south > $west)
-          {
-            echo "South is leading with a total sales of ".number_format($south).".";
-          }
-          else if($east > $south && $east > $north && $east > $west)
-          {
-            echo "East is leading with a total sales of ".number_format($east).".";
-          }
-          else
-          {
-            echo "West is leading with a total sales of ".number_format($west).".";
-          }
-            ?>
-   
-    </div>
-  </div>
-</div>       
-<div class="col-lg-8">
+          <!-- Market Share by Body Type -->
+<!--div class="col-lg-6">
+          <div class="card">
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Market Share of Body Type <span>| Percentage</span></h5>
+
+              <div id="bodyTypeChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#bodyTypeChart")).setOption({
+                    legend: {
+                      data: ['Hatchback', 'MUV', 'Sedan', 'SUV']
+                    },
+                    radar: {
+                       shape: 'circle',
+                      indicator: [{
+                          name: 'East',
+                          max: 50
+                        },
+                        {
+                          name: 'West',
+                          max: 50
+                        },
+                        {
+                          name: 'North',
+                          max: 50
+                        },
+                        {
+                          name: 'South',
+                          max: 50
+                        }
+                      ]
+                    },
+		    tooltip: {},
+                    series: [{
+                      name: 'Budget vs spending',
+                      type: 'radar',
+                      data: [<?php 
+			/*$count = 0;
+			$sum = 0;
+          		$query = "Select distinct(Demography.Year), Specs.Body_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;"; 
+			$result = mysqli_query($con,$query);
+			while($row = mysqli_fetch_assoc($result))
+			{
+			    $sum = $row['sum(Region_East)'] + $row['sum(Region_West)'] + $row['sum(Region_North)'] + $row['sum(Region_South)'];
+			    $north = round($row['sum(Region_East)']*100/$sum);
+			    $south = round($row['sum(Region_West)']*100/$sum);
+			    $east = round($row['sum(Region_North)']*100/$sum);
+			    $west = 100-($north+$south+$east);
+			    if($count>0) echo ", ";*/
+			?>
+			{
+                          value: [<?php //echo $east.", ".$west.", ".$north.", ".$south; ?>],
+                          name: '<?php //echo $row['Body_Type']; ?>'
+                        }<?php //$count++;} ?>
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div></div>
+          </div--><!-- End Market Share by Body Type --> 
+<div class="row">
+<div class="col-lg-6">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Car Body Type Preferences by Region</h5>
@@ -579,12 +604,10 @@ var stackedbarchart = new Chart(bodychart, {
 </script>
       <!-- End Stacked Bar Chart -->
     </div>
-  </div>
-</div>    
+  </div>    
+</div>
 
-
-<div class="row">        
-<div class="col-lg-8">
+<div class="col-lg-6">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Transmission Type Preferences by Region</h5>
@@ -641,21 +664,77 @@ var stackedbarchart = new Chart(stackchart, {
       <!-- End Stacked Bar Chart -->
     </div>
   </div>
-</div>    
+</div>        
+          <!-- Market Share by Transmission Type -->
+<!--div class="col-lg-6">
+          <div class="card">
 
-<div class="col-lg-4">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-        
-   
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="card-body pb-0">
+              <h5 class="card-title">Market Share of Transmission Type<span>| Percentage</span></h5>
+
+              <div id="transmissionTypeChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#transmissionTypeChart")).setOption({
+                    legend: {
+                      data: ['Automatic', 'DCT', 'Manual']
+                    },
+                    radar: {
+                       shape: 'circle',
+                      indicator: [{
+                          name: 'East',
+                          max: 50
+                        },
+                        {
+                          name: 'West',
+                          max: 50
+                        },
+                        {
+                          name: 'North',
+                          max: 50
+                        },
+                        {
+                          name: 'South',
+                          max: 50
+                        }
+                      ]
+                    },
+		    tooltip: {},
+                    series: [{
+                      name: 'Budget vs spending',
+                      type: 'radar',
+                      data: [<?php 
+			/*$count = 0;
+			$sum = 0;
+          		$query = "Select distinct(Demography.Year), Specs.Transmission, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Transmission from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;"; 
+			$result = mysqli_query($con,$query);
+			while($row = mysqli_fetch_assoc($result))
+			{
+			    $sum = $row['sum(Region_East)'] + $row['sum(Region_West)'] + $row['sum(Region_North)'] + $row['sum(Region_South)'];
+			    $north = round($row['sum(Region_East)']*100/$sum);
+			    $south = round($row['sum(Region_West)']*100/$sum);
+			    $east = round($row['sum(Region_North)']*100/$sum);
+			    $west = 100-($north+$south+$east);
+			    if($count>0) echo ", ";*/
+			?>
+			{
+                          value: [<?php //echo $east.", ".$west.", ".$north.", ".$south; ?>],
+                          name: '<?php //echo $row['Transmission']; ?>'
+                        }<?php //$count++;} ?>
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div></div>
+          </div--><!-- End Market Share by Transmission Type --> 
+
+<!--/div-->
              
     </section>
-    <?php if (isset($_POST['make'])) { ?>
+    <?php //if (isset($_POST['make'])) { ?>
       <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -785,7 +864,7 @@ else
 
 $sel_query .= ";";
 $query .=  " group by Specs.Fuel_type;";
-echo $sel_query;
+//echo $sel_query;
 //echo $query; 
 $tbl_count=0;
 ?>
@@ -811,7 +890,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 </tbody>
 </table>
 </div>
-<?php } ?>
+<?php //} ?>
    </div>
    </div>
    </div>
@@ -820,4 +899,32 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 
   </main><!-- End #main -->
 
-  <?php require('footer2.php'); ?>
+  <?php //require('footer2.php'); ?>
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by BootstrapMade
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.min.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -147,7 +150,7 @@ require('header2.php');
     </form>
     </center>
     <br><br>
-    <?php if (isset($_POST['fuel'])) { ?>
+    <?php //if (isset($_POST['fuel'])) { ?>
       <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -320,7 +323,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 </div>
 </div>
 </section>
-<?php } ?>
+<?php //} ?>
     <br>
 <!--cdb code end-->
 

@@ -43,7 +43,8 @@ require('header2.php');
        <table cellpadding="5px" align="center">
        <tr>
        <th>Make</th>
-       <th>Year</th>
+       <th>From Year</th>
+       <th>To Year</th>
        </tr>
        <tr>
        <td>
@@ -57,7 +58,17 @@ require('header2.php');
        </select>
        </td>
        <td>
-       <select name="year" id="year">
+       <select name="from_year" id="from_year">
+	  <option value="">All</option>
+          <?php
+          $sel_query="Select DISTINCT(Year) from Demography;";
+  	  $result = mysqli_query($con,$sel_query);
+	  while($row = mysqli_fetch_assoc($result)) { ?>
+          <option value="<?php echo $row["Year"]; ?>"><?php echo $row["Year"]; ?></option><?php } ?>
+       </select>
+       </td>
+       <td>
+       <select name="to_year" id="to_year">
 	  <option value="">All</option>
           <?php
           $sel_query="Select DISTINCT(Year) from Demography;";
@@ -97,9 +108,57 @@ if(isset($_POST['make']))
    $query .= " and Demography.Make = '".$_POST['make']."'";
    }
 }
-if(isset($_POST['year'])) 
+if(isset($_POST['from_year'])) 
 {
-   if(strlen($_POST['year'])>0)
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year >= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year >= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year <= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year <= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+/*else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])<=0)
    {
    if($flag == 0)
    {
@@ -113,7 +172,23 @@ if(isset($_POST['year']))
    $query .= " and Demography.Year = ".$_POST['year'];
    }
 }
+else
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
 
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year = '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}*/
 
 $sel_query .= ";";
 $query .=  " group by Specs.Fuel_type;";
@@ -126,11 +201,11 @@ $tbl_count=0;
     <section class="section">
     <div class="row">
 
-    <div class="col-lg-12">
+    <div class="col-lg-8">
       
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Line Chart (Annual Age-wise Sales)</h5>
+              <h5 class="card-title">Age-wise Annual Sales</h5>
 
               <!-- Line Chart -->
               <canvas id="lineChart" style="max-height: 400px;"></canvas>
@@ -202,10 +277,79 @@ $tbl_count=0;
             </div>
           </div>
         </div>
-        <div class="col-lg-8">
+    <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Age-wise Market Share</h5>
+
+              <div id="pieChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#pieChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Access From',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [
+                        <?php 
+                        $breakup_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography;";
+                        $breakup_result = mysqli_query($con,$breakup_query);
+			$row = mysqli_fetch_assoc($breakup_result);
+                        $data = "";
+                        ?>                        
+                        {
+                          value: <?php echo $row['Sum(Region_East)']; ?>,
+                          name: 'East'
+                        },
+			{
+			  value: <?php echo $row['Sum(Region_West)']; ?>,
+                          name: 'West'
+			},
+			{
+                          value: <?php echo $row['Sum(Region_North)']; ?>,
+                          name: 'North'
+                        },
+			{
+			  value: <?php echo $row['Sum(Region_South)']; ?>,
+                          name: 'South'
+			}
+                      ]
+                    }]
+                  });
+                });
+              </script>
+            </div>
+          </div><!-- Car Body Type - End Pie Chart -->
+              </div>
+        </div>
+<div class="row">
+        <div class="col-lg-6">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Fuel Type</h5>
+      <h5 class="card-title">Fuel Type Preferences by Age</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="stackedchart" width="450"></canvas>
@@ -253,87 +397,136 @@ var stackedbarchart = new Chart(stackedchart, {
     </div>
   </div>
 </div>
-<div class="col-lg-4">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-        <?php  
-          $result = mysqli_query($con,$query);
-          $gender = "";
-          $young=0;
-          $middle=0;
-          $senior=0;
-          while($row = mysqli_fetch_assoc($result)) 
-          {
-            $young += $row["sum(Age_Young)"];
-            $middle += $row["sum(Age_Middle)"];
-            $senior += $row["sum(Age_Senior)"];
-          }
-          if($young > $senior && $young > $middle)
-          {
-            $gender = "Young";
-            echo "Young is leading with a total sales of ".number_format($young).".<br>";
-            $result = mysqli_query($con,$query);
-            while($row = mysqli_fetch_assoc($result)) 
-            {
-              if(strcmp($row['Fuel_Type'],"Petrol")==0)
-              {
-                echo round($row['sum(Age_Young)']/$young*100)."% Petrol<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Diesel")==0)
-              {
-                echo round($row['sum(Age_Young)']/$young*100)."% Diesel<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Electric")==0)
-              {
-                echo round($row['sum(Age_Young)']/$young*100)."% Electric<br>";
-              }
-            }
-          }
-          else if($senior > $young && $senior > $middle)
-          {
-            echo "Senior is leading with a total sales of ".number_format($senior).".";
+          <!-- Market Share by Fuel Type -->
+<div class="col-lg-6">
+          <div class="card">
 
-          }
-          else
-          {
-            echo "Middle is leading with a total sales of ".number_format($middle).".<br>";
-            $result = mysqli_query($con,$query);
-            while($row = mysqli_fetch_assoc($result)) 
-            {
-              if(strcmp($row['Fuel_Type'],"Petrol")==0)
-              {
-                echo round($row['sum(Age_Middle)']/$middle*100)."% Petrol<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Diesel")==0)
-              {
-                echo round($row['sum(Age_Middle)']/$middle*100)."% Diesel<br>";
-              }
-              if(strcmp($row['Fuel_Type'],"Electric")==0)
-              {
-                echo round($row['sum(Age_Middle)']/$middle*100)."% Electric<br>";
-              }
-            }
-          }
-            ?>
-   
-      </div>
-    </div>
-  </div>
+            <div class="card-body pb-0">
+              <h5 class="card-title">Market Share of Fuel Type<span>| Percentage</span></h5>
+
+              <div id="fuelTypeChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#fuelTypeChart")).setOption({
+                    legend: {
+                      data: ['Petrol', 'Diesel', 'Electric', 'Hybrid']
+                    },
+                    radar: {
+                       shape: 'circle',
+                      indicator: [{
+                          name: 'East',
+                          max: 50
+                        },
+                        {
+                          name: 'West',
+                          max: 50
+                        },
+                        {
+                          name: 'North',
+                          max: 50
+                        },
+                        {
+                          name: 'South',
+                          max: 50
+                        }
+                      ]
+                    },
+		    tooltip: {},
+                    series: [{
+                      name: 'Budget vs spending',
+                      type: 'radar',
+                      data: [{
+                          value: [10, 20, 30, 40],
+                          name: 'Petrol'
+                        },
+                        {
+                          value: [20, 10, 40, 30],
+                          name: 'Diesel'
+                        },
+                        {
+                          value: [40, 30, 20, 10],
+                          name: 'Electric'
+                        },
+                        {
+                          value: [30, 40, 10, 20],
+                          name: 'Hybrid'
+                        }
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div></div>
+          </div><!-- End Market Share by Fuel Type --> 
 </div>
 
 <div class="row"> 
-<div class="col-lg-4">
+          <!-- Market Share by Body Type -->
+<div class="col-lg-6">
+          <div class="card">
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">Market Share of Body Type <span>| Percentage</span></h5>
+
+              <div id="bodyTypeChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#bodyTypeChart")).setOption({
+                    legend: {
+                      data: ['Young', 'Middle', 'Old']
+                    },
+                    radar: {
+                       shape: 'circle',
+                      indicator: [{
+                          name: 'Young',
+                          max: 50
+                        },
+                        {
+                          name: 'Middle',
+                          max: 50
+                        },
+                        {
+                          name: 'Old',
+                          max: 50
+                        }
+                      ]
+                    },
+		    tooltip: {},
+                    series: [{
+                      name: 'Budget vs spending',
+                      type: 'radar',
+                      data: [<?php 
+			$count = 0;
+			$sum = 0;
+          		$query = "Select distinct(Demography.Year), Specs.Body_Type, sum(Age_Young), sum(Age_Middle), sum(Age_Senior), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;"; 
+			$result = mysqli_query($con,$query);
+			while($row = mysqli_fetch_assoc($result))
+			{
+			    $sum = $row['sum(Age_Young)'] + $row['sum(Age_Middle)'] + $row['sum(Age_Senior)'];
+			    $young = round($row['sum(Age_Young)']*100/$sum);
+			    $middle = round($row['sum(Age_Middle)']*100/$sum);
+			    $old = 100-($young+$middle);
+			    if($count>0) echo ", ";
+			?>
+			{
+                          value: [<?php echo $young.", ".$middle.", ".$old; ?>],
+                          name: '<?php echo $row['Body_Type']; ?>'
+                        }<?php $count++;} ?>
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div></div>
+          </div><!-- End Market Share by Body Type -->        
+<div class="col-lg-6">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-       </div>
-  </div>
-</div>       
-<div class="col-lg-8">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Car Body Type Preferences by Gender</h5>
+      <h5 class="card-title">Car Body Type Preferences by Age</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="bodychart" width="450"></canvas>
@@ -391,10 +584,10 @@ var stackedbarchart = new Chart(bodychart, {
 
 
 <div class="row">        
-<div class="col-lg-8">
+<div class="col-lg-6">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Transmission Type Preferences by Gender</h5>
+      <h5 class="card-title">Transmission Type Preferences by Age</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="transmissionChart" width="450"></canvas>
@@ -450,37 +643,87 @@ var stackedbarchart = new Chart(transmissionChart, {
   </div>
 </div>    
 
-<div class="col-lg-4">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-       
-   
-      </div>
-    </div>
-  </div>
-</div>
+          <!-- Market Share by Transmission Type -->
+<div class="col-lg-6">
+          <div class="card">
 
-<div class="row">
+            <div class="card-body pb-0">
+              <h5 class="card-title">Market Share of Transmission Type<span>| Percentage</span></h5>
+
+              <div id="transmissionTypeChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#transmissionTypeChart")).setOption({
+                    legend: {
+                      data: ['Automatic', 'DCT', 'Manual']
+                    },
+                    radar: {
+                       shape: 'circle',
+                      indicator: [{
+                          name: 'East',
+                          max: 50
+                        },
+                        {
+                          name: 'West',
+                          max: 50
+                        },
+                        {
+                          name: 'North',
+                          max: 50
+                        },
+                        {
+                          name: 'South',
+                          max: 50
+                        }
+                      ]
+                    },
+		    tooltip: {},
+                    series: [{
+                      name: 'Budget vs spending',
+                      type: 'radar',
+                      data: [{
+                          value: [10, 20, 30, 40],
+                          name: 'Automatic'
+                        },
+                        {
+                          value: [20, 10, 40, 30],
+                          name: 'DCT'
+                        },
+                        {
+                          value: [40, 30, 20, 10],
+                          name: 'Manual'
+                        }
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div></div>
+          </div><!-- End Market Share by Transmission Type --> 
+
+
+<!--div class="row">
 <div class="col-lg-4">
   <div class="card">
 
   <div class="card-body">
-              <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
+              <h5 class="card-title">Transmission Type <span>| 2021</span></h5-->
   
       <!-- End Stacked Bar Chart -->
-    </div>
+    <!--/div>
   </div>
-</div>
+</div-->
 
         
-<div class="col-lg-8">
+<!--div class="col-lg-8">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body"-->
 
           <!-- Pie Chart -->
 
-            <div class="card-body pb-0">
+            <!--div class="card-body pb-0">
               <h5 class="card-title">Car Body Type popular among Males <span>| 2021</span></h5>
 
               <div id="bodyType" style="min-height: 400px;" class="echart"></div>
@@ -553,22 +796,22 @@ var stackedbarchart = new Chart(transmissionChart, {
               </script>
 
             </div>
-          </div><!-- End Pie Chart -->
+          </div--><!-- End Pie Chart -->
 
-            </div>
+            <!--/div>
           </div>
         </div>
-              </div>
+              </div-->
 
 
-              <div class="row">        
+              <!--div class="row">        
 <div class="col-lg-8">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body"-->
 
           <!-- Pie Chart -->
 
-            <div class="card-body pb-0">
+            <!--div class="card-body pb-0">
               <h5 class="card-title">Car Body Type popular among Females <span>| 2021</span></h5>
 
               <div id="femaleCarType" style="min-height: 400px;" class="echart"></div>
@@ -641,9 +884,9 @@ var stackedbarchart = new Chart(transmissionChart, {
               </script>
 
             </div>
-          </div><!-- End Pie Chart -->
+          </div--><!-- End Pie Chart -->
 
-            </div>
+            <!--/div>
           </div>
         <div class="col-lg-4">
   <div class="card">
@@ -657,8 +900,8 @@ var stackedbarchart = new Chart(transmissionChart, {
 </div>
               </div>
 
-    </section>
-    <?php if (isset($_POST['make'])) { ?>
+    </section-->
+    <?php //if (isset($_POST['make'])) { ?>
       <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -702,9 +945,57 @@ if(isset($_POST['make']))
    $query .= " and Demography.Make = '".$_POST['make']."'";
    }
 }
-if(isset($_POST['year'])) 
+if(isset($_POST['from_year'])) 
 {
-   if(strlen($_POST['year'])>0)
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year >= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year >= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+/*else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])>0)
+   {
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year <= '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year <= '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}
+else if(isset($_POST['from_year'])) 
+{
+   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])<=0)
    {
    if($flag == 0)
    {
@@ -718,6 +1009,23 @@ if(isset($_POST['year']))
    $query .= " and Demography.Year = ".$_POST['year'];
    }
 }
+else
+{
+   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   {
+
+   if($flag == 0)
+   {
+   $flag = 1;
+   $sel_query .= " where Year = '".$_POST['year']."'";
+   }
+   else
+   {
+   $sel_query .= " and Year = '".$_POST['year']."'";
+   }
+   $query .= " and Demography.Year = ".$_POST['year'];
+   }
+}*/
 
 
 $sel_query .= ";";
@@ -747,7 +1055,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 </tbody>
 </table>
 </div>
-<?php } ?>
+<?php //} ?>
    </div>
    </div>
    </div>
@@ -755,4 +1063,33 @@ while($row = mysqli_fetch_assoc($result)) { ?>
    </section>
   </main><!-- End #main -->
 
-  <?php require('footer2.php'); ?>
+  <?php //require('footer2.php'); ?>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by BootstrapMade
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.min.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

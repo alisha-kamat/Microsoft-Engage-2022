@@ -7,7 +7,7 @@ require('./admin/auth.php');
 <head>
 
 
-  <title>Demography - Colour</title>
+  <title>Demography - Region</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -23,18 +23,18 @@ require('header2.php');
   <main id="main" class="main">
 
     <div class="pagetitle">
-    <h1>Demography - Colour</h1>
+      <h1>Demography - Region</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
           <li class="breadcrumb-item">Analytics</li>
-          <li class="breadcrumb-item active">Colour</li>
+          <li class="breadcrumb-item active">Region</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
 <!---cdb code begin-->
-<h1 align="center">Colour-wise Sales</h1>
+<h1 align="center">Region-wise Sales</h1>
     <p align=center>Fine-tune your search using one or more filters</p>
 
 <div>
@@ -86,7 +86,7 @@ require('header2.php');
     <?php
 $count=1;
 $sel_query = "Select * from demography";
-$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
+$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
 //echo $query;
 
 
@@ -189,7 +189,6 @@ else
    }
 }*/
 
-
 $sel_query .= ";";
 $query .=  " group by Specs.Fuel_type;";
 //echo $sel_query;
@@ -201,11 +200,10 @@ $tbl_count=0;
     <section class="section">
     <div class="row">
 
-
     <div class="col-lg-8">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Colour-wise Annual Sales</h5>
+              <h5 class="card-title">Region-wise Annual Sales</h5>
 
               <!-- Line Chart -->
               <canvas id="lineChart" style="max-height: 400px;"></canvas>
@@ -215,52 +213,62 @@ $tbl_count=0;
                     type: 'line',
                     data: {
                       <?php 
-                      $line_query = "Select Year, Sum(Colour_Dull), Sum(Colour_Bright), Sum(Colour_Neutral) from demography group by Year;";
+                      $line_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography group by Year;";
                       $line_result = mysqli_query($con,$line_query);
+                      $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];
                       $year = "";
-                      $dull = "";
-                      $bright = "";
-                      $neutral = "";
+                      $east = "";
+                      $west = "";
+                      $north = "";
+                      $south = "";
                       $count = 0;
                       while($row = mysqli_fetch_assoc($line_result)) 
                       {
                         if($count>0)
                         {
                           $year .= ", '".$row['Year']."'";
-                          $dull .= ", '".$row['Sum(Colour_Dull)']."'";
-                          $bright .= ", '".$row['Sum(Colour_Bright)']."'";
-                          $neutral .= ", '".$row['Sum(Colour_Neutral)']."'";
+                          $east .= ", '".$row['Sum(Region_East)']."'";
+                          $west .= ", '".$row['Sum(Region_West)']."'";
+                          $north .= ", '".$row['Sum(Region_North)']."'";
+                          $south .= ", '".$row['Sum(Region_South)']."'";
                         }
                         else
                         {
                           $year .= "'".$row['Year']."'";
-                          $dull .= "'".$row['Sum(Colour_Dull)']."'";
-                          $bright .= "'".$row['Sum(Colour_Bright)']."'";
-                          $neutral .= "'".$row['Sum(Colour_Neutral)']."'";
+                          $east .= "'".$row['Sum(Region_East)']."'";
+                          $west .= "'".$row['Sum(Region_West)']."'";
+                          $north .= "'".$row['Sum(Region_North)']."'";
+                          $south .= "'".$row['Sum(Region_South)']."'";
                         }
                         $count++;
                       }
                       ?>
                       labels: [<?php echo $year; ?>],
                       datasets: [{
-                        label: 'Dull',
-                        data: [<?php echo $dull; ?>],
+                        label: 'East',
+                        data: [<?php echo $east; ?>],
                         fill: false,
                         borderColor: 'rgb(145, 204, 117)',
                         tension: 0.1
                       }, {
-                        label: 'Bright',
-                        data: [<?php echo $bright; ?>],
+                        label: 'West',
+                        data: [<?php echo $west; ?>],
                         fill: false,
                         borderColor: 'rgb(250, 200, 88)',
                         tension: 0.1
                       }, {
-                        label: 'Neutral',
-                        data: [<?php echo $neutral; ?>],
+                        label: 'North',
+                        data: [<?php echo $north; ?>],
                         fill: false,
                         borderColor: 'rgb(238, 102, 102)',
                         tension: 0.1
-                      },  ]
+                      }, {
+                        label: 'South',
+                        data: [<?php echo $south; ?>],
+                        fill: false,
+                        borderColor: 'rgb(84, 112, 198)',
+                        tension: 0.1
+                      }, ]
                     },
                     options: {
                       scales: {
@@ -273,14 +281,15 @@ $tbl_count=0;
                 });
               </script>
               <!-- End Line CHart -->
-
+		</div>
             </div>
           </div>
-        </div>
+          <!-- Car Body Type - Pie Chart -->
+          
     <div class="col-lg-4">
           <div class="card">
             <div class="card-body pb-0">
-              <h5 class="card-title">Colour-wise Market Share</h5>
+              <h5 class="card-title">Region-wise Market Share</h5>
 
               <div id="pieChart" style="min-height: 400px;" class="echart"></div>
 
@@ -345,12 +354,13 @@ $tbl_count=0;
             </div>
           </div><!-- Car Body Type - End Pie Chart -->
               </div>
-        </div>        
-        <div class="row"> 
-        <div class="col-lg-6">
+        </div>
+
+<div class="row">        
+<div class="col-lg-6">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Fuel Type Preferences by Colour</h5>
+      <h5 class="card-title">Fuel Type Preferences by Region</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="stackedchart" width="450"></canvas>
@@ -358,29 +368,35 @@ $tbl_count=0;
 var stackedbarchart = new Chart(stackedchart, {
    type: 'bar',
    data: {
-      labels: ['Dull', 'Bright', 'Neutral'], // responsible for how many bars are gonna show on the chart
+      labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
       // create 12 datasets, since we have 12 items
       // data[0] = labels[0] (data for first bar - 'Standing costs') 
       // put 0, if there is no data for the particular bar
       datasets: [           
         <?php 
           $tbl_count = 0;
-          $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];
-          $stacked_query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type;";
+          $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
           $result = mysqli_query($con,$query);
           $data = "";
-          while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>
+          $north = 0;
+          $south = 0;
+          $east = 0;
+          $west = 0;
+          while($row = mysqli_fetch_assoc($result)) { 
+           
+            if($tbl_count>0) {echo ",";} ?>
           {
             label: '<?php echo $row["Fuel_Type"]; ?>',
-            data: [<?php echo $row["sum(Colour_Dull)"].", ".$row["sum(Colour_Bright)"].", ".$row["sum(Colour_Neutral)"]; ?>],
+            data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>],
             backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
-          }<?php $tbl_count++; } ?>
+          }<?php $tbl_count++; 
+          } ?>
         ]
    },
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -397,8 +413,8 @@ var stackedbarchart = new Chart(stackedchart, {
       <!-- End Stacked Bar Chart -->
     </div>
   </div>
-</div>
-        
+</div>    
+
           <!-- Market Share by Fuel Type -->
 <div class="col-lg-6">
           <div class="card">
@@ -417,15 +433,19 @@ var stackedbarchart = new Chart(stackedchart, {
                     radar: {
                        shape: 'circle',
                       indicator: [{
-                          name: 'Bright',
+                          name: 'East',
                           max: 50
                         },
                         {
-                          name: 'Dull',
+                          name: 'West',
                           max: 50
                         },
                         {
-                          name: 'Neutral',
+                          name: 'North',
+                          max: 50
+                        },
+                        {
+                          name: 'South',
                           max: 50
                         }
                       ]
@@ -434,23 +454,22 @@ var stackedbarchart = new Chart(stackedchart, {
                     series: [{
                       name: 'Budget vs spending',
                       type: 'radar',
-                      data: [<?php 
-			$count = 0;
-			$sum = 0;
-          		$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type;"; 
-			$result = mysqli_query($con,$query);
-			while($row = mysqli_fetch_assoc($result))
-			{
-			    $sum = $row['sum(Colour_Dull)'] + $row['sum(Colour_Dull)'] + $row['sum(Colour_Dull)'];
-			    $dull = round($row['sum(Colour_Dull)']*100/$sum);
-			    $bright = round($row['sum(Colour_Bright)']*100/$sum);
-			    $neutral = 100-($dull+$bright);
-			    if($count>0) echo ", ";
-			?>
-			{
-                          value: [<?php echo $bright.", ".$dull.", ".$neutral; ?>],
-                          name: '<?php echo $row['Fuel_Type']; ?>'
-                        }<?php $count++;} ?>
+                      data: [{
+                          value: [10, 20, 30, 40],
+                          name: 'Petrol'
+                        },
+                        {
+                          value: [20, 10, 40, 30],
+                          name: 'Diesel'
+                        },
+                        {
+                          value: [40, 30, 20, 10],
+                          name: 'Electric'
+                        },
+                        {
+                          value: [30, 40, 10, 20],
+                          name: 'Hybrid'
+                        }
                       ]
                     }]
                   });
@@ -459,7 +478,8 @@ var stackedbarchart = new Chart(stackedchart, {
 
             </div></div>
           </div><!-- End Market Share by Fuel Type --> 
-</div>
+
+
 <div class="row"> 
           <!-- Market Share by Body Type -->
 <div class="col-lg-6">
@@ -523,11 +543,11 @@ var stackedbarchart = new Chart(stackedchart, {
               </script>
 
             </div></div>
-          </div><!-- End Market Share by Body Type -->    
+          </div><!-- End Market Share by Body Type --> 
 <div class="col-lg-6">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Car Body Type Preferences by Colour</h5>
+      <h5 class="card-title">Car Body Type Preferences by Region</h5>
 
       <!-- Stacked Bar Chart -->
 <canvas id="bodychart" width="450"></canvas>
@@ -535,14 +555,14 @@ var stackedbarchart = new Chart(stackedchart, {
 var stackedbarchart = new Chart(bodychart, {
    type: 'bar',
    data: {
-      labels: ['Young','Middle','Senior'], // responsible for how many bars are gonna show on the chart
+      labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
       // create 12 datasets, since we have 12 items
       // data[0] = labels[0] (data for first bar - 'Standing costs') 
       // put 0, if there is no data for the particular bar
       datasets: [           
         <?php 
           $tbl_count = 0;
-          $query = "Select distinct(Demography.Year), Specs.Body_Type, sum(Age_Young), sum(Age_Middle), sum(Age_Senior), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;"; 
+          $query = "Select distinct(Demography.Year), Specs.Body_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;"; 
           $colors = ['#5470C6','#91CC75','#FAC858','#EE6666'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
           $result = mysqli_query($con,$query);
           $data = "";
@@ -555,7 +575,7 @@ var stackedbarchart = new Chart(bodychart, {
             if($tbl_count>0) {echo ",";} ?>
           {
             label: '<?php echo $row["Body_Type"]; ?>',
-            data: [<?php echo $row["sum(Age_Young)"].", ".$row["sum(Age_Middle)"].", ".$row["sum(Age_Senior)"]; ?>],
+            data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>],
             backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
           }<?php $tbl_count++; 
           } ?>
@@ -584,26 +604,26 @@ var stackedbarchart = new Chart(bodychart, {
 </div>    
 
 
-<div class="row">        
+<div class="row">    
 <div class="col-lg-6">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Transmission Type Preferences by Colour</h5>
+      <h5 class="card-title">Transmission Type Preferences by Region</h5>
 
       <!-- Stacked Bar Chart -->
-<canvas id="transmissionChart" width="450"></canvas>
+<canvas id="stackchart" width="450"></canvas>
 <script>
-var stackedbarchart = new Chart(transmissionChart, {
+var stackedbarchart = new Chart(stackchart, {
    type: 'bar',
    data: {
-      labels: ['Young','Middle','Senior'], // responsible for how many bars are gonna show on the chart
+      labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
       // create 12 datasets, since we have 12 items
       // data[0] = labels[0] (data for first bar - 'Standing costs') 
       // put 0, if there is no data for the particular bar
       datasets: [           
         <?php 
           $tbl_count = 0;
-          $query = "Select distinct(Demography.Year), Specs.Transmission, sum(Age_Young), sum(Age_Middle), sum(Age_Senior), Transmission from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;"; 
+          $query = "Select distinct(Demography.Year), Specs.Transmission, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Transmission from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;"; 
           $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
           $result = mysqli_query($con,$query);
           $data = "";
@@ -616,7 +636,7 @@ var stackedbarchart = new Chart(transmissionChart, {
             if($tbl_count>0) {echo ",";} ?>
           {
             label: '<?php echo $row["Transmission"]; ?>',
-            data: [<?php echo $row["sum(Age_Young)"].", ".$row["sum(Age_Middle)"].", ".$row["sum(Age_Senior)"]; ?>],
+            data: [<?php echo $row["sum(Region_East)"].", ".$row["sum(Region_West)"].", ".$row["sum(Region_North)"].", ".$row["sum(Region_South)"]; ?>],
             backgroundColor: '<?php echo $colors[$tbl_count]; ?>'
           }<?php $tbl_count++; 
           } ?>
@@ -642,7 +662,7 @@ var stackedbarchart = new Chart(transmissionChart, {
       <!-- End Stacked Bar Chart -->
     </div>
   </div>
-</div>    
+</div>        
           <!-- Market Share by Transmission Type -->
 <div class="col-lg-6">
           <div class="card">
@@ -704,75 +724,9 @@ var stackedbarchart = new Chart(transmissionChart, {
           </div><!-- End Market Share by Transmission Type --> 
 
 </div>
-
-
-<!--div class="row">
-<div class="col-lg-4">
-  <div class="card">
-
-  <div class="card-body">
-              <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-  
-      <!-- End Stacked Bar Chart -->
-    </div>
-  </div>
-</div>
-        <!--div class="col-lg-8">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Bar CHart</h5>
-
-              < Bar Chart >
-              <canvas id="barChart" style="max-height: 400px;"></canvas>
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new Chart(document.querySelector('#barChart'), {
-                    type: 'bar',
-                    data: {
-                      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                      datasets: [{
-                        label: 'Bar Chart',
-                        data: [65, 59, 80, 81, 56, 55, 40],
-                        backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(255, 159, 64, 0.2)',
-                          'rgba(255, 205, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(201, 203, 207, 0.2)'
-                        ],
-                        borderColor: [
-                          'rgb(255, 99, 132)',
-                          'rgb(255, 159, 64)',
-                          'rgb(255, 205, 86)',
-                          'rgb(75, 192, 192)',
-                          'rgb(54, 162, 235)',
-                          'rgb(153, 102, 255)',
-                          'rgb(201, 203, 207)'
-                        ],
-                        borderWidth: 1
-                      }]
-                    },
-                    options: {
-                      scales: {
-                        y: {
-                          beginAtZero: true
-                        }
-                      }
-                    }
-                  });
-                });
-              </script-->
-              <!-- End Bar CHart -->
-
-            <!--/div>
-          </div>
-        </div>
-              </div>
-    </section-->
-
-    <?php //if (isset($_POST['make'])) { ?>
+             
+    </section>
+    <?php if (isset($_POST['make'])) { ?>
       <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -787,9 +741,10 @@ var stackedbarchart = new Chart(transmissionChart, {
 <th><strong>Model</strong></th>
 <th><strong>Variant</strong></th>
 <th><strong>Year</strong></th>
-<th><strong>Dull</strong></th>
-<th><strong>Bright</strong></th>
-<th><strong>Neutral</strong></th>
+<th><strong>East</strong></th>
+<th><strong>West</strong></th>
+<th><strong>North</strong></th>
+<th><strong>South</strong></th>
 <th><strong>Total</strong></th>
 </tr>
 </thead>
@@ -797,7 +752,7 @@ var stackedbarchart = new Chart(transmissionChart, {
 <?php
 $count=1;
 $sel_query = "Select * from demography";
-$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
+$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
 //echo $query;
 $flag = 0;
 if(isset($_POST['make'])) 
@@ -901,7 +856,7 @@ else
 
 $sel_query .= ";";
 $query .=  " group by Specs.Fuel_type;";
-//echo $sel_query;
+echo $sel_query;
 //echo $query; 
 $tbl_count=0;
 ?>
@@ -915,9 +870,10 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td><?php echo $row["Model"]; ?></td>
 <td><?php echo $row["Variant"]; ?></td>
 <td><?php echo $row["Year"]; ?></td>
-<td><?php echo number_format($row["Colour_Dull"]); ?></td>
-<td><?php echo number_format($row["Colour_Bright"]); ?></td>
-<td><?php echo number_format($row["Colour_Neutral"]); ?></td>
+<td><?php echo number_format($row["Region_East"]); ?></td>
+<td><?php echo number_format($row["Region_West"]); ?></td>
+<td><?php echo number_format($row["Region_North"]); ?></td>
+<td><?php echo number_format($row["Region_South"]); ?></td>
 <td><?php echo number_format($row["Total"]); ?></td>
 
 
@@ -926,7 +882,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 </tbody>
 </table>
 </div>
-<?php //} ?>
+<?php } ?>
    </div>
    </div>
    </div>
@@ -935,32 +891,4 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 
   </main><!-- End #main -->
 
-  <?php //require('footer2.php'); ?>
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by BootstrapMade
-    </div>
-  </footer><!-- End Footer -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.min.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-</body>
-
-</html>
+  <?php require('footer2.php'); ?>

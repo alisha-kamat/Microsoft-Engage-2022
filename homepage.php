@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +18,66 @@
       <span class="d-none d-lg-block">CarDB Analytics</span>
     </a>
   </div><!-- End Logo -->
+<nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
 
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            
+            <?php 
+                if(isset($_SESSION["username"]))
+                {
+                  echo "<span class='d-none d-md-block dropdown-toggle ps-2'>".$_SESSION['username']."</span>";
+                }
+                else
+                {
+                  echo "<span class='d-none d-md-block dropdown-toggle ps-2'>Guest</span>";
+                }
+            ?>
+          </a><!-- End Profile Image Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <?php 
+                if(isset($_SESSION["username"]))
+                {
+                  echo "<h6>".$_SESSION['username']."</h6>";
+                  echo "<span>".$_SESSION['email']."</span>";
+                }
+                else
+                {
+                  echo "<h6>Guest</h6>";
+                  echo "<span>Not logged in</span>";
+                }
+              ?>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="faq.php">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="logout.php">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
 <?php  
@@ -68,7 +130,7 @@ require('header2.php');
             <div class="card-body">
               <h3 align="center" class="card-title">Planning to buy a car? </h3>
               <p>Use the CarDB (free) research page to select the best car based on your personal preferences e.g. car type, price, mileage and more.</p>
-			<a href="cars.php"><center><button type="button" class="btn btn-success btn-lg">Car Search</button></center></a>
+			<a href="cars"><center><button type="button" class="btn btn-success btn-lg">Car Search</button></center></a>
             </div>
           </div>
 
@@ -80,7 +142,7 @@ require('header2.php');
             <div class="card-body">
               <h5 align="center" class="card-title">Interested in the car industry?</h5>
               <p>Use our simple analytics tools (requires registration) to dig into the industry data and gain competitive insights.</p>
-			<a href="dashboard.php"><center><button type="button" class="btn btn-success btn-lg">Analytics Dashboard</center></a>
+			<a href="dashboard"><center><button type="button" class="btn btn-success btn-lg">Analytics Dashboard</center></a>
             </div>
           </div>
 
