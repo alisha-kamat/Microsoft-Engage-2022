@@ -178,7 +178,6 @@ require('header2.php');
 <th><strong>Seating Capacity</strong></th-->
 <th><strong>Transmission</strong></th>
 <!--th><strong>Boot Space</strong></th-->
-<th><strong>Details</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -313,7 +312,7 @@ while($row = mysqli_fetch_assoc($result)) { ?>
 <td align="center"><?php //echo $row["Seating_capacity"]; ?></td-->
 <td align="center"><?php echo $row["Transmission"]; ?></td>
 <!--td align="center"><?php //echo $row["Boot_space"]; ?></td-->
-<td align="center">Click Here</td>
+
 </tr>
 <?php $count++; } ?>
 </tbody>

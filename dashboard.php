@@ -1,20 +1,46 @@
 <?php 
 require('./admin/auth.php'); 
+require('./admin/db.php'); 
+//require('header2.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-
-  <title>Dashboard</title>
+  <title>Analytics Dashboard</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-<?php 
-require('./admin/db.php'); 
-require('header2.php'); 
-?>
+  <!-- Favicons -->
+  <link href="assets/img/cardb-logo.svg" rel="icon">
+  <!--link href="assets/img/cardb-logo.svg" rel="apple-touch-icon"-->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.2.2
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
 
 <body>
 
@@ -46,18 +72,22 @@ require('header2.php');
               <div class="card info-card sales-card">
 
                 <?php 
-                  $sales = "Select sum(total) as sales, year from sales where year in (select max(year) from sales);";
+		  $maxyear_query = "select max(year) as MaxYear from sales;";
+                  $maxyear_result = mysqli_query($con,$maxyear_query);
+                  $maxyear_row = mysqli_fetch_assoc($maxyear_result);
+                  $maxyear  = $maxyear_row['MaxYear'];
+                  $sales = "Select sum(total) as sales, year from sales where year =" . $maxyear . ";";
                   $sales_result = mysqli_query($con,$sales);
                   $year = "";
                   $row = mysqli_fetch_assoc($sales_result);
                   $total_sales  = $row['sales'];
-                  $old_sales = "Select sum(Total), year from sales where Year not in (select max(year) from sales) group by Year order by Year desc;";
+                  $old_sales = "Select sum(Total), year from sales where Year !=" . $maxyear . " group by Year order by Year desc;";
                   $old_result = mysqli_query($con,$old_sales);
                   $row2 = mysqli_fetch_assoc($old_result);
                   $sales_percent = (($row['sales']-$row2['sum(Total)'])/$row2['sum(Total)'])*100;
                 ?>
                 <div class="card-body">
-                  <h5 class="card-title">Annual Car Sales <span>| <?php echo $row['year']; ?></span></h5>
+                  <h5 class="card-title">Annual Car Sales <span>| <?php echo $maxyear; ?></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -90,7 +120,8 @@ require('header2.php');
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
               <?php 
-                  $popular_query = "Select Make, Model, Variant, sum(Total), year from sales where Year in (select max(year) from sales) group by Make order by sum(Total) desc;";
+                  //$popular_query = "Select Make, Model, Variant, SUM(Total), year from sales where Year =" . $maxyear . " GROUP BY Make ORDER BY SUM(Total) DESC;";
+		     $popular_query = "Select Make, Model, Variant, Total from sales where Year=" . $maxyear . " order by Total desc;";
                   $popular_result = mysqli_query($con,$popular_query);
                   $row = mysqli_fetch_assoc($popular_result);
                   $popular  = $row['Make']." ".$row['Model']." ".$row['Variant'];
@@ -99,7 +130,7 @@ require('header2.php');
 
 
                 <div class="card-body">
-                  <h5 class="card-title">Most Popular Car <span>| <?php echo $row['year']; ?></span></h5>
+                  <h5 class="card-title">Most Popular Car <span>| <?php echo $maxyear; ?></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -121,11 +152,11 @@ require('header2.php');
               <div class="card info-card customers-card">
 
               <?php 
-                  $revenue_query = "Select sum(sales.total*specs.Ex_showroom_price) as revenue, year from sales, specs where sales.year in (select max(sales.year) from sales) and sales.Make = specs.Make and sales.Model = specs.Model and sales.Variant = specs.Variant;";
+                  $revenue_query = "Select sum(sales.total*specs.Ex_showroom_price) as revenue, year from sales, specs where sales.year =" . $maxyear . " and sales.Make = specs.Make and sales.Model = specs.Model and sales.Variant = specs.Variant;";
                   $revenue_result = mysqli_query($con,$revenue_query);
                   $row = mysqli_fetch_assoc($revenue_result);
                   $total_revenue  = $row['revenue'];
-                  $old_revenue = "Select sum(sales.total*specs.Ex_showroom_price) as revenue, year from sales, specs where sales.year not in (select max(sales.year) from sales) and sales.Make = specs.Make and sales.Model = specs.Model and sales.Variant = specs.Variant group by Year order by Year desc;";
+                  $old_revenue = "Select sum(sales.total*specs.Ex_showroom_price) as revenue, year from sales, specs where sales.year !=" . $maxyear . "  and sales.Make = specs.Make and sales.Model = specs.Model and sales.Variant = specs.Variant group by Year order by Year desc;";
                   $old_result = mysqli_query($con,$old_revenue);
                   $old = mysqli_fetch_assoc($old_result);
                   $revenue_percent = (($row['revenue']-$old['revenue'])/$old['revenue'])*100;
@@ -133,7 +164,7 @@ require('header2.php');
 
 
                 <div class="card-body">
-                  <h5 class="card-title">Car Industry Revenue <span>| <?php echo $row['year']; ?></span></h5>
+                  <h5 class="card-title">Car Industry Revenue <span>| <?php echo $maxyear; ?></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -168,10 +199,12 @@ require('header2.php');
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Top 5 Performers <span>/<?php echo $row['year']; ?></span></h5>
+                  <h5 class="card-title">Top 5 Performers <span>| <?php echo $row['year']; ?></span></h5>
 
                   <?php 
-                  $performers_query = "select *, sum(Total) from sales where Year in (select max(year) from sales) group by Make order by sum(Total) desc;";
+                  //$performers_query = "select *, sum(Total) from sales where Year =" . $maxyear . " group by Make order by sum(Total) desc;";
+	
+		  $performers_query = "Select Make, SUM(Jan) as Jan, SUM(Feb) as Feb, SUM(Mar) as Mar, SUM(Apr) as Apr, SUM(May) as May, SUM(Jun) as Jun, SUM(Jul) as Jul, SUM(Aug) as Aug, SUM(Sep) as Sep, SUM(Oct) as Oct, SUM(Nov) as Nov, SUM(Dcm) as Dcm, SUM(Total) from Sales where Year=" . $maxyear. " Group By Make Order by SUM(Total) DESC;";
                   $performers_result = mysqli_query($con,$performers_query);    
                   $count = 0;
                 ?>
@@ -257,7 +290,9 @@ require('header2.php');
               <div class="card top-selling overflow-auto">
 
                  <?php 
-                  $top_query = "Select Sales.Make, sum(Sales.Total), Sum(Sales.Total*Specs.Ex_showroom_price) as revenue, Year from Sales, Specs where Year in (select max(Year) from sales) and Sales.Make = Specs.Make and Sales.Model = Specs.Model group by Sales.Make order by sum(Sales.Total) desc;";
+                  //$top_query = "Select Sales.Make, sum(Sales.Total), Sum(Sales.Total*Specs.Ex_showroom_price) as revenue, Year from Sales, Specs where Year =" . $maxyear . " and Sales.Make = Specs.Make and Sales.Model = Specs.Model group by Sales.Make order by sum(Sales.Total) desc;";
+
+		   $top_query = "Select Sales.Make as Make, SUM(Sales.Total) as Total, SUM(Sales.Total*Specs.Ex_showroom_price) as Revenue, Year from Sales INNER JOIN Specs ON Sales.Year =" . $maxyear . " and Sales.Make = Specs.Make and Sales.Model = Specs.Model GROUP BY Make ORDER BY SUM(Sales.Total) DESC;";
                   $result = mysqli_query($con,$top_query);
                   ?>
 
@@ -284,8 +319,8 @@ require('header2.php');
                         ?>
                         <td><a href="#" class="text-primary fw-bold"><?php echo $row['Make']; ?></a></td>
                         <!--td>₹<?php //echo number_format($row['Ex_showroom_price']); ?></td-->
-                        <td class="fw-bold"><?php echo number_format($row['sum(Sales.Total)']); ?></td>
-                        <td>₹<?php echo number_format($row['revenue']); ?></td>
+                        <td class="fw-bold"><?php echo number_format($row['Total']); ?></td>
+                        <td>₹<?php echo number_format($row['Revenue']); ?></td>
                       </tr>
                           <?php $count++;
                           }
@@ -319,7 +354,7 @@ require('header2.php');
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Distribution',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -341,7 +376,9 @@ require('header2.php');
                         <?php 
                         $tbl_count = 0;
                         //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
-                        $query = "Select distinct(Demography.Year), Specs.Transmission, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;";
+                        //$query = "Select distinct(Demography.Year), Specs.Transmission, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;";
+
+			$query = "Select Specs.Transmission as Transmission, SUM(Demography.Total) as Total FROM Specs INNER JOIN Demography ON Demography.Year=" . $maxyear . " AND Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant GROUP BY Transmission ORDER BY Total ASC;";
                         $result = mysqli_query($con,$query);
                         $data = "";
                         while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>                        
@@ -378,7 +415,7 @@ require('header2.php');
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Distribution',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -400,7 +437,9 @@ require('header2.php');
                         <?php 
                         $tbl_count = 0;
                         //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
-                        $query = "Select distinct(Demography.Year), Specs.Fuel_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type;";
+                        //$query = "Select distinct(Demography.Year), Specs.Fuel_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type;";
+
+			$query = "Select Specs.Fuel_Type as Fuel_Type, SUM(Demography.Total) as Total FROM Specs INNER JOIN Demography ON Demography.Year=" . $maxyear . " AND Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant GROUP BY Fuel_Type ORDER BY Total ASC;";
                         $result = mysqli_query($con,$query);
                         $data = "";
                         while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>                        
@@ -445,7 +484,7 @@ require('header2.php');
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Distribution',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -467,8 +506,8 @@ require('header2.php');
                         <?php 
                         $tbl_count = 0;
                         //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
-                        $query = "Select distinct(Demography.Year), Specs.Body_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;";
-                        $result = mysqli_query($con,$query);
+                        $query = "Select Specs.Body_Type as Body_Type, SUM(Demography.Total) as Total FROM Specs INNER JOIN Demography ON Demography.Year=" . $maxyear . " AND Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant GROUP BY Body_Type ORDER BY Total DESC;";
+		        $result = mysqli_query($con,$query);
                         $data = "";
                         while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} ?>                        
                         {
@@ -537,6 +576,7 @@ require('header2.php');
 
     
   </main><!-- End #main -->
+
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">

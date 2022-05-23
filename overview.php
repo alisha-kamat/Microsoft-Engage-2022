@@ -45,7 +45,12 @@ require('header2.php');
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
               <?php 
-                  $popular_query = "Select Make, Model, Variant, sum(Total), year from sales where Year in (select max(year) from sales) group by Make order by sum(Total) desc;";
+		  $maxyear_query = "select max(year) as MaxYear from sales;";
+                  $maxyear_result = mysqli_query($con,$maxyear_query);
+                  $maxyear_row = mysqli_fetch_assoc($maxyear_result);
+                  $maxyear  = $maxyear_row['MaxYear'];
+                  $popular_query = "Select Make, Model, Variant, Total from sales where Year=" . $maxyear . " order by Total desc;";
+
                   $popular_result = mysqli_query($con,$popular_query);
                   $row = mysqli_fetch_assoc($popular_result);
                   $popular  = $row['Make']." ".$row['Model']." ".$row['Variant'];
@@ -54,7 +59,7 @@ require('header2.php');
 
 
                 <div class="card-body">
-                  <h5 class="card-title">Most Popular Car <span>| <?php echo $row['year']; ?></span></h5>
+                  <h5 class="card-title">Most Popular Car <span>| <?php echo $maxyear; ?></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -75,14 +80,15 @@ require('header2.php');
               <div class="card info-card sales-card">
 
               <?php 
-                  $popular_query = "Select distinct(Demography.Year), Specs.Body_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;";
+                  $popular_query = "Select Specs.Body_Type, SUM(Demography.Total) as STotal from Demography INNER JOIN Specs ON Demography.Make = Specs.Make AND Demography.Model = Specs.Model AND Demography.Variant = Specs.Variant AND Demography.Year = " . $maxyear . " group by Specs.Body_Type ORDER BY STotal DESC;";
+
                   $popular_result = mysqli_query($con,$popular_query);
                   $row = mysqli_fetch_assoc($popular_result);
                   $popular  = $row['Body_Type'];
                   
                 ?>
                 <div class="card-body">
-                  <h5 class="card-title">Popular Car Body Type <span>| <?php echo $row['Year']; ?></span></h5>
+                  <h5 class="card-title">Popular Car Body Type <span>| <?php echo $maxyear; ?></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -102,7 +108,7 @@ require('header2.php');
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
               <?php 
-                  $popular_query = "Select distinct(Demography.Year), Specs.Fuel_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type order by Specs.Fuel_Type desc;";
+                  $popular_query = "Select Specs.Fuel_Type, SUM(Demography.Total) as STotal from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant and Demography.Year = " . $maxyear . " group by Specs.Fuel_Type order by STotal DESC;";
                   $popular_result = mysqli_query($con,$popular_query);
                   $row = mysqli_fetch_assoc($popular_result);
                   $popular  = $row['Fuel_Type'];
@@ -111,7 +117,7 @@ require('header2.php');
 
 
                 <div class="card-body">
-                  <h5 class="card-title">Popular Car Fuel Type<span> | <?php echo $row['Year']; ?></span></h5>
+                  <h5 class="card-title">Popular Car Fuel Type<span> | <?php echo $maxyear; ?></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -132,14 +138,14 @@ require('header2.php');
               <div class="card info-card sales-card">
 
               <?php 
-                  $popular_query = "Select Specs.Transmission, sum(Total), year from Sales,Specs where Year in (select max(year) from sales) group by Specs.Transmission order by sum(Total) desc;";
+                  $popular_query = "Select Specs.Transmission, sum(Total) as STotal from Sales,Specs where Year = " . $maxyear . " group by Specs.Transmission order by STotal DESC;";
                   $popular_result = mysqli_query($con,$popular_query);
                   $row = mysqli_fetch_assoc($popular_result);
                   $popular  = $row['Transmission'];
                   
                 ?>
                 <div class="card-body">
-                  <h5 class="card-title">Top Transmission Type <span>| <?php echo $row['year']; ?></span></h5>
+                  <h5 class="card-title">Top Transmission Type <span>| <?php echo $maxyear; ?></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -154,7 +160,155 @@ require('header2.php');
 
               </div>
             </div><!-- End Sales Card -->            
+	
+	<center><h2><br>Car Variants available in the markets</h2></center>
 
+          <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Based on Seating Capacity</h5>
+
+              <!-- Bar Chart -->
+              <div id="seatsChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+		<?php 
+		   $count = 0;
+		   $capacity_query = "SELECT COUNT(*), Seating_capacity FROM Specs GROUP BY Seating_capacity ORDER BY Seating_capacity asc;";
+		   $capacity_result = mysqli_query($con,$capacity_query);
+		   $data = "";
+		   $cols = "";
+		   while($row = mysqli_fetch_assoc($capacity_result))
+		   {
+		      if($count>0) 
+		      {
+			$data .= ", ";
+			$cols .= ", ";
+		      }
+		      $data .= $row['COUNT(*)'];
+		      $cols .= "'".$row['Seating_capacity']."'";
+		      $count++;
+		   }
+		?>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#seatsChart")).setOption({
+                    xAxis: {
+                      type: 'category',
+                      data: [<?php echo $cols;?>]
+                    },
+                    yAxis: {
+                      type: 'value'
+                    },
+                    series: [{
+                      data: [<?php echo $data;?>],
+                      type: 'bar'
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Bar Chart -->
+          </div>
+          </div>
+        </div>
+
+          <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Based on Fuel Type</h5>
+
+              <!-- Bar Chart -->
+              <div id="fuelChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+		<?php 
+		   $count = 0;
+		   $capacity_query = "SELECT COUNT(*), Fuel_Type FROM Specs GROUP BY Fuel_Type ORDER BY Fuel_Type asc;";
+		   $capacity_result = mysqli_query($con,$capacity_query);
+		   $data = "";
+		   $cols = "";
+		   while($row = mysqli_fetch_assoc($capacity_result))
+		   {
+		      if($count>0) 
+		      {
+			$data .= ", ";
+			$cols .= ", ";
+		      }
+		      $data .= $row['COUNT(*)'];
+		      $cols .= "'".$row['Fuel_Type']."'";
+		      $count++;
+		   }
+		?>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#fuelChart")).setOption({
+                    xAxis: {
+                      type: 'category',
+                      data: [<?php echo $cols;?>]
+                    },
+                    yAxis: {
+                      type: 'value'
+                    },
+                    series: [{
+                      data: [<?php echo $data;?>],
+                      type: 'bar'
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Bar Chart -->
+
+            </div>
+          </div>
+        </div>
+
+  
+          <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Based on Car Body Type</h5>
+
+              <!-- Bar Chart -->
+              <div id="bodyChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+		<?php 
+		   $count = 0;
+		   $capacity_query = "SELECT COUNT(*), Body_Type FROM Specs GROUP BY Body_Type ORDER BY Body_Type asc;";
+		   $capacity_result = mysqli_query($con,$capacity_query);
+		   $data = "";
+		   $cols = "";
+		   while($row = mysqli_fetch_assoc($capacity_result))
+		   {
+		      if($count>0) 
+		      {
+			$data .= ", ";
+			$cols .= ", ";
+		      }
+		      $data .= $row['COUNT(*)'];
+		      $cols .= "'".$row['Body_Type']."'";
+		      $count++;
+		   }
+		?>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#bodyChart")).setOption({
+                    xAxis: {
+                      type: 'category',
+                      data: [<?php echo $cols;?>]
+                    },
+                    yAxis: {
+                      type: 'value'
+                    },
+                    series: [{
+                      data: [<?php echo $data;?>],
+                      type: 'bar'
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Bar Chart -->
+
+            </div>
+          </div>
+        </div>
 
             <!-- Reports -->
             <!--div class="col-12">
@@ -249,7 +403,8 @@ require('header2.php');
               <div class="card top-selling overflow-auto">
 
                  <?php 
-                  $top_query = "Select Sales.Make, Sales.Model, Sales.Variant, Specs.Ex_showroom_price, Year from Sales, Specs where Year in (select max(Year) from sales) and Sales.Make = Specs.Make and Sales.Model = Specs.Model and Sales.Variant = Specs.Variant group by Sales.Make order by sum(Sales.Total) desc;";
+                  $top_query = "Select Sales.Make, Sales.Model, Sales.Variant, Specs.Ex_showroom_price, SUM(Sales.Total) as STotal from Specs INNER JOIN Sales ON Sales.Year = " . $maxyear . " and Sales.Make = Specs.Make and Sales.Model = Specs.Model and Sales.Variant = Specs.Variant group by Sales.Make order by STotal DESC;";
+echo $top_query;
                   $result = mysqli_query($con,$top_query);
                   ?>
 
@@ -289,6 +444,57 @@ require('header2.php');
               </div>
             </div><!-- End Top 5 Selling Cars  -->
 
+
+
+          <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Transmission Type</h5>
+
+              <!-- Bar Chart -->
+              <div id="transmissionChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+		<?php 
+		   $count = 0;
+		   $capacity_query = "SELECT COUNT(*), Transmission FROM Specs GROUP BY Transmission ORDER BY Transmission asc;";
+		   $capacity_result = mysqli_query($con,$capacity_query);
+		   $data = "";
+		   $cols = "";
+		   while($row = mysqli_fetch_assoc($capacity_result))
+		   {
+		      if($count>0) 
+		      {
+			$data .= ", ";
+			$cols .= ", ";
+		      }
+		      $data .= $row['COUNT(*)'];
+		      $cols .= "'".$row['Transmission']."'";
+		      $count++;
+		   }
+		?>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#transmissionChart")).setOption({
+                    xAxis: {
+                      type: 'category',
+                      data: [<?php echo $cols;?>]
+                    },
+                    yAxis: {
+                      type: 'value'
+                    },
+                    series: [{
+                      data: [<?php echo $data;?>],
+                      type: 'bar'
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Bar Chart -->
+
+            </div>
+          </div>
+        </div>
+
           <!-- Car Body Type - Pie Chart -->
           
     <!--div class="col-lg-6">
@@ -309,7 +515,7 @@ require('header2.php');
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Distribution',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -368,7 +574,7 @@ require('header2.php');
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Distribution',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -435,7 +641,7 @@ require('header2.php');
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Distribution',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,

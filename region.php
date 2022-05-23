@@ -43,8 +43,7 @@ require('header2.php');
        <table cellpadding="5px" align="center">
        <tr>
        <th>Make</th>
-       <th>From Year</th>
-       <th>To Year</th>
+       <th>Year</th>
        </tr>
        <tr>
        <td>
@@ -58,17 +57,7 @@ require('header2.php');
        </select>
        </td>
        <td>
-       <select name="from_year" id="from_year">
-	  <option value="">All</option>
-          <?php
-          $sel_query="Select DISTINCT(Year) from Demography;";
-  	  $result = mysqli_query($con,$sel_query);
-	  while($row = mysqli_fetch_assoc($result)) { ?>
-          <option value="<?php echo $row["Year"]; ?>"><?php echo $row["Year"]; ?></option><?php } ?>
-       </select>
-       </td>
-       <td>
-       <select name="to_year" id="to_year">
+       <select name="year" id="year">
 	  <option value="">All</option>
           <?php
           $sel_query="Select DISTINCT(Year) from Demography;";
@@ -86,10 +75,11 @@ require('header2.php');
     <?php
 $count=1;
 $sel_query = "Select * from demography";
-$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
+$query = "Select Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
 //echo $query;
 
-
+$where = "";
+$andwhere = "";
 $flag = 0;
 if(isset($_POST['make'])) 
 {
@@ -107,23 +97,25 @@ if(isset($_POST['make']))
    $query .= " and Demography.Make = '".$_POST['make']."'";
    }
 }
-if(isset($_POST['from_year'])) 
+if(isset($_POST['year'])) 
 {
-   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   if(strlen($_POST['year'])>0)
    {
    if($flag == 0)
    {
    $flag = 1;
-   $sel_query .= " where Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   $sel_query .= " where Year = '".$_POST['year']."'";
    }
    else
    {
    $sel_query .= " and Year = '".$_POST['year']."'";
    }
-   $query .= " and Demography.Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   $query .= " and Demography.Year = '".$_POST['year']."'";
+   $where = " where Year = '".$_POST['year']."'";
+   $andwhere = " and Year = '".$_POST['year']."'";
    }
 }
-else if(isset($_POST['from_year'])) 
+/*else if(isset($_POST['from_year'])) 
 {
    if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
    {
@@ -154,7 +146,7 @@ else if(isset($_POST['from_year']))
    }
    $query .= " and Demography.Year = ".$_POST['year'];
    }
-}
+}*/
 /*else if(isset($_POST['from_year'])) 
 {
    if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])<=0)
@@ -213,7 +205,7 @@ $tbl_count=0;
                     type: 'line',
                     data: {
                       <?php 
-                      $line_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography group by Year;";
+                      $line_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography".$where." group by Year;";
                       $line_result = mysqli_query($con,$line_query);
                       $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];
                       $year = "";
@@ -248,25 +240,25 @@ $tbl_count=0;
                         label: 'East',
                         data: [<?php echo $east; ?>],
                         fill: false,
-                        borderColor: 'rgb(145, 204, 117)',
+                        borderColor: 'rgb(84, 112, 198)',
                         tension: 0.1
                       }, {
                         label: 'West',
                         data: [<?php echo $west; ?>],
                         fill: false,
-                        borderColor: 'rgb(250, 200, 88)',
+                        borderColor: 'rgb(145, 204, 117)',
                         tension: 0.1
                       }, {
                         label: 'North',
                         data: [<?php echo $north; ?>],
                         fill: false,
-                        borderColor: 'rgb(238, 102, 102)',
+                        borderColor: 'rgb(250, 200, 88)',
                         tension: 0.1
                       }, {
                         label: 'South',
                         data: [<?php echo $south; ?>],
                         fill: false,
-                        borderColor: 'rgb(84, 112, 198)',
+                        borderColor: 'rgb(238, 102, 102)',
                         tension: 0.1
                       }, ]
                     },
@@ -304,7 +296,7 @@ $tbl_count=0;
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Distribution',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -324,7 +316,8 @@ $tbl_count=0;
                       },
                       data: [
                         <?php 
-                        $breakup_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography;";
+                        $breakup_query = "Select Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography".$where.";";
+
                         $breakup_result = mysqli_query($con,$breakup_query);
 			$row = mysqli_fetch_assoc($breakup_result);
                         $data = "";
@@ -350,7 +343,6 @@ $tbl_count=0;
                   });
                 });
               </script>
-
             </div>
           </div><!-- Car Body Type - End Pie Chart -->
               </div>
@@ -377,6 +369,7 @@ var stackedbarchart = new Chart(stackedchart, {
           $tbl_count = 0;
           $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
           $result = mysqli_query($con,$query);
+	 
           $data = "";
           $north = 0;
           $south = 0;
@@ -410,6 +403,7 @@ var stackedbarchart = new Chart(stackedchart, {
 });
 
 </script>
+
       <!-- End Stacked Bar Chart -->
     </div>
   </div>
@@ -566,7 +560,7 @@ var stackedbarchart = new Chart(bodychart, {
       datasets: [           
         <?php 
           $tbl_count = 0;
-          $query = "Select distinct(Demography.Year), Specs.Body_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;"; 
+          $query = "Select Specs.Body_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant".$andwhere." group by Specs.Body_Type;"; 
           $colors = ['#5470C6','#91CC75','#FAC858','#EE6666'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
           $result = mysqli_query($con,$query);
           $data = "";
@@ -625,7 +619,7 @@ var stackedbarchart = new Chart(stackchart, {
       datasets: [           
         <?php 
           $tbl_count = 0;
-          $query = "Select distinct(Demography.Year), Specs.Transmission, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Transmission from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;"; 
+          $query = "Select Specs.Transmission, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Transmission from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant".$andwhere." group by Specs.Transmission;"; 
           $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];//['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
           $result = mysqli_query($con,$query);
           $data = "";
@@ -779,23 +773,23 @@ if(isset($_POST['make']))
    $query .= " and Demography.Make = '".$_POST['make']."'";
    }
 }
-if(isset($_POST['from_year'])) 
+if(isset($_POST['year'])) 
 {
-   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
+   if(strlen($_POST['year'])>0)
    {
    if($flag == 0)
    {
    $flag = 1;
-   $sel_query .= " where Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   $sel_query .= " where Year = '".$_POST['year']."'";
    }
    else
    {
    $sel_query .= " and Year = '".$_POST['year']."'";
    }
-   $query .= " and Demography.Year BETWEEN '".$_POST['from_year']."' AND '".$_POST['to_year']."'";
+   $query .= " and Demography.Year = '".$_POST['year']."'";
    }
 }
-else if(isset($_POST['from_year'])) 
+/*else if(isset($_POST['from_year'])) 
 {
    if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
    {
@@ -810,7 +804,7 @@ else if(isset($_POST['from_year']))
    }
    $query .= " and Demography.Year = ".$_POST['year'];
    }
-}
+}*/
 /*else if(isset($_POST['from_year'])) 
 {
    if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])>0)
