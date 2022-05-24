@@ -25,5 +25,5 @@
   <li><a href="">Database Schema</a></li>
   <li><a href=""><a href="">Design Document</a></li>
   <li><a href="">Sprint Document</a></li>
-  <li><a href="">Tasks List</a></li>
+  <li><a href="">Project Timeline</a></li>
 </ul>
