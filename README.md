@@ -1,9 +1,23 @@
-# CarDB Analytics
-![image](https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png)
+
+<center><img src="https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png"></center>
 
 ## List of screens
-1. ![image](https://user-images.githubusercontent.com/84401192/170094769-9cd03c06-c437-4886-8574-8add2538384a.png)
-2. ![image](https://user-images.githubusercontent.com/84401192/170095933-cc1e04e2-ecfa-4e43-9f4e-3d950ee821fe.png)
+
+## Admin Screens
+<table>
+  <tr>
+    <td><b> HomePage </b></td>
+  </tr>
+  <tr>
+     <td><b> HomePage [contd] </b></td>
+  </tr>
+  <tr>
+    <td><img src = "https://user-images.githubusercontent.com/84401192/170094769-9cd03c06-c437-4886-8574-8add2538384a.png" width = 500></td>
+  </tr>
+  <tr>
+     <td><img src = "https://user-images.githubusercontent.com/84401192/170095933-cc1e04e2-ecfa-4e43-9f4e-3d950ee821fe.png" width = 500></td>
+  </tr>
+ </table>
 
 ## Features of the Application
 1. Provides B2C users with a list of specification details based on a number of filtering criteria
@@ -16,8 +30,16 @@
 8. Supplies information to automobile experts related to total sales and revenue of the industry so far
 
 ## Future Scope
-1. Include a predictive analysis feature that allows industry experts understand future market trends
-2. 
+1. Provide a separate popup page for each car specs
+2. A detailed page with car images
+3. Include a user reviews section
+4. QnA section / discussion forum for increasing user engagement
+5. Comparison section for 2 or multiple cars
+6. Showing different financing options for customers (like EMIs)
+7. Include a predictive analysis feature that allows industry experts understand future market trends
+8. Provide analysis results to users in textual format
+9. Having transactional level data will help provide better analysis results to users
+10. Upload csv file for data through admin screens of database
 
 
 ## Tech Stack
@@ -35,10 +57,12 @@
 ## Links
 <ul>
   <li><a href="">Demo Video</a></li>
-  <li><a href=""><a href="">Deployed Website</a></li>
+  <li><a href="https://www.onnicles.com/app/cdb/homepage"Deployed Website</a></li>
   <li><a href="">Database Schema</a></li>
-  <li><a href=""><a href="">Design Document</a></li>
+  <li><a href="">Design Document</a></li>
   <li><a href="">Sprint Document</a></li>
   <li><a href="">Process Flow Document</a></li>
   <li><a href="https://docs.google.com/document/d/1vc0a9NzqR2KYaYzcdi-upbOAtXeM3JXsPua4x98Oetc/edit?usp=sharing">Project Timeline</a></li>
 </ul>
+
+
