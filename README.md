@@ -21,25 +21,24 @@
 
 ## Features of the Application
 1. Provides B2C users with a list of specification details based on a number of filtering criteria
-2. Keeps the users informed about the most popular choices (of Make, Model, Fuel Type) among different groups
-3. Provides B2B users (industry experts) an in-depth analysis of the trends in the automobile industry based on the filtering criteria
+2. Keeps the users informed about the most popular choices (of Make, Model, Fuel Type, etc.) among different groups
+3. Provides B2B users (industry experts) an in-depth analysis of the trends in the automobile industry based on different filtering criteria
 4. Registration feature enabled for only B2B users
 5. Provides demography based details and various analytics
 6. Both grid and graph visualisations have been enabled for B2B as well as B2C users
 7. Allows admin access to perform CRUD functionality for the database and related tables
 8. Supplies information to automobile experts related to total sales and revenue of the industry so far
 
-## Future Scope
-1. Provide a separate popup page for each car specs
-2. A detailed page with car images
-3. Include a user reviews section
-4. QnA section / discussion forum for increasing user engagement
-5. Comparison section for 2 or multiple cars
-6. Showing different financing options for customers (like EMIs)
-7. Include a predictive analysis feature that allows industry experts understand future market trends
-8. Provide analysis results to users in textual format
-9. Having transactional level data will help provide better analysis results to users
-10. Upload csv file for data through admin screens of database
+## Future Scope [Feature to be added - Benefit]
+1. Provide a separate detailed popup page for each car specifications along with individual car images
+2. Include a user reviews section
+3. QnA section and discussion forum for increasing user engagement and time spent on the website
+4. Comparison section for 2 or multiple cars
+5. Showing different financing options for customers (like EMIs)
+6. Include a predictive analysis feature that allows industry experts understand future market trends
+7. Provide analysis results to users in textual format
+8. Having transactional level data will help provide better and diverse analysis results to users
+9. Allow uploading of csv file for adding data through admin screens of the database will save data entry works for huger datasets
 
 
 ## Tech Stack
