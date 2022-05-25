@@ -6,10 +6,18 @@
 2. ![image](https://user-images.githubusercontent.com/84401192/170095933-cc1e04e2-ecfa-4e43-9f4e-3d950ee821fe.png)
 
 ## Features of the Application
-
+1. Provides B2C users with a list of specification details based on a number of filtering criteria
+2. Keeps the users informed about the most popular choices (of Make, Model, Fuel Type) among different groups
+3. Provides B2B users (industry experts) an in-depth analysis of the trends in the automobile industry based on the filtering criteria
+4. Registration feature enabled for only B2B users
+5. Provides demography based details and various analytics
+6. Both grid and graph visualisations have been enabled for B2B as well as B2C users
+7. Allows admin access to perform CRUD functionality for the database and related tables
+8. Supplies information to automobile experts related to total sales and revenue of the industry so far
 
 ## Future Scope
 1. Include a predictive analysis feature that allows industry experts understand future market trends
+2. 
 
 
 ## Tech Stack
@@ -31,5 +39,6 @@
   <li><a href="">Database Schema</a></li>
   <li><a href=""><a href="">Design Document</a></li>
   <li><a href="">Sprint Document</a></li>
+  <li><a href="">Process Flow Document</a></li>
   <li><a href="https://docs.google.com/document/d/1vc0a9NzqR2KYaYzcdi-upbOAtXeM3JXsPua4x98Oetc/edit?usp=sharing">Project Timeline</a></li>
 </ul>
