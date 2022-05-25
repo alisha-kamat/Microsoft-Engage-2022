@@ -1,9 +1,15 @@
 # CarDB Analytics
 ![image](https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png)
 
-## Features and Interfaces
+## List of screens
 1. ![image](https://user-images.githubusercontent.com/84401192/170094769-9cd03c06-c437-4886-8574-8add2538384a.png)
 2. ![image](https://user-images.githubusercontent.com/84401192/170095933-cc1e04e2-ecfa-4e43-9f4e-3d950ee821fe.png)
+
+## Features of the Application
+
+
+## Future Scope
+1. Include a predictive analysis feature that allows industry experts understand future market trends
 
 
 ## Tech Stack
