@@ -1,5 +1,12 @@
+<h1 align="center">
+  <img src="https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png">
+</h1>
+<div align="center">
+  Provides quantitative insights into the automobile industry<br>
+  Microsoft Engage 2022<br><br>
+</div>
+<hr>
 
-<center><img src="https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png"></center>
 
 ## Application concept and overview
 CarDB is designed to be a freemium application with the B2C features open to all (unregistered) users <br>
