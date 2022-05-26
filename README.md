@@ -88,8 +88,20 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 4. The website is now running on http://localhost/Microsoft-Engage-2022/homepage
 
 ## Troubleshooting tips
- 1. If the URL is not working, locate the ``` .htaccess ``` file and move it into the right directory
- 2. In case the website is loading but the tables and graphs are missing, use phpMyAdmin or MySQL Workbench to check whether the database and tables have been created and populate it with the appropriate data
+<table> 
+  <tr>
+    <th>Issue</th>
+    <th>Solution</th>
+  </tr>
+  <tr>
+    <td>The URL in point 4 above is not working</td> 
+    <td>Locate the .htaccess file and move it into the right directory. <br>Also ensure that Apache and MySQL are running.</td>
+  </tr>
+  <tr>
+    <td>The website is loading but the tables and graphs are missing</td> 
+    <td>Use phpMyAdmin or MySQL Workbench to check whether the database and tables have been created and populated with the appropriate data</td>
+  </tr>
+</table>
 
 ## Links
 <ul>
