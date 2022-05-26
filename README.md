@@ -58,7 +58,7 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
     <ul>
        <li>Xampp version 3.3.0 or higher</li>
        <li>Php version 7.4.22 or higher</li>
-       <li>MySQL version  or higher</li>
+       <li>MySQL version 10.4.19 or higher</li>
       </ul>
   </li>
   <li>
