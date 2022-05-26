@@ -28,7 +28,10 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 <img src="https://user-images.githubusercontent.com/84401192/170506552-dab7cab9-f826-4fd5-8313-89105d85df3e.png" width=60% height=60%>
 
 ## Database schema
-<img src="https://user-images.githubusercontent.com/84401192/170514081-77e681a7-aff3-4b67-a110-59740475e20a.png" width=80% height=80%>
+<center><img src="https://user-images.githubusercontent.com/84401192/170514081-77e681a7-aff3-4b67-a110-59740475e20a.png" width=80% height=80%>
+<br>
+<img src="https://user-images.githubusercontent.com/84401192/170580680-c772a3f0-b832-4ce5-82a6-fa5eea2802cf.png" width=60% height=60% align="center"></center>
+
 
 
 ## Future Scope [Feature to be added - Benefit]
