@@ -102,7 +102,7 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 <ul>
   <li><a href="">Demo Video</a></li>
   <li><a href="https://www.onnicles.com/app/cdb/homepage"</a>Deployed Website</li>
-  <li><a href="">Preliminary UI Design</a></li> - Presented to mentor in the second team meet
+  <li><a href="https://docs.google.com/presentation/d/11Eijuj6WYLJGXBFTEAx6p2WtGJfaXFOe_J7muvPCFyM/edit?usp=sharing">Preliminary UI Design</a></li> - Presented to mentor in the second team meet
   <li><a href="https://www.canva.com/design/DAFBt41cctQ/wSOAyrJq1g3pfLEuVSNtaA/edit">Sprint Document</a></li>
   <li><a href="https://docs.google.com/document/d/1vc0a9NzqR2KYaYzcdi-upbOAtXeM3JXsPua4x98Oetc/edit?usp=sharing">Project Timeline</a></li>
 </ul>
