@@ -57,9 +57,10 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 ## Tech Stack
 <a href="https://www.w3.org/TR/html5/" title="HTML5"><img src="https://github.com/get-icon/geticon/raw/master/icons/html-5.svg" alt="HTML5" width="40px" height="40px"></a>
 <a href="https://www.w3.org/TR/CSS/" title="CSS3"><img src="https://github.com/get-icon/geticon/raw/master/icons/css-3.svg" alt="CSS3" width="40px" height="40px"></a>
-<a href="https://www.w3.org/TR/JS/" title="Javascript"><img src="https://github.com/get-icon/geticon/raw/master/icons/javascript.svg" alt="CSS3" width="40px" height="40px"></a>&nbsp;
-<a href="https://www.w3.org/TR/MySQL/" title="MySQL"><img src="https://github.com/get-icon/geticon/raw/master/icons/mysql.svg" alt="CSS3" width="40px" height="40px"></a>&nbsp;<a href="https://www.w3.org/TR/Bootstrap/" title="Bootstap"><img src="https://github.com/get-icon/geticon/raw/master/icons/bootstrap.svg" alt="CSS3" width="40px" height="40px"></a>&nbsp;
+&nbsp;
 <a href="https://www.php.net/" title="PHP"><img src="https://www.php.net/images/logos/php-logo.svg" alt="PHP" width="40px" height="40px"></a>
+<a href="https://www.w3.org/TR/JS/" title="Javascript"><img src="https://github.com/get-icon/geticon/raw/master/icons/javascript.svg" alt="CSS3" width="40px" height="40px"></a>&nbsp;
+<a href="https://www.w3.org/TR/MySQL/" title="MySQL"><img src="https://github.com/get-icon/geticon/raw/master/icons/mysql.svg" alt="CSS3" width="40px" height="40px"></a>&nbsp;<a href="https://www.w3.org/TR/Bootstrap/" title="Bootstap"><img src="https://github.com/get-icon/geticon/raw/master/icons/bootstrap.svg" alt="CSS3" width="40px" height="40px"></a>
 
 ## Requirements
 <ul>
@@ -75,7 +76,7 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
   <h4>Hardware</h4> 
   <ul>
        <li>4 GB RAM or higher</li>
-       <li>An open and analytical mind</li>
+       <li>An open and analytical mind!</li>
    </ul>
   </li>
 </ul>
@@ -86,14 +87,16 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 3. Run the ``` C:\xampp\htdocs\Microsoft-Engage-2022\admin\setup-db.php ``` file to setup the database on your local machine
 4. The website is now running on http://localhost/Microsoft-Engage-2022/homepage
 
+## Troubleshooting tips
+ 1. If the URL is not working, locate the ``` .htaccess ``` file and move it into the right directory
+ 2. In case the website is loading but the tables and graphs are missing, use phpMyAdmin or MySQL Workbench to check whether the database and tables have been created and populate it with the appropriate data
+
 ## Links
 <ul>
   <li><a href="">Demo Video</a></li>
   <li><a href="https://www.onnicles.com/app/cdb/homepage"</a>Deployed Website</li>
-  <li><a href="">Database Schema</a></li>
   <li><a href="">Design Document</a></li>
   <li><a href="https://www.canva.com/design/DAFBt41cctQ/wSOAyrJq1g3pfLEuVSNtaA/edit">Sprint Document</a></li>
-  <li><a href="">Process Flow Document</a></li>
   <li><a href="https://docs.google.com/document/d/1vc0a9NzqR2KYaYzcdi-upbOAtXeM3JXsPua4x98Oetc/edit?usp=sharing">Project Timeline</a></li>
 </ul>
 
