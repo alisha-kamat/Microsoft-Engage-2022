@@ -38,6 +38,9 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 ## Process flow diagram (Top level)
 <img src="https://user-images.githubusercontent.com/84401192/170506552-dab7cab9-f826-4fd5-8313-89105d85df3e.png" width=60% height=60%>
 
+## Database schema
+<img src="https://user-images.githubusercontent.com/84401192/170514081-77e681a7-aff3-4b67-a110-59740475e20a.png" width=80% height=80%>
+
 
 ## Future Scope [Feature to be added - Benefit]
 1. Provide a separate detailed popup page for each car specifications along with individual car images
