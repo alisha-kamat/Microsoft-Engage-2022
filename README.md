@@ -56,7 +56,7 @@
 ## Links
 <ul>
   <li><a href="">Demo Video</a></li>
-  <li><a href="https://www.onnicles.com/app/cdb/homepage"Deployed Website</a></li>
+  <li><a href="https://www.onnicles.com/app/cdb/homepage"</a>Deployed Website</li>
   <li><a href="">Database Schema</a></li>
   <li><a href="">Design Document</a></li>
   <li><a href="https://www.canva.com/design/DAFBt41cctQ/wSOAyrJq1g3pfLEuVSNtaA/edit">Sprint Document</a></li>
