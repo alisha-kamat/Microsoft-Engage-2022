@@ -1,6 +1,12 @@
 
 <center><img src="https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png"></center>
 
+## Application concept and overview
+CarDB is designed to be a freemium application with the B2C features open to all (unregistered) users <br>
+and the advanced B2B features (such as detailed analytics) available to only the registered users.
+### UI design principles 
+The application adopts a clean, minimalistic, responsive and intuitive UI design
+
 ## List of screens
 
 ## Admin Screens
@@ -29,6 +35,8 @@
 7. Allows admin access to perform CRUD functionality for the database and related tables
 8. Supplies information to automobile experts related to total sales and revenue of the industry so far
 
+## 
+
 ## Future Scope [Feature to be added - Benefit]
 1. Provide a separate detailed popup page for each car specifications along with individual car images
 2. Include a user reviews section
@@ -47,11 +55,30 @@
 <a href="https://www.w3.org/TR/JS/" title="Javascript"><img src="https://github.com/get-icon/geticon/raw/master/icons/javascript.svg" alt="CSS3" width="40px" height="40px"></a>&nbsp;
 <a href="https://www.w3.org/TR/MySQL/" title="MySQL"><img src="https://github.com/get-icon/geticon/raw/master/icons/mysql.svg" alt="CSS3" width="40px" height="40px"></a>&nbsp;<a href="https://www.w3.org/TR/Bootstrap/" title="Bootstap"><img src="https://github.com/get-icon/geticon/raw/master/icons/bootstrap.svg" alt="CSS3" width="40px" height="40px"></a>
 
+## Requirements
+<ul>
+  <li>
+  <h4>Software</h4>
+    <ul>
+       <li>Xampp version 3.3.0 or higher</li>
+       <li>Php version 7.4.22 or higher</li>
+       <li>MySQL version  or higher</li>
+      </ul>
+  </li>
+  <li>
+  <h4>Hardware</h4> 
+  <ul>
+       <li>4 GB RAM or higher</li>
+       <li>An open and analytical mind</li>
+   </ul>
+  </li>
+</ul>
+  
 ## Instructions for setup
 1. Clone this repository using ``` git clone https://github.com/alisha-kamat/Microsoft-Engage-2022 ```
 2. Move the ``` Microsoft-Engage-2022 ``` folder to ```C:\xampp\htdocs  ```
-3. Run the ``` database.php ``` file to setup the database on your local machine
-4. The website is now running on http://localhost/cdb/homepage
+3. Run the ``` C:\xampp\htdocs\Microsoft-Engage-2022\admin\setup-db.php ``` file to setup the database on your local machine
+4. The website is now running on http://localhost/Microsoft-Engage-2022/homepage
 
 ## Links
 <ul>
