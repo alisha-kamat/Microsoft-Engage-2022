@@ -119,7 +119,7 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 
 ## List of screens
 
-## Admin Screens
+
 <table>
   <tr>
     <td><b> HomePage </b></td>
@@ -134,6 +134,89 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
      <td><img src = "https://user-images.githubusercontent.com/84401192/170095933-cc1e04e2-ecfa-4e43-9f4e-3d950ee821fe.png" width = 500></td>
   </tr>
  </table>
+ 
+ 
+<table>
+  <tr>
+    <td>Registration</td>
+     <td>Login</td>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/84401192/170780134-77e491e0-1cf0-4a74-8938-97f3210f8381.png">
+    <td><img src="https://user-images.githubusercontent.com/84401192/170780077-11c163d3-1ca0-425c-99d6-b0576dcb6e64.png">
+  </tr>
+  </table>
+<table>
+  <tr>
+    <td>Overview</td>
+     <td>Car Research</td>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/84401192/170781200-dc6aa3c1-8675-4dff-ab8a-621c36ae03d1.png"></td>
+    <td><img src=""></td>
+  </tr>
+  </table>
+
+
+## Admin Screens
+ <table>
+  <tr>
+    <td>Admin login</td>
+    <td>Admin Dashboard</td>
+  </tr>
+  <tr>
+    <td><img src = "https://user-images.githubusercontent.com/84401192/170776795-70ac6914-f5f7-4dc4-9c28-0227f8c7eb7a.png"></td>
+    <td><img src = "https://user-images.githubusercontent.com/84401192/170772982-900f2cb7-b264-4769-9902-f659e133d7ef.png"></td>
+  </tr>
+ </table>
+ <table>
+  <tr>
+    <td>View Specs records</td>
+    <td>Edit Specs data</td>
+    <td>Add Specs record</td>
+  </tr>
+  <tr>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170774038-b66656ed-f7a5-48cd-8d7c-691c8eb4b2db.png"></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170774350-6af027c0-6702-4fa4-8bd7-0a5a569be413.png"></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170774871-2bb45341-ae72-4fed-b426-0d1e82ae9bbc.png"></td>
+ </tr>
+</table>
+ <table>
+  <tr>
+    <td>View Sales records</td>
+    <td>Edit Sales data</td>
+    <td>Add Sales record</td>
+  </tr>
+  <tr>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170775150-d28469e3-5bb6-4618-a661-81b626407414.png"></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170775373-9682e9dd-cdd4-42d0-bd8f-085cc1234fa4.png"></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170775610-b34231f9-4fe0-46f3-8a71-5be930baf1a1.png"></td>
+    </tr>
+  </table>
+ <table>
+  <tr>
+    <td>View Demography records</td>
+    <td>Edit Demography data</td>
+    <td>Add Demography record</td>
+  </tr>
+  <tr>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170775833-5fd6b110-0aaf-4a26-bb83-1dd966c750ba.png"></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170776084-c77ea89e-4af4-4c55-bf09-601c3e716403.png"></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170776239-dfe8f796-0bb6-4e09-a035-4313edb0107f.png"></td>
+  </tr>
+</table>
+ <table>
+  <tr>
+    <td>View Users records</td>
+    <td>Edit Users data</td>
+    <td>Add Users record</td>
+  </tr>
+  <tr>
+<td><img src = " "></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170779130-31480a8c-2ac9-42d2-a4fe-8879dca3ebea.png"></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170779000-acf900db-2059-48a9-98e1-311daff38c94.png"></td>
+  </tr>
+</table>
 
 ## Need Help?
 Feel free to reach out to me via <a href="https://www.linkedin.com/in/alishakamat/">LinkedIn</a>
