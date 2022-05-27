@@ -125,17 +125,27 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
     <td><b> HomePage </b></td>
   </tr>
   <tr>
-     <td><b> HomePage [contd] </b></td>
-  </tr>
-  <tr>
-    <td><img src = "https://user-images.githubusercontent.com/84401192/170094769-9cd03c06-c437-4886-8574-8add2538384a.png" width = 500></td>
-  </tr>
-  <tr>
-     <td><img src = "https://user-images.githubusercontent.com/84401192/170095933-cc1e04e2-ecfa-4e43-9f4e-3d950ee821fe.png" width = 500></td>
+     <td><img src = "https://user-images.githubusercontent.com/84401192/170784994-3b8ce12f-41d9-4eaa-ae04-9130428b65b8.png" width = 500></td>
   </tr>
  </table>
  
- 
+  
+  ### Research
+<table>
+  <tr>
+    <td>Overview</td>
+     <td>Car Research</td>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/84401192/170781200-dc6aa3c1-8675-4dff-ab8a-621c36ae03d1.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/84401192/170781973-1f4e4715-5bba-4a99-a0de-189b564d14f9.png"></td>
+  </tr>
+  </table>
+  
+
+  
+  ### Analytics
+     
 <table>
   <tr>
     <td>Registration</td>
@@ -146,16 +156,21 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
     <td><img src="https://user-images.githubusercontent.com/84401192/170780077-11c163d3-1ca0-425c-99d6-b0576dcb6e64.png">
   </tr>
   </table>
+  
 <table>
   <tr>
-    <td>Overview</td>
-     <td>Car Research</td>
+    <td>Dashboard</td>
+    <td>Region</td>
+    <td>Age</td>
+    <td>Gender</td>
+    <td>Colour</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/84401192/170781200-dc6aa3c1-8675-4dff-ab8a-621c36ae03d1.png"></td>
-    <td><img src=""></td>
+    <td><img src="https://user-images.githubusercontent.com/84401192/170783142-ee7f2ed4-f7d7-46b6-9dbf-404c5e6f5423.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/84401192/170784489-5e9bcea5-e0d6-49d9-8982-886faf190547.png"></td>
   </tr>
   </table>
+
 
 
 ## Admin Screens
