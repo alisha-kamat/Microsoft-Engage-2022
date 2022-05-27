@@ -1,11 +1,13 @@
-<h1 align="center">
-  <img src="https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png">
-</h1>
+<h4 align="center">
+  <img src="https://user-images.githubusercontent.com/84401192/170089076-b381f98a-9997-48be-8465-c447328c30ad.png"><br>
+  by Alisha Kamat<br>
+  Microsoft Engage 2022 Mentee | GSoC 2022 Contributor<br><br>
+</h4>
 <div align="center">
-  Provides quantitative insights into the automobile industry<br>
-  Microsoft Engage 2022<br><br>
+  The application provides quantitative insights into the automobile industry<br><br>
+  
 </div>
-<hr>
+
 
 
 ## Application concept and overview
@@ -106,7 +108,7 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
   <li><a href="">Demo Video</a></li>
   <li><a href="https://www.onnicles.com/app/cdb/homepage"</a>Deployed Website</li>
   <li><a href="https://docs.google.com/presentation/d/11Eijuj6WYLJGXBFTEAx6p2WtGJfaXFOe_J7muvPCFyM/edit?usp=sharing">Preliminary UI Design</a></li> - Presented to mentor in the second team meet
-  <li><a href="https://www.canva.com/design/DAFBt41cctQ/wSOAyrJq1g3pfLEuVSNtaA/edit">Sprint Document</a></li>
+  <li><a href="https://drive.google.com/file/d/1pCAg_WWaDZWtxMEWnvZndkXO7inYPJnF/view?usp=sharing">Sprint Document</a></li>
   <li><a href="https://docs.google.com/document/d/1vc0a9NzqR2KYaYzcdi-upbOAtXeM3JXsPua4x98Oetc/edit?usp=sharing">Project Timeline</a></li>
 </ul>
 
@@ -127,3 +129,6 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
      <td><img src = "https://user-images.githubusercontent.com/84401192/170095933-cc1e04e2-ecfa-4e43-9f4e-3d950ee821fe.png" width = 500></td>
   </tr>
  </table>
+
+## Need Help?
+Feel free to reach out to me via <a href="https://www.linkedin.com/in/alishakamat/">LinkedIn</a>
