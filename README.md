@@ -227,7 +227,7 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
     <td>Add Users record</td>
   </tr>
   <tr>
-<td><img src = " "></td>
+<td><img src = "https://user-images.githubusercontent.com/84401192/170786836-fa3beb77-f574-44d8-acb9-62483f0912e5.png"></td>
 <td><img src = "https://user-images.githubusercontent.com/84401192/170779130-31480a8c-2ac9-42d2-a4fe-8879dca3ebea.png"></td>
 <td><img src = "https://user-images.githubusercontent.com/84401192/170779000-acf900db-2059-48a9-98e1-311daff38c94.png"></td>
   </tr>
