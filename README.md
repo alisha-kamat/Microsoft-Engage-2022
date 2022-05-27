@@ -14,7 +14,12 @@
 CarDB is designed to be a freemium application with the B2C features open to all (unregistered) users <br>
 and the advanced B2B features (such as detailed analytics) available to only the registered users.
 ### UI design principles 
-The application adopts a clean, minimalistic, responsive and intuitive UI design
+The application adopts a clean, minimalistic, responsive and intuitive UI design<br>
+
+### Agile Methodology - Scrum
+<img src="https://user-images.githubusercontent.com/84401192/170648094-ba703bfd-463d-4e4f-83db-650593c01cf3.png" width=60% height=60%>
+
+
 
 ## Features of the Application
 1. Provides B2C users with a list of specification details based on a number of filtering criteria
@@ -36,7 +41,7 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 
 
 
-## Future Scope [Feature to be added - Benefit]
+## Future Scope
 1. Provide a separate detailed popup page for each car specifications along with individual car images
 2. Include a 'User Review' section
 3. Q&A section and discussion forum for increasing user engagement and time spent on the website
