@@ -195,8 +195,8 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td>Colour</td>
   </tr>
   <tr>
-    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/dashboard.png"></td>
-    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/dashboard.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/d393782b753e77545684499dfc68d767087286cf/images/gender.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/d393782b753e77545684499dfc68d767087286cf/images/colour.png"></td>
   </tr>
 </table>
 
