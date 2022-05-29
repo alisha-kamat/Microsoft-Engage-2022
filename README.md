@@ -11,7 +11,7 @@
 
 
 ## Application concept and overview
-CarDB is designed to be a freemium application with the B2C features open to all (unregistered) users <br>
+CarDB is designed to be a <i>freemium</i> application with the B2C features open to all (unregistered) users <br>
 and the advanced B2B features (such as detailed analytics) available to only the registered users.
 ### UI design principles 
 The application adopts a clean, minimalistic, responsive and intuitive UI design<br>
@@ -22,14 +22,24 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 
 
 ## Features of the Application
+
+### B2C features
 1. Provides B2C users with a list of specification details based on a number of filtering criteria
 2. Keeps the users informed about the most popular choices (of Make, Model, Fuel Type, etc.) among different groups
-3. Provides B2B users (industry experts) with an in-depth analysis of the trends in the automobile industry based on different filtering criteria
-4. B2C features available for all users; B2B features available for only registered users
-5. Provides demography based details and various analytics
-6. Both grid and graph visualisations have been enabled for B2B as well as B2C users
-7. Allows admin access to perform CRUD functionality for the data and user tables
-8. Supplies information to automobile experts related to total sales and revenue of the industry so far
+
+### B2B features
+1. Provides B2B users (industry experts) with an in-depth analysis of the trends in the automobile industry based on different filtering criteria
+2. B2C features available for all users; B2B features available for only registered users
+3. Provides demography based details and various analytics
+4. Supplies information to automobile experts related to total sales and revenue of the industry so far
+5. Both grid and graph visualisations have been enabled for B2B as well as B2C users
+
+### Admin features
+Allows admin access to perform CRUD functionality for 
+1. Data maintenance
+2. User management
+
+
 
 ## Process flow diagram (Top level)
 <img src="https://user-images.githubusercontent.com/84401192/170506552-dab7cab9-f826-4fd5-8313-89105d85df3e.png" width=60% height=60%>
@@ -38,13 +48,13 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 <center><img src="https://user-images.githubusercontent.com/84401192/170514081-77e681a7-aff3-4b67-a110-59740475e20a.png" width=80% height=80%>
 <br>
 <img src="https://user-images.githubusercontent.com/84401192/170854337-6771692a-48fb-4f7f-b27d-25ec6c0381bd.png" width=60% height=60% align="center"></center>
-Note: The demography table isn't entirely optimized in the current form. Ideally it should be split into several smaller tables. For the prototype, we've prioritized simplicity to reduce the administrative overheads.
+Note: The demography table isn't entirely optimized in the current form. Ideally it should be split into several smaller tables. For the prototype, I've prioritized simplicity over optimization to reduce the administrative overheads.
 
 ## Challenges
 1. <b>Industry knowledge</b> - The complexity was not just on the technical side but also had the challenge of learning about a completely new field - automobile industry.
-2. <b>Creating realistic datasets</b> - The biggest challenge for me was to first create the realistic datasets for this application to work well, without falling in the garbage-in-garbage-out trap.
-3. <b>Time management</b> - Also out of the 3.5 weeks we had this program for, I had my final exams for 2.5 weeks of this time.
-4. <b>Code reusability</b> - My original application on the local server was optimized for code reusability. However due to problems encountered after hosting it online (possibly due to cross-platform compatibility issues), I had to drop the guard a little (and allow a little code duplication) so I could build a single codebase that works locally as well as online.
+2. <b>Creating realistic datasets</b> - Even before starting on the application design, the bigger challenge for me was to first create the realistic datasets for this application to work well, without falling in the garbage-in-garbage-out trap.
+3. <b>Code reusability</b> - My original application on the local server was optimized for code reusability. However due to problems encountered after hosting it online (possibly due to cross-platform compatibility issues), I had to drop the guard a little (and allow a little code duplication) so I could build a single codebase that works locally as well as online.
+4. <b>Time management</b> - Out of the 3.5 weeks we had for this program, my final exams took up 2.5 weeks, splitting the focus, effort and time for 2 high priority tasks.
 
 ## Future Scope
 1. Provide a separate detailed popup page for each car specifications along with individual car images
@@ -55,7 +65,7 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
 6. Include a predictive analysis feature that allows industry experts to understand future market trends
 7. Provide analysis results to users in textual format (conversational)
 8. Have transactional level data to help provide better and diverse analysis results to users
-9. Allow uploading of csv file for adding data through admin screens of the database will save data entry effort for bigger datasets
+9. Allow uploading of csv file for adding data through admin screens of the database to save data entry effort for bigger datasets
 
 
 ## Tech Stack
@@ -71,8 +81,8 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
   <li>
   <h4>Software</h4>
     <ul>
-       <li>Xampp version 3.3.0 or higher</li>
-       <li>Php version 7.4.22 or higher</li>
+       <li>XAMPP version 3.3.0 or higher</li>
+       <li>PHP version 7.4.22 or higher</li>
        <li>MySQL version 10.4.19 or higher</li>
       </ul>
   </li>
@@ -98,7 +108,7 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <th>Solution</th>
   </tr>
   <tr>
-    <td>The URL in point 4 above is not working</td> 
+    <td>The website is not loading i.e. URL in point 4 above is not working</td> 
     <td>
       <ul>
         <li>Ensure all the files have been copied, without errors, to replicate the github structure</li>
@@ -109,7 +119,12 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
   </tr>
   <tr>
     <td>The website is loading but the tables and graphs are missing</td> 
-    <td>Use phpMyAdmin or MySQL Workbench to check whether the database and tables have been created and populated with the appropriate data</td>
+    <td>
+      <ul>
+        <li>Use phpMyAdmin or MySQL Workbench to check whether the database and tables have been created</li> 
+        <li>Also ensure that the data insertion scripts have been executed successfully</li>
+      </ul>
+      </td>
   </tr>
 </table>
 
@@ -237,6 +252,9 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
 <td><img src = "https://user-images.githubusercontent.com/84401192/170779000-acf900db-2059-48a9-98e1-311daff38c94.png"></td>
   </tr>
 </table>
+
+## Special acknowledgement
+Shoutout to my mentor Parvinder Kaur ma'am for providing invaluable feedback and suggestions.
 
 ## Need Help?
 Feel free to reach out to me via <a href="https://www.linkedin.com/in/alishakamat/">LinkedIn</a>
