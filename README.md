@@ -145,7 +145,7 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td><b> HomePage </b></td>
   </tr>
   <tr>
-     <td><img src = "https://user-images.githubusercontent.com/84401192/170784994-3b8ce12f-41d9-4eaa-ae04-9130428b65b8.png" width = 500></td>
+     <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/homepage.png" width = 500></td>
   </tr>
  </table>
  
@@ -157,8 +157,8 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
      <td>Car Research</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/84401192/170781200-dc6aa3c1-8675-4dff-ab8a-621c36ae03d1.png"></td>
-    <td><img src="https://user-images.githubusercontent.com/84401192/170781973-1f4e4715-5bba-4a99-a0de-189b564d14f9.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/overview.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/car_research.png"></td>
   </tr>
   </table>
   
@@ -172,8 +172,8 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
      <td>Login</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/84401192/170780134-77e491e0-1cf0-4a74-8938-97f3210f8381.png">
-    <td><img src="https://user-images.githubusercontent.com/84401192/170780077-11c163d3-1ca0-425c-99d6-b0576dcb6e64.png">
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/registration.png">
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/login.png">
   </tr>
   </table>
   
@@ -182,15 +182,23 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td>Dashboard</td>
     <td>Region</td>
     <td>Age</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/dashboard.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/region.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/age.png"></td>
+  </tr>
+</table>
+<table>
+  <tr>
     <td>Gender</td>
     <td>Colour</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/84401192/170783142-ee7f2ed4-f7d7-46b6-9dbf-404c5e6f5423.png"></td>
-    <td><img src="https://user-images.githubusercontent.com/84401192/170784489-5e9bcea5-e0d6-49d9-8982-886faf190547.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/dashboard.png"></td>
+    <td><img src="https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/dashboard.png"></td>
   </tr>
-  </table>
-
+</table>
 
 
 ## Admin Screens
@@ -200,8 +208,8 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td>Admin Dashboard</td>
   </tr>
   <tr>
-    <td><img src = "https://user-images.githubusercontent.com/84401192/170776795-70ac6914-f5f7-4dc4-9c28-0227f8c7eb7a.png"></td>
-    <td><img src = "https://user-images.githubusercontent.com/84401192/170772982-900f2cb7-b264-4769-9902-f659e133d7ef.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/admin_login.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/admin_dashboard.png"></td>
   </tr>
  </table>
  <table>
@@ -211,9 +219,9 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td>Add Specs record</td>
   </tr>
   <tr>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170774038-b66656ed-f7a5-48cd-8d7c-691c8eb4b2db.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170774350-6af027c0-6702-4fa4-8bd7-0a5a569be413.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170774871-2bb45341-ae72-4fed-b426-0d1e82ae9bbc.png"></td>
+<td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/view_specs_records.png"></td>
+<td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/edit_specs_data.png"></td>
+<td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/add_specs_record.png"></td>
  </tr>
 </table>
  <table>
@@ -223,10 +231,10 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td>Add Sales record</td>
   </tr>
   <tr>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170775150-d28469e3-5bb6-4618-a661-81b626407414.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170775373-9682e9dd-cdd4-42d0-bd8f-085cc1234fa4.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170775610-b34231f9-4fe0-46f3-8a71-5be930baf1a1.png"></td>
-    </tr>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/view_sales_record.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/edit_sales_data.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/add_sales_record.png"></td>
+  </tr>
   </table>
  <table>
   <tr>
@@ -235,9 +243,9 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td>Add Demography record</td>
   </tr>
   <tr>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170775833-5fd6b110-0aaf-4a26-bb83-1dd966c750ba.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170776084-c77ea89e-4af4-4c55-bf09-601c3e716403.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170776239-dfe8f796-0bb6-4e09-a035-4313edb0107f.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/view_demography_record.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/edit_demography_data.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/add_demography_record.png"></td>
   </tr>
 </table>
  <table>
@@ -247,9 +255,9 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
     <td>Add Users record</td>
   </tr>
   <tr>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170786836-fa3beb77-f574-44d8-acb9-62483f0912e5.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170779130-31480a8c-2ac9-42d2-a4fe-8879dca3ebea.png"></td>
-<td><img src = "https://user-images.githubusercontent.com/84401192/170779000-acf900db-2059-48a9-98e1-311daff38c94.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/add_users_data.png"></td>
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/edit_users_data.png"></td>    
+    <td><img src = "https://github.com/alisha-kamat/Microsoft-Engage-2022/blob/23ae0cbed9814328bb3ba286c4671915a9d02949/images/add_user_record.png"></td>    
   </tr>
 </table>
 
