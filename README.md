@@ -37,9 +37,13 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 ## Database schema
 <center><img src="https://user-images.githubusercontent.com/84401192/170514081-77e681a7-aff3-4b67-a110-59740475e20a.png" width=80% height=80%>
 <br>
-<img src="https://user-images.githubusercontent.com/84401192/170580680-c772a3f0-b832-4ce5-82a6-fa5eea2802cf.png" width=60% height=60% align="center"></center>
+<img src="https://user-images.githubusercontent.com/84401192/170854337-6771692a-48fb-4f7f-b27d-25ec6c0381bd.png" width=60% height=60% align="center"></center>
+Note: The demography table isn't entirely optimized in the current form. Ideally it should be split into several smaller tables. For the prototype, we've prioritized simplicity to reduce the administrative overheads.
 
-
+## Challenges
+1. The complexity was not just on the technical side but also had the challenge of learning about a completely new field - automobile industry.
+2. The biggest challenge for me was to first create the realistic datasets for this application to work well, without falling in the garbage-in-garbage-out trap.
+3. Also out of the 3.5 weeks we had this program for, I had my final exams for 2.5 weeks of this time.
 
 ## Future Scope
 1. Provide a separate detailed popup page for each car specifications along with individual car images
