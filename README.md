@@ -4,7 +4,7 @@
   Microsoft Engage 2022 Mentee | GSoC 2022 Contributor<br><br>
 </h4>
 <div align="center">
-  The application provides quantitative insights into the automobile industry<br><br>
+  The application is based on the 2nd project (data analytics for the automotive sector) and provides quantitative insights into the car industry<br><br>
   
 </div>
 
@@ -41,9 +41,10 @@ The application adopts a clean, minimalistic, responsive and intuitive UI design
 Note: The demography table isn't entirely optimized in the current form. Ideally it should be split into several smaller tables. For the prototype, we've prioritized simplicity to reduce the administrative overheads.
 
 ## Challenges
-1. The complexity was not just on the technical side but also had the challenge of learning about a completely new field - automobile industry.
-2. The biggest challenge for me was to first create the realistic datasets for this application to work well, without falling in the garbage-in-garbage-out trap.
-3. Also out of the 3.5 weeks we had this program for, I had my final exams for 2.5 weeks of this time.
+1. <b>Industry knowledge</b> - The complexity was not just on the technical side but also had the challenge of learning about a completely new field - automobile industry.
+2. <b>Creating realistic datasets</b> - The biggest challenge for me was to first create the realistic datasets for this application to work well, without falling in the garbage-in-garbage-out trap.
+3. <b>Time management</b> - Also out of the 3.5 weeks we had this program for, I had my final exams for 2.5 weeks of this time.
+4. <b>Code reusability</b> - My original application on the local server was optimized for code reusability. However due to problems encountered after hosting it online (possibly due to cross-platform compatibility issues), I had to drop the guard a little (and allow a little code duplication) so I could build a single codebase that works locally as well as online.
 
 ## Future Scope
 1. Provide a separate detailed popup page for each car specifications along with individual car images
