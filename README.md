@@ -100,6 +100,11 @@ Note: The demography table isn't entirely optimized in the current form. Ideally
 2. Move the ``` Microsoft-Engage-2022 ``` folder to ```C:\xampp\htdocs  ```
 3. Run the ``` C:\xampp\htdocs\Microsoft-Engage-2022\admin\setup-db.php ``` file to setup the database on your local machine
 4. The website is now running on http://localhost/Microsoft-Engage-2022/homepage
+5. For accessing the admin pages:<br>
+   <ul> 
+    <li>Username: <i>cdbadmin</i></li>
+    <li>Password: <i>cdbpw</i></li>
+  </ul>
 
 ## Troubleshooting tips
 <table> 
