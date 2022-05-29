@@ -1,11 +1,11 @@
 <?php 
-require('./admin/auth.php'); 
+require('auth.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+ 
 
   <title>Demography - Gender</title>
   <meta content="" name="description">
@@ -34,7 +34,7 @@ require('header2.php');
     </div><!-- End Page Title -->
 
 <!---cdb code begin-->
-<h1 align="center">Gender-wise Sales</h1>
+<h1 align="center"><i class="bi bi-gender-trans"></i> Gender-wise Sales</h1>
     <p align=center>Fine-tune your search using one or more filters</p>
 
 <div>
@@ -79,6 +79,7 @@ $sel_query = "Select * from demography";
 $query = "Select Specs.Fuel_Type, sum(Gender_Male), sum(Gender_Female), sum(Gender_Other), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
 //echo $query;
 
+$analysis = "";
 $where = "";
 $andwhere = "";
 $flag = 0;
@@ -96,7 +97,20 @@ if(isset($_POST['make']))
    $sel_query .= " and Make = '".$_POST['make']."'";
    }
    $query .= " and Demography.Make = '".$_POST['make']."'";
+   $analysis = "<center><h4>Analytics for ";
+   $analysis .= $_POST['make']." for ";
+   $where = " where Make = '".$_POST['make']."'";
+   $andwhere .= " and Specs.Make = '".$_POST['make']."'";
    }
+   else
+   {
+   $analysis = "<center><h4>Analytics for all Makes for ";
+   }
+}
+else
+{
+$analysis = "<center><h4>Analytics for all Makes across all years</h4></center>";
+echo $analysis;
 }
 if(isset($_POST['year'])) 
 {
@@ -112,9 +126,18 @@ if(isset($_POST['year']))
    $sel_query .= " and Year = '".$_POST['year']."'";
    }
    $query .= " and Demography.Year = '".$_POST['year']."'";
+   if(strlen($where)>0)
+   $where .= " and Year = '".$_POST['year']."'";
+   else
    $where = " where Year = '".$_POST['year']."'";
    $andwhere = " and Year = '".$_POST['year']."'";
+   $analysis .= $_POST['year']."</h4></center>";
    }
+   else
+   {
+   $analysis .= "all Years</h4></center>";
+   }
+   echo $analysis;
 
 }
 /*else if(isset($_POST['from_year'])) 
@@ -208,7 +231,7 @@ $tbl_count=0;
                     type: 'line',
                     data: {
                       <?php 
-                      $line_query = "Select Sum(Gender_Male), Sum(Gender_Female), Sum(Gender_Other) from demography".$where." group by Year;";
+                      $line_query = "Select Year, Sum(Gender_Male), Sum(Gender_Female), Sum(Gender_Other) from demography".$where." group by Year;";
                       $line_result = mysqli_query($con,$line_query);
                       $year = "";
                       $male = "";
@@ -369,7 +392,7 @@ var stackedbarchart = new Chart(stackedchart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -559,7 +582,7 @@ var stackedbarchart = new Chart(bodychart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -620,7 +643,7 @@ var stackedbarchart = new Chart(transmissionChart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -1010,9 +1033,6 @@ while($row = mysqli_fetch_assoc($result)) { ?>
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by BootstrapMade
     </div>
   </footer><!-- End Footer -->
 

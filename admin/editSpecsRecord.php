@@ -7,7 +7,7 @@
 
   // Get Id of record to be updated
   $id=$_REQUEST['id'];
-  $query = "SELECT * from sgdb_users where ID='".$id."'"; 
+  $query = "SELECT * from Specs where ID='".$id."'"; 
   $result = mysqli_query($con, $query);
   $row = mysqli_fetch_assoc($result);
 ?>
@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Update Users Record</title>
+<title>Update Specs Record</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <!-- Favicons -->
@@ -29,9 +29,6 @@
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <!--link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet"-->
   <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
   
   <!-- Chart JS Files -->
@@ -40,7 +37,7 @@
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
-   <!-- Header -->
+   <!-- Header  -->
    <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -50,7 +47,7 @@
     </a>
   </div><!-- End Logo -->
 <span class="d-none d-lg-block"><p> <p><a href="adminHome">Admin Dashboard</a> 
-| <a href="addUsersRecord">Add User</a> 
+| <a href="addSpecsRecord">Add User</a> 
 | <a href="adminLogout">Logout</a></p></span>
 
 <nav class="header-nav ms-auto">
@@ -120,24 +117,33 @@
 <div class="form">
 <br><br><br>
 <center>
-<h1>Update Users Record</h1>
+<h1>Update Specs Record</h1>
 <br>
 <?php
   $status = "";
   if(isset($_POST['new']) && $_POST['new']==1)
   {
     $id=$_REQUEST['id'];
-    //$trn_date = date("Y-m-d H:i:s");
-    $username =$_REQUEST['username'];
-    $email =$_REQUEST['email'];
-    $password =$_REQUEST['password'];
-    $trn_date = date("Y-m-d H:i:s");
-    $update="update sgdb_users set 
-    username='".$username."', email='".$email."', password='".md5($password)."', trn_date='".$trn_date."' where ID='".$id."'";
+    $Ex_showroom_price=$_REQUEST['Ex_showroom_price'];
+    $Cylinders =$_REQUEST['Cylinders'];
+    $Drivetrain =$_REQUEST['Drivetrain'];
+    $Engine_location=$_REQUEST['Engine_location'];
+    $Fuel_tank_capacity =$_REQUEST['Fuel_tank_capacity'];
+    $Fuel_type =$_REQUEST['Fuel_type'];
+    $Body_type=$_REQUEST['Body_type'];
+    $City_mileage =$_REQUEST['City_mileage'];
+    $Power =$_REQUEST['Power'];
+    $Gears =$_REQUEST['Gears'];
+    $Torque =$_REQUEST['Torque'];
+    $Seating_capacity=$_REQUEST['Seating_capacity'];
+    $Boot_space =$_REQUEST['Boot_space'];
+    $Transmission =$_REQUEST['Transmission'];
+    $update="update Specs set 
+    Ex_showroom_price='".$Ex_showroom_price."', Cylinders='".$Cylinders."', Drivetrain='".$Drivetrain."', Engine_location='".$Engine_location."', Fuel_tank_capacity='".$Fuel_tank_capacity."', Fuel_type='".$Fuel_type."', Body_type='".$Body_type."', City_mileage='".$City_mileage."', Gears='".$Gears."', Power='".$Power."', Torque='".$Torque."', Seating_capacity='".$Seating_capacity."', Transmission='".$Transmission."', Boot_space='".$Boot_space."' where ID='".$id."'";
     //echo $update;
     mysqli_query($con, $update);
     $status = "Record Updated Successfully. </br></br>
-    <a href='usersView'>View Updated Record</a>";
+    <a href='specsView'>View Updated Record</a>";
     echo '<p style="color:#FF0000;">'.$status.'</p>';
   }
   else {
@@ -146,20 +152,64 @@
 <form name="form" method="post" action=""> 
 <input type="hidden" name="new" value="1" />
 <input name="id" type="hidden" value="<?php echo $row['ID'];?>" />
-  <table>
-    <tr>
-      <td><p>Username: </td><td><input type="text" name="username" placeholder="Enter Username" 
-      required value="<?php echo $row['username'];?>" /></p></td>
-    </tr>
-    <tr>
-      <td><p>Email: </td><td><input type="text" name="email" placeholder="Enter Email" 
-      required value="<?php echo $row['email'];?>" /></p></td>
-    </tr>
-    <tr>
-      <td><p>Password: </td><td><input type="text" name="password" placeholder="Enter Password" 
-      required value="<?php echo $row['password'];?>" /></p></td>
-    </tr>
-  </table>
+<table>
+  <tr>
+    <td><p>Ex Showroom Price: </td><td><input type="text" name="Ex_showroom_price" placeholder="Enter showroom price" 
+    required value="<?php echo $row['Ex_showroom_price'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Cylinders: </td><td><input type="text" name="Cylinders" placeholder="Enter Cylinders" 
+    required value="<?php echo $row['Cylinders'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Drivetrain: </td><td><input type="text" name="Drivetrain" placeholder="Enter Drivetrain" 
+    required value="<?php echo $row['Drivetrain'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Engine Location: </td><td><input type="text" name="Engine_location" placeholder="Enter engine location" 
+    required value="<?php echo $row['Engine_location'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Fuel Tank Capacity: </td><td><input type="text" name="Fuel_tank_capacity" placeholder="Enter fuel tank capacity" 
+    required value="<?php echo $row['Fuel_tank_capacity'];?>" /></p></td>
+  </tr>
+  <tr>
+   <td><p>Fuel Type: </td><td><input type="text" name="Fuel_type" placeholder="Enter fuel type" 
+   required value="<?php echo $row['Drivetrain'];?>" /></p></td>
+  </tr>
+  <tr>
+   <td><p>Body Type: </td><td><input type="text" name="Body_type" placeholder="Enter body type" 
+    required value="<?php echo $row['Body_type'];?>" /></p></td>
+  </tr>
+  <tr>
+   <td><p>City Mileage: </td><td><input type="text" name="City_mileage" placeholder="Enter city mileage" 
+    required value="<?php echo $row['City_mileage'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Gears: </td><td><input type="text" name="Gears" placeholder="Enter Gears" 
+    required value="<?php echo $row['Gears'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Power: </td><td><input type="text" name="Power" placeholder="Enter Power" 
+    required value="<?php echo $row['Power'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Torque: </td><td><input type="text" name="Torque" placeholder="Enter Torque" 
+    required value="<?php echo $row['Torque'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Seating Capacity: </td><td><input type="text" name="Seating_capacity" placeholder="Enter seating capacity" 
+    required value="<?php echo $row['Seating_capacity'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Transmission: </td><td><input type="text" name="Transmission" placeholder="Enter Transmission" 
+    required value="<?php echo $row['Transmission'];?>" /></p></td>
+  </tr>
+  <tr>
+    <td><p>Boot Space: </td><td><input type="text" name="Boot_space" placeholder="Enter boot space" 
+    required value="<?php echo $row['Boot_space'];?>" /></p></td>
+  </tr>
+</table>
 
 <p><input name="submit" type="submit" value="Update" /></p>
 </form>

@@ -1,5 +1,5 @@
 <?php 
-require('./admin/auth.php'); 
+  require('auth.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,8 +12,8 @@ require('./admin/auth.php');
   <meta content="" name="keywords">
 
 <?php 
-require('./admin/db.php'); 
-require('header2.php'); 
+  require('./admin/db.php'); 
+  require('header2.php'); 
 ?>
 
 <body>
@@ -34,161 +34,119 @@ require('header2.php');
     </div><!-- End Page Title -->
 
 <!---cdb code begin-->
-<h1 align="center">Region-wise Sales</h1>
+<h1 align="center"><i class="bi bi-geo-alt-fill"></i> Region-wise Sales</h1>
     <p align=center>Fine-tune your search using one or more filters</p>
 
 <div>
     <center>
     <form action="#" method="post">
        <table cellpadding="5px" align="center">
+        <tr>
+          <th>Make</th>
+          <th>Year</th>
+        </tr>
        <tr>
-       <th>Make</th>
-       <th>Year</th>
-       </tr>
-       <tr>
-       <td>
-        <select name="make" id="make">
-	  <option value="">All</option>
-          <?php
-          $sel_query="Select DISTINCT(Make) from Demography;";
-  	  $result = mysqli_query($con,$sel_query);
-	  while($row = mysqli_fetch_assoc($result)) { ?>
-          <option value="<?php echo $row["Make"]; ?>"><?php echo $row["Make"]; ?></option><?php } ?>
-       </select>
-       </td>
+        <td>
+          <select name="make" id="make">
+          <option value="">All</option>
+                <?php
+                  $sel_query="Select DISTINCT(Make) from Demography;";
+                  $result = mysqli_query($con,$sel_query);
+                  while($row = mysqli_fetch_assoc($result)) { ?>
+            <option value="<?php echo $row["Make"]; ?>"><?php echo $row["Make"]; ?></option><?php } ?>
+        </select>
+        </td>
        <td>
        <select name="year" id="year">
-	  <option value="">All</option>
+	      <option value="">All</option>
           <?php
-          $sel_query="Select DISTINCT(Year) from Demography;";
-  	  $result = mysqli_query($con,$sel_query);
-	  while($row = mysqli_fetch_assoc($result)) { ?>
+            $sel_query="Select DISTINCT(Year) from Demography;";
+  	        $result = mysqli_query($con,$sel_query);
+	          while($row = mysqli_fetch_assoc($result)) { ?>
           <option value="<?php echo $row["Year"]; ?>"><?php echo $row["Year"]; ?></option><?php } ?>
        </select>
        </td>
-    </tr>
+      </tr>
     </table>
-        <br><input type="submit" value="Search">
+      <br><input type="submit" value="Search">
     </form>
     </center>
-    </div><br>
+    </div>
+    <br>
     <?php
-$count=1;
-$sel_query = "Select * from demography";
-$query = "Select Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
-//echo $query;
+      $count=1;
+      $sel_query = "Select * from demography";
+      $query = "Select Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
 
-$where = "";
-$andwhere = "";
-$flag = 0;
-if(isset($_POST['make'])) 
-{
-   if(strlen($_POST['make'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Make = '".$_POST['make']."'";
-   }
-   else
-   {
-   $sel_query .= " and Make = '".$_POST['make']."'";
-   }
-   $query .= " and Demography.Make = '".$_POST['make']."'";
-   }
-}
-if(isset($_POST['year'])) 
-{
-   if(strlen($_POST['year'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year = '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year = '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = '".$_POST['year']."'";
-   $where = " where Year = '".$_POST['year']."'";
-   $andwhere = " and Year = '".$_POST['year']."'";
-   }
-}
-/*else if(isset($_POST['from_year'])) 
-{
-   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year >= '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year >= '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}
-else if(isset($_POST['from_year'])) 
-{
-   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year <= '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year <= '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}*/
-/*else if(isset($_POST['from_year'])) 
-{
-   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])<=0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year = '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year = '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}
-else
-{
-   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
-   {
+      $analysis = "";
+      $where = "";
+      $andwhere = "";
+      $flag = 0;
+      if(isset($_POST['make'])) 
+      {
+        if(strlen($_POST['make'])>0)
+        {
+          if($flag == 0)
+          {
+            $flag = 1;
+            $sel_query .= " where Make = '".$_POST['make']."'";
+          }
+          else
+          {
+            $sel_query .= " and Make = '".$_POST['make']."'";
+          }
+            $query .= " and Demography.Make = '".$_POST['make']."'";
+            $analysis = "<center><h4>Analytics for ";
+            $analysis .= $_POST['make']." for ";
+            $where = " where Make = '".$_POST['make']."'";
+            $andwhere .= " and Specs.Make = '".$_POST['make']."'";
+          }
+        else
+        {
+          $analysis = "<center><h4>Analytics for all Makes for ";
+        }
+        //$analysis .= "</h3>";
+        //echo $analysis;
+      }
+      else
+      {
+        $analysis = "<center><h4>Analytics for all Makes across all years</h4></center>";
+        echo $analysis;
+      }
+      if(isset($_POST['year'])) 
+      {
+        if(strlen($_POST['year'])>0)
+        {
+          if($flag == 0)
+          {
+            $flag = 1;
+            $sel_query .= " where Year = '".$_POST['year']."'";
+          }
+          else
+          {
+            $sel_query .= " and Year = '".$_POST['year']."'";
+          }
+          $query .= " and Demography.Year = '".$_POST['year']."'";
+          if(strlen($where)>0)
+          $where .= " and Year = '".$_POST['year']."'";
+          else
+            $where = " where Year = '".$_POST['year']."'";
+          $andwhere .= " and Year = '".$_POST['year']."'";
+          $analysis .= $_POST['year']."</h4></center>";
+        }
+        else
+        {
+          $analysis .= "all Years</h4></center>";
+        }
+          echo $analysis;
+      }
 
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year = '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year = '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}*/
 
-$sel_query .= ";";
-$query .=  " group by Specs.Fuel_type;";
-//echo $sel_query;
-//echo $query; 
-$tbl_count=0;
-?>
+      $sel_query .= ";";
+      $query .=  " group by Specs.Fuel_type;";
+      $tbl_count=0;
+    ?>
 <!---cdb code end-->
-
     <section class="section">
     <div class="row">
 
@@ -205,35 +163,35 @@ $tbl_count=0;
                     type: 'line',
                     data: {
                       <?php 
-                      $line_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography".$where." group by Year;";
-                      $line_result = mysqli_query($con,$line_query);
-                      $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];
-                      $year = "";
-                      $east = "";
-                      $west = "";
-                      $north = "";
-                      $south = "";
-                      $count = 0;
-                      while($row = mysqli_fetch_assoc($line_result)) 
-                      {
-                        if($count>0)
+                        $line_query = "Select Year, Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography".$where." group by Year;";
+                        $line_result = mysqli_query($con,$line_query);
+                        $colors = ['#5470C6','#FAC858','#EE6666','#91CC75'];
+                        $year = "";
+                        $east = "";
+                        $west = "";
+                        $north = "";
+                        $south = "";
+                        $count = 0;
+                        while($row = mysqli_fetch_assoc($line_result)) 
                         {
-                          $year .= ", '".$row['Year']."'";
-                          $east .= ", '".$row['Sum(Region_East)']."'";
-                          $west .= ", '".$row['Sum(Region_West)']."'";
-                          $north .= ", '".$row['Sum(Region_North)']."'";
-                          $south .= ", '".$row['Sum(Region_South)']."'";
+                          if($count>0)
+                          {
+                            $year .= ", '".$row['Year']."'";
+                            $east .= ", '".$row['Sum(Region_East)']."'";
+                            $west .= ", '".$row['Sum(Region_West)']."'";
+                            $north .= ", '".$row['Sum(Region_North)']."'";
+                            $south .= ", '".$row['Sum(Region_South)']."'";
+                          }
+                          else
+                          {
+                            $year .= "'".$row['Year']."'";
+                            $east .= "'".$row['Sum(Region_East)']."'";
+                            $west .= "'".$row['Sum(Region_West)']."'";
+                            $north .= "'".$row['Sum(Region_North)']."'";
+                            $south .= "'".$row['Sum(Region_South)']."'";
+                          }
+                          $count++;
                         }
-                        else
-                        {
-                          $year .= "'".$row['Year']."'";
-                          $east .= "'".$row['Sum(Region_East)']."'";
-                          $west .= "'".$row['Sum(Region_West)']."'";
-                          $north .= "'".$row['Sum(Region_North)']."'";
-                          $south .= "'".$row['Sum(Region_South)']."'";
-                        }
-                        $count++;
-                      }
                       ?>
                       labels: [<?php echo $year; ?>],
                       datasets: [{
@@ -273,7 +231,7 @@ $tbl_count=0;
                 });
               </script>
               <!-- End Line CHart -->
-		</div>
+		        </div>
             </div>
           </div>
           <!-- Car Body Type - Pie Chart -->
@@ -319,25 +277,25 @@ $tbl_count=0;
                         $breakup_query = "Select Sum(Region_East), Sum(Region_West), Sum(Region_North), Sum(Region_South) from demography".$where.";";
 
                         $breakup_result = mysqli_query($con,$breakup_query);
-			$row = mysqli_fetch_assoc($breakup_result);
+		                  	$row = mysqli_fetch_assoc($breakup_result);
                         $data = "";
                         ?>                        
                         {
                           value: <?php echo $row['Sum(Region_East)']; ?>,
                           name: 'East'
                         },
-			{
-			  value: <?php echo $row['Sum(Region_West)']; ?>,
-                          name: 'West'
-			},
-			{
+                        {
+                          value: <?php echo $row['Sum(Region_West)']; ?>,
+                                            name: 'West'
+                        },
+                        {
                           value: <?php echo $row['Sum(Region_North)']; ?>,
                           name: 'North'
                         },
-			{
-			  value: <?php echo $row['Sum(Region_South)']; ?>,
-                          name: 'South'
-			}
+                        {
+                          value: <?php echo $row['Sum(Region_South)']; ?>,
+                                            name: 'South'
+                        }
                       ]
                     }]
                   });
@@ -361,9 +319,6 @@ var stackedbarchart = new Chart(stackedchart, {
    type: 'bar',
    data: {
       labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
-      // create 12 datasets, since we have 12 items
-      // data[0] = labels[0] (data for first bar - 'Standing costs') 
-      // put 0, if there is no data for the particular bar
       datasets: [           
         <?php 
           $tbl_count = 0;
@@ -402,7 +357,7 @@ var stackedbarchart = new Chart(stackedchart, {
    }
 });
 
-</script>
+      </script>
 
       <!-- End Stacked Bar Chart -->
     </div>
@@ -444,25 +399,25 @@ var stackedbarchart = new Chart(stackedchart, {
                         }
                       ]
                     },
-		    tooltip: {},
+		                 tooltip: {},
                     series: [{
                       name: 'Budget vs spending',
                       type: 'radar',
                       data: [
-			<?php 
-			$count = 0;
-			$sum = 0;
-			$result = mysqli_query($con,$query);
-			while($row = mysqli_fetch_assoc($result))
-			{
-			    $sum = $row['sum(Region_East)'] + $row['sum(Region_West)'] + $row['sum(Region_North)'] + $row['sum(Region_South)'];
-			    $north = round($row['sum(Region_East)']*100/$sum);
-			    $south = round($row['sum(Region_West)']*100/$sum);
-			    $east = round($row['sum(Region_North)']*100/$sum);
-			    $west = 100-($north+$south+$east);
-			    if($count>0) echo ", ";
-			?>
-			{
+                      <?php 
+                        $count = 0;
+                        $sum = 0;
+                        $result = mysqli_query($con,$query);
+                        while($row = mysqli_fetch_assoc($result))
+                        {
+                            $sum = $row['sum(Region_East)'] + $row['sum(Region_West)'] + $row['sum(Region_North)'] + $row['sum(Region_South)'];
+                            $north = round($row['sum(Region_East)']*100/$sum);
+                            $south = round($row['sum(Region_West)']*100/$sum);
+                            $east = round($row['sum(Region_North)']*100/$sum);
+                            $west = 100-($north+$south+$east);
+                            if($count>0) echo ", ";
+                      ?>
+                      {
                           value: [<?php echo $east.", ".$west.", ".$north.", ".$south; ?>],
                           name: '<?php echo $row['Fuel_type']; ?>'
                         }<?php $count++;} ?>
@@ -472,75 +427,11 @@ var stackedbarchart = new Chart(stackedchart, {
                 });
               </script>
 
-            </div></div>
-          </div><!-- End Market Share by Fuel Type --> 
+            </div>
+          </div>
+        </div><!-- End Market Share by Fuel Type --> 
 
 
-          <!-- Market Share by Body Type -->
-<!--div class="col-lg-6">
-          <div class="card">
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Market Share of Body Type <span>| Percentage</span></h5>
-
-              <div id="bodyTypeChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  var budgetChart = echarts.init(document.querySelector("#bodyTypeChart")).setOption({
-                    legend: {
-                      data: ['Hatchback', 'MUV', 'Sedan', 'SUV']
-                    },
-                    radar: {
-                       shape: 'circle',
-                      indicator: [{
-                          name: 'East',
-                          max: 50
-                        },
-                        {
-                          name: 'West',
-                          max: 50
-                        },
-                        {
-                          name: 'North',
-                          max: 50
-                        },
-                        {
-                          name: 'South',
-                          max: 50
-                        }
-                      ]
-                    },
-		    tooltip: {},
-                    series: [{
-                      name: 'Budget vs spending',
-                      type: 'radar',
-                      data: [<?php 
-			/*$count = 0;
-			$sum = 0;
-          		$query = "Select distinct(Demography.Year), Specs.Body_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Body_Type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;"; 
-			$result = mysqli_query($con,$query);
-			while($row = mysqli_fetch_assoc($result))
-			{
-			    $sum = $row['sum(Region_East)'] + $row['sum(Region_West)'] + $row['sum(Region_North)'] + $row['sum(Region_South)'];
-			    $north = round($row['sum(Region_East)']*100/$sum);
-			    $south = round($row['sum(Region_West)']*100/$sum);
-			    $east = round($row['sum(Region_North)']*100/$sum);
-			    $west = 100-($north+$south+$east);
-			    if($count>0) echo ", ";*/
-			?>
-			{
-                          value: [<?php //echo $east.", ".$west.", ".$north.", ".$south; ?>],
-                          name: '<?php //echo $row['Body_Type']; ?>'
-                        }<?php //$count++;} ?>
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div></div>
-          </div--><!-- End Market Share by Body Type --> 
 <div class="row">
 <div class="col-lg-6">
   <div class="card">
@@ -554,9 +445,7 @@ var stackedbarchart = new Chart(bodychart, {
    type: 'bar',
    data: {
       labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
-      // create 12 datasets, since we have 12 items
-      // data[0] = labels[0] (data for first bar - 'Standing costs') 
-      // put 0, if there is no data for the particular bar
+      
       datasets: [           
         <?php 
           $tbl_count = 0;
@@ -582,7 +471,7 @@ var stackedbarchart = new Chart(bodychart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -613,9 +502,7 @@ var stackedbarchart = new Chart(stackchart, {
    type: 'bar',
    data: {
       labels: ['East', 'West', 'North', 'South'], // responsible for how many bars are gonna show on the chart
-      // create 12 datasets, since we have 12 items
-      // data[0] = labels[0] (data for first bar - 'Standing costs') 
-      // put 0, if there is no data for the particular bar
+      
       datasets: [           
         <?php 
           $tbl_count = 0;
@@ -641,7 +528,7 @@ var stackedbarchart = new Chart(stackchart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -659,73 +546,7 @@ var stackedbarchart = new Chart(stackchart, {
     </div>
   </div>
 </div>        
-          <!-- Market Share by Transmission Type -->
-<!--div class="col-lg-6">
-          <div class="card">
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Market Share of Transmission Type<span>| Percentage</span></h5>
-
-              <div id="transmissionTypeChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  var budgetChart = echarts.init(document.querySelector("#transmissionTypeChart")).setOption({
-                    legend: {
-                      data: ['Automatic', 'DCT', 'Manual']
-                    },
-                    radar: {
-                       shape: 'circle',
-                      indicator: [{
-                          name: 'East',
-                          max: 50
-                        },
-                        {
-                          name: 'West',
-                          max: 50
-                        },
-                        {
-                          name: 'North',
-                          max: 50
-                        },
-                        {
-                          name: 'South',
-                          max: 50
-                        }
-                      ]
-                    },
-		    tooltip: {},
-                    series: [{
-                      name: 'Budget vs spending',
-                      type: 'radar',
-                      data: [<?php 
-			/*$count = 0;
-			$sum = 0;
-          		$query = "Select distinct(Demography.Year), Specs.Transmission, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Transmission from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;"; 
-			$result = mysqli_query($con,$query);
-			while($row = mysqli_fetch_assoc($result))
-			{
-			    $sum = $row['sum(Region_East)'] + $row['sum(Region_West)'] + $row['sum(Region_North)'] + $row['sum(Region_South)'];
-			    $north = round($row['sum(Region_East)']*100/$sum);
-			    $south = round($row['sum(Region_West)']*100/$sum);
-			    $east = round($row['sum(Region_North)']*100/$sum);
-			    $west = 100-($north+$south+$east);
-			    if($count>0) echo ", ";*/
-			?>
-			{
-                          value: [<?php //echo $east.", ".$west.", ".$north.", ".$south; ?>],
-                          name: '<?php //echo $row['Transmission']; ?>'
-                        }<?php //$count++;} ?>
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div></div>
-          </div--><!-- End Market Share by Transmission Type --> 
-
-<!--/div-->
+      
              
     </section>
     <?php //if (isset($_POST['make'])) { ?>
@@ -736,171 +557,100 @@ var stackedbarchart = new Chart(stackchart, {
           <div class="card">
             <div class="card-body">
     <table class="table datatable">
-<thead>
-<tr>
-<th><strong></strong></th>
-<th><strong>Make</strong></th>
-<th><strong>Model</strong></th>
-<th><strong>Variant</strong></th>
-<th><strong>Year</strong></th>
-<th><strong>East</strong></th>
-<th><strong>West</strong></th>
-<th><strong>North</strong></th>
-<th><strong>South</strong></th>
-<th><strong>Total</strong></th>
-</tr>
-</thead>
-<tbody>
-<?php
-$count=1;
-$sel_query = "Select * from demography";
-$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
-//echo $query;
-$flag = 0;
-if(isset($_POST['make'])) 
-{
-   if(strlen($_POST['make'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Make = '".$_POST['make']."'";
-   }
-   else
-   {
-   $sel_query .= " and Make = '".$_POST['make']."'";
-   }
-   $query .= " and Demography.Make = '".$_POST['make']."'";
-   }
-}
-if(isset($_POST['year'])) 
-{
-   if(strlen($_POST['year'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year = '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year = '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = '".$_POST['year']."'";
-   }
-}
-/*else if(isset($_POST['from_year'])) 
-{
-   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year >= '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year >= '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}*/
-/*else if(isset($_POST['from_year'])) 
-{
-   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year <= '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year <= '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}
-else if(isset($_POST['from_year'])) 
-{
-   if(strlen($_POST['from_year'])<=0 && strlen($_POST['to_year'])<=0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year = '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year = '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}
-else
-{
-   if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])>0)
-   {
+      <thead>
+        <tr>
+          <th><strong></strong></th>
+          <th><strong>Make</strong></th>
+          <th><strong>Model</strong></th>
+          <th><strong>Variant</strong></th>
+          <th><strong>Year</strong></th>
+          <th><strong>East</strong></th>
+          <th><strong>West</strong></th>
+          <th><strong>North</strong></th>
+          <th><strong>South</strong></th>
+          <th><strong>Total</strong></th>
+        </tr>
+      </thead>
+    <tbody>
+    <?php
+      $count=1;
+      $sel_query = "Select * from demography";
+      $query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Region_East), sum(Region_West), sum(Region_North), sum(Region_South), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
+      //echo $query;
+      $flag = 0;
+      if(isset($_POST['make'])) 
+      {
+        if(strlen($_POST['make'])>0)
+        {
+          if($flag == 0)
+          {
+            $flag = 1;
+            $sel_query .= " where Make = '".$_POST['make']."'";
+          }
+          else
+          {
+            $sel_query .= " and Make = '".$_POST['make']."'";
+          }
+        $query .= " and Demography.Make = '".$_POST['make']."'";
+        }
+      }
+      if(isset($_POST['year'])) 
+      {
+          if(strlen($_POST['year'])>0)
+          {
+          if($flag == 0)
+          {
+            $flag = 1;
+            $sel_query .= " where Year = '".$_POST['year']."'";
+          }
+          else
+          {
+            $sel_query .= " and Year = '".$_POST['year']."'";
+          }
+        $query .= " and Demography.Year = '".$_POST['year']."'";
+        }
+      }
 
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year = '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year = '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = ".$_POST['year'];
-   }
-}*/
+      $sel_query .= ";";
+      $query .=  " group by Specs.Fuel_type;";
+      //echo $sel_query;
+      //echo $query; 
+      $tbl_count=0;
+      ?>
 
+      <?php
 
-$sel_query .= ";";
-$query .=  " group by Specs.Fuel_type;";
-//echo $sel_query;
-//echo $query; 
-$tbl_count=0;
-?>
-
-<?php
-
-$result = mysqli_query($con,$sel_query);
-while($row = mysqli_fetch_assoc($result)) { ?>
-<tr><td align="center"><?php echo $count; ?></td>
-<td><?php echo $row["Make"]; ?></td>
-<td><?php echo $row["Model"]; ?></td>
-<td><?php echo $row["Variant"]; ?></td>
-<td><?php echo $row["Year"]; ?></td>
-<td><?php echo number_format($row["Region_East"]); ?></td>
-<td><?php echo number_format($row["Region_West"]); ?></td>
-<td><?php echo number_format($row["Region_North"]); ?></td>
-<td><?php echo number_format($row["Region_South"]); ?></td>
-<td><?php echo number_format($row["Total"]); ?></td>
-
-
-</tr>
-<?php $count++; } ?>
-</tbody>
-</table>
+        $result = mysqli_query($con,$sel_query);
+        while($row = mysqli_fetch_assoc($result)) { ?>
+          <tr><td align="center"><?php echo $count; ?></td>
+          <td><?php echo $row["Make"]; ?></td>
+          <td><?php echo $row["Model"]; ?></td>
+          <td><?php echo $row["Variant"]; ?></td>
+          <td><?php echo $row["Year"]; ?></td>
+          <td><?php echo number_format($row["Region_East"]); ?></td>
+          <td><?php echo number_format($row["Region_West"]); ?></td>
+          <td><?php echo number_format($row["Region_North"]); ?></td>
+          <td><?php echo number_format($row["Region_South"]); ?></td>
+          <td><?php echo number_format($row["Total"]); ?></td>
+        </tr>
+      <?php $count++; } ?>
+    </tbody>
+  </table>
 </div>
 <?php //} ?>
    </div>
-   </div>
-   </div>
-   </div>
-   </section>
+  </div>
+ </div>
+</div>
+</section>
 
   </main><!-- End #main -->
 
-  <?php //require('footer2.php'); ?>
-  <!-- ======= Footer ======= -->
+  <?php //require('footer2'); ?>
+  <!-- Footer -->
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by BootstrapMade
     </div>
   </footer><!-- End Footer -->
 

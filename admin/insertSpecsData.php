@@ -55,7 +55,7 @@ $sql .= "INSERT INTO Specs (Make, Model, Variant, Ex_Showroom_Price, Cylinders, 
 
 
 if ($con->multi_query($sql) === TRUE) {
-  echo "New records created successfully<br>";
+  echo "New Specs records created successfully<br>";
 } else {
   echo "Error: " . $sql . "<br>" . $con->error;
 }

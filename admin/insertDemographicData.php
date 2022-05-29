@@ -503,7 +503,7 @@ $sql .= "INSERT INTO Demography (Make, Model, Variant, Year, Total, Region_East,
 $sql .= "INSERT INTO Demography (Make, Model, Variant, Year, Total, Region_East, Region_West, Region_North, Region_South, Age_Young, Age_Middle, Age_Senior, Colour_Dull, Colour_Bright, Colour_Neutral, Gender_Male, Gender_Female, Gender_Other) VALUES ('MG', 'Hector', '2.0L Smart', 2012, 6476,  1036, 1813, 2267, 1360, 1425, 4015, 1036, 1554, 2331, 2590, 4080, 2267, 130);";
 
 if ($con->multi_query($sql) === TRUE) {
-  echo "New records created successfully<br>";
+  echo "New demographic records created successfully<br>";
 } else {
   echo "Error: " . $sql . "<br>" . $con->error;
 }

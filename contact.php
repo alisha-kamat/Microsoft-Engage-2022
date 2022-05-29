@@ -1,5 +1,5 @@
 <?php
-session_start();
+  session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@ session_start();
   <meta content="" name="keywords">
 
 <?php  
-require('header2.php'); 
+  require('header2.php'); 
 ?>
 
 <body>
@@ -70,40 +70,7 @@ require('header2.php');
 
         </div>
 
-        <div class="col-xl-6">
-          <div class="card p-4">
-            <form action="forms/contact.php" method="post" class="php-email-form">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
-        </div>
+      
 
       </div>
 
@@ -111,17 +78,10 @@ require('header2.php');
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
+  <!-- Footer -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
     </div>
   </footer><!-- End Footer -->
 

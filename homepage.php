@@ -1,19 +1,19 @@
 <?php
-session_start();
+  session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+ 
   <title>Home</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-   <!-- ======= Header ======= -->
+   <!-- Header -->
    <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="homepage.php" class="logo d-flex align-items-center">
+    <a href="homepage" class="logo d-flex align-items-center">
       <img src="assets/img/cardb-logo.svg" alt="">
       <span class="d-none d-lg-block">CarDB Analytics</span>
     </a>
@@ -44,32 +44,33 @@ session_start();
                 {
                   echo "<h6>".$_SESSION['username']."</h6>";
                   echo "<span>".$_SESSION['email']."</span>";
-                }
+		            ?>
+          	  </li>
+            	<li>
+              	<hr class="dropdown-divider">
+            	</li>
+
+	              <li>
+              	  <a class="dropdown-item d-flex align-items-center" href="logout">
+                  <i class="bi bi-box-arrow-right"></i>
+                 <span>Sign Out</span>
+                <?php } 
                 else
                 {
                   echo "<h6>Guest</h6>";
                   echo "<span>Not logged in</span>";
-                }
+                  ?>
+          	  </li>
+            	<li>
+              	<hr class="dropdown-divider">
+            	</li>
+
+	         <li>
+              	  <a class="dropdown-item d-flex align-items-center" href="login">
+                  <i class="bi bi-box-arrow-right"></i>
+                 <span>Sign In</span>
+		        <?php }
               ?>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="faq.php">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
               </a>
             </li>
 
@@ -81,7 +82,7 @@ session_start();
 
 </header><!-- End Header -->
 <?php  
-require('header2.php'); 
+  require('header2.php'); 
 ?>
 
 <body>
@@ -103,6 +104,7 @@ require('header2.php');
 <p></p>
 <h2 align="center">CarDB&#8482; | Data Analytics for the Car Industry</h2>
 <p></p>
+<img src="assets/img/cardb-logo.svg" alt="CarDB Logo"  style="float:left; padding-right: 20px; padding-bottom: 10px;">
 <p>Not to be confused with the rapper with a similar sounding name, CarDB (short for Car Database) is a comprehensive repository with advanced data analytics to give you deep quantitative insights.</p> 
 
 <p>Whether you are a car buyer or someone with an interest in understanding and unravelling the hidden trends in the automotive industry, we have something for you.</p>
@@ -128,7 +130,7 @@ require('header2.php');
 
           <div class="card">
             <div class="card-body">
-              <h3 align="center" class="card-title">Planning to buy a car? </h3>
+              <h3 align="center" class="card-title"><i class="bi bi-search"></i> Planning to buy a car? </h3>
               <p>Use the CarDB (free) research page to select the best car based on your personal preferences e.g. car type, price, mileage and more.</p>
 			<a href="cars"><center><button type="button" class="btn btn-success btn-lg">Car Search</button></center></a>
             </div>
@@ -140,7 +142,7 @@ require('header2.php');
 
           <div class="card">
             <div class="card-body">
-              <h5 align="center" class="card-title">Interested in the car industry?</h5>
+              <h5 align="center" class="card-title"><i class="bi bi-bar-chart-line-fill"></i> Interested in the car industry?</h5>
               <p>Use our simple analytics tools (requires registration) to dig into the industry data and gain competitive insights.</p>
 			<a href="dashboard"><center><button type="button" class="btn btn-success btn-lg">Analytics Dashboard</center></a>
             </div>

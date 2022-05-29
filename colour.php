@@ -1,5 +1,6 @@
 <?php 
-require('./admin/auth.php'); 
+  // Check if user is logged in
+  require('auth.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,8 +13,10 @@ require('./admin/auth.php');
   <meta content="" name="keywords">
 
 <?php 
-require('./admin/db.php'); 
-require('header2.php'); 
+  // Connect to database
+  require('./admin/db.php'); 
+
+  require('header2.php'); 
 ?>
 
 <body>
@@ -34,87 +37,110 @@ require('header2.php');
     </div><!-- End Page Title -->
 
 <!---cdb code begin-->
-<h1 align="center">Colour-wise Sales</h1>
-    <p align=center>Fine-tune your search using one or more filters</p>
+<h1 align="center"><i class="bi bi-palette-fill"></i> Colour-wise Sales</h1>
+    <p align=center>Fine-tune your search using one or more filters</p> 
 
 <div>
     <center>
     <form action="#" method="post">
        <table cellpadding="5px" align="center">
-       <tr>
-       <th>Make</th>
-       <th>Year</th>
-       </tr>
-       <tr>
-       <td>
-        <select name="make" id="make">
-	  <option value="">All</option>
-          <?php
-          $sel_query="Select DISTINCT(Make) from Demography;";
-  	  $result = mysqli_query($con,$sel_query);
-	  while($row = mysqli_fetch_assoc($result)) { ?>
-          <option value="<?php echo $row["Make"]; ?>"><?php echo $row["Make"]; ?></option><?php } ?>
-       </select>
-       </td>
-       <td>
-       <select name="year" id="year">
-	  <option value="">All</option>
-          <?php
-          $sel_query="Select DISTINCT(Year) from Demography;";
-  	  $result = mysqli_query($con,$sel_query);
-	  while($row = mysqli_fetch_assoc($result)) { ?>
-          <option value="<?php echo $row["Year"]; ?>"><?php echo $row["Year"]; ?></option><?php } ?>
-       </select>
-       </td>
+        <tr>
+          <th>Make</th>
+          <th>Year</th>
+        </tr>
+        <tr>
+          <td>
+            <select name="make" id="make">
+        <option value="">All</option>
+              <?php
+              $sel_query="Select DISTINCT(Make) from Demography;";
+              $result = mysqli_query($con,$sel_query);
+              while($row = mysqli_fetch_assoc($result)) { ?>
+                <option value="<?php echo $row["Make"]; ?>"><?php echo $row["Make"]; ?></option><?php } ?>
+            </select>
+          </td>
+        <td>
+        <select name="year" id="year">
+      <option value="">All</option>
+            <?php
+            $sel_query="Select DISTINCT(Year) from Demography;";
+            $result = mysqli_query($con,$sel_query);
+            while($row = mysqli_fetch_assoc($result)) { ?>
+              <option value="<?php echo $row["Year"]; ?>"><?php echo $row["Year"]; ?></option><?php } ?>
+          </select>
+        </td>
     </tr>
     </table>
-        <br><input type="submit" value="Search">
+      <br><input type="submit" value="Search">
     </form>
     </center>
     </div><br>
     <?php
-$count=1;
-$sel_query = "Select * from demography";
-$query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
-//echo $query;
+      $count=1;
+      $sel_query = "Select * from demography";
+      $query = "Select distinct(Demography.Year), Specs.Fuel_Type, sum(Colour_Dull), sum(Colour_Bright), sum(Colour_Neutral), Fuel_type from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant";// group by Specs.Fuel_type"; 
+      //echo $query;
 
-$where = "";
-$andwhere = "";
-$flag = 0;
-if(isset($_POST['make'])) 
-{
-   if(strlen($_POST['make'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Make = '".$_POST['make']."'";
-   }
-   else
-   {
-   $sel_query .= " and Make = '".$_POST['make']."'";
-   }
-   $query .= " and Demography.Make = '".$_POST['make']."'";
-   }
-}
-if(isset($_POST['year'])) 
-{
-   if(strlen($_POST['year'])>0)
-   {
-   if($flag == 0)
-   {
-   $flag = 1;
-   $sel_query .= " where Year = '".$_POST['year']."'";
-   }
-   else
-   {
-   $sel_query .= " and Year = '".$_POST['year']."'";
-   }
-   $query .= " and Demography.Year = '".$_POST['year']."'";
-   $where = " where Year = '".$_POST['year']."'";
-   $andwhere = " and Year = '".$_POST['year']."'";
-   }
-}
+      $analysis = "";
+      $where = "";
+      $andwhere = "";
+      $flag = 0;
+      if(isset($_POST['make'])) 
+      {
+        if(strlen($_POST['make'])>0)
+        {
+          if($flag == 0)
+          {
+            $flag = 1;
+            $sel_query .= " where Make = '".$_POST['make']."'";
+          }
+          else
+          {
+            $sel_query .= " and Make = '".$_POST['make']."'";
+          }
+            $query .= " and Demography.Make = '".$_POST['make']."'";
+            $analysis = "<center><h4>Analytics for ";
+            $analysis .= $_POST['make']." for ";
+            $where = " where Make = '".$_POST['make']."'";
+            $andwhere .= " and Specs.Make = '".$_POST['make']."'";
+          }
+        else
+        {
+          $analysis = "<center><h4>Analytics for all Makes for ";
+        }
+      }
+      else
+      {
+        $analysis = "<center><h4>Analytics for all Makes across all years</h4></center>";
+        echo $analysis;
+      }
+      if(isset($_POST['year'])) 
+      {
+        if(strlen($_POST['year'])>0)
+        {
+          if($flag == 0)
+          {
+          $flag = 1;
+          $sel_query .= " where Year = '".$_POST['year']."'";
+          }
+          else
+          {
+          $sel_query .= " and Year = '".$_POST['year']."'";
+          }
+          $query .= " and Demography.Year = '".$_POST['year']."'";
+          if(strlen($where)>0)
+            $where .= " and Year = '".$_POST['year']."'";
+          else
+            $where = " where Year = '".$_POST['year']."'";
+          $andwhere = " and Year = '".$_POST['year']."'";
+          $analysis .= $_POST['year']."</h4></center>";
+        }
+        else
+        {
+          $analysis .= "all Years</h4></center>";
+        }
+        echo $analysis;
+      }
 /*else if(isset($_POST['from_year'])) 
 {
    if(strlen($_POST['from_year'])>0 && strlen($_POST['to_year'])<=0)
@@ -207,7 +233,7 @@ $tbl_count=0;
                     type: 'line',
                     data: {
                       <?php 
-                      $line_query = "Select Sum(Colour_Dull), Sum(Colour_Bright), Sum(Colour_Neutral) from demography".$where." group by Year;";
+                      $line_query = "Select Year, Sum(Colour_Dull), Sum(Colour_Bright), Sum(Colour_Neutral) from demography".$where." group by Year;";
                       $line_result = mysqli_query($con,$line_query);
                       $year = "";
                       $dull = "";
@@ -426,7 +452,7 @@ var stackedbarchart = new Chart(fuelchart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -610,7 +636,7 @@ var stackedbarchart = new Chart(bodychart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -671,7 +697,7 @@ var stackedbarchart = new Chart(transmissionChart, {
    options: {
       responsive: false,
       legend: {
-         position: 'right' 
+         position: 'bottom' 
       },
       scales: {
          xAxes: [{
@@ -986,9 +1012,6 @@ while($row = mysqli_fetch_assoc($result)) { ?>
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by BootstrapMade
     </div>
   </footer><!-- End Footer -->
 

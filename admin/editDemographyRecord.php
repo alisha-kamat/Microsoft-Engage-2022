@@ -1,35 +1,21 @@
 <?php
+  // Connect to database
   require('db.php');
+
+  // Check if admin is logged in
   include("auth.php");
-  $status = "";
-  if(isset($_POST['new']) && $_POST['new']==1)
-  {
-    $Year =$_REQUEST['year'];
-    $Jan =$_REQUEST['Jan'];
-    $Feb =$_REQUEST['Feb'];
-    $Mar =$_REQUEST['Mar'];
-    $Apr =$_REQUEST['Apr'];
-    $May =$_REQUEST['May'];
-    $Jun =$_REQUEST['Jun'];
-    $Jul =$_REQUEST['Jul'];
-    $Aug =$_REQUEST['Aug'];
-    $Sep =$_REQUEST['Sep'];
-    $Oct =$_REQUEST['Oct'];
-    $Nov =$_REQUEST['Nov'];
-    $Dcm =$_REQUEST['Dcm'];
-    $Total =$_REQUEST['Total'];
-    $ins_query="INSERT INTO Sales(Year,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dcm,Total) VALUES
-      ('$Year','$Jan','$Feb','$Mar','$Apr','$May','$Jun','$Jul','$Aug','$Sep','$Oct','$Nov','$Dcm','$Total')";
-      mysqli_query($con,$ins_query);
-    $status = "New Record Added Successfully.
-    </br></br><a href='salesView'>View Added Record</a>";
-  }
+
+  // Get Id of record to be updated
+  $id=$_REQUEST['id'];
+  $query = "SELECT * from Demography where ID='".$id."'"; 
+  $result = mysqli_query($con, $query);
+  $row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Add New Sales Record</title>
+<title>Update Demography Record</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <!-- Favicons -->
@@ -61,7 +47,7 @@
     </a>
   </div><!-- End Logo -->
 <span class="d-none d-lg-block"><p><a <p><a href="adminHome">Admin Dashboard</a> 
-| <a href="salesView">View Sale Records</a> 
+| <a href="addDemographyRecord">Add Demography Record</a> 
 | <a href="adminLogout">Logout</a></p></span>
 
 <nav class="header-nav ms-auto">
@@ -81,7 +67,7 @@
                   echo "<span class='d-none d-md-block dropdown-toggle ps-2'>Guest</span>";
                 }
             ?>
-          </a><!-- End Profile Section -->
+          </a><!-- End Profile Image Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
@@ -129,77 +115,99 @@
 </head>
 <body>
 <div class="form">
+<br><br><br>
+<center>
+<h1>Update Demography Record</h1>
+<br>
+<?php
+  $status = "";
+  if(isset($_POST['new']) && $_POST['new']==1)
+  {
+    $id=$_REQUEST['id'];
+    $Year =$_REQUEST['Year'];
+    $Total =$_REQUEST['Total'];
+    $Region_East =$_REQUEST['Region_East'];
+    $Region_West =$_REQUEST['Region_West'];
+    $Region_North =$_REQUEST['Region_North'];
+    $Region_South =$_REQUEST['Region_South'];
+    $Age_Young =$_REQUEST['Age_Young'];
+    $Age_Middle =$_REQUEST['Age_Middle'];
+    $Age_Senior=$_REQUEST['Age_Senior'];
+    $Colour_Dull =$_REQUEST['Colour_Dull'];
+    $Colour_Bright =$_REQUEST['Colour_Bright'];
+    $Colour_Neutral =$_REQUEST['Colour_Neutral'];
+    $Gender_Male =$_REQUEST['Gender_Male'];
+    $Gender_Female =$_REQUEST['Gender_Female'];
+    $Gender_Other =$_REQUEST['Gender_Other'];
+    $update="update Demography set 
+    Year='".$Year."', Total='".$Total."', Region_East='".$Region_East."', Region_West='".$Region_West."', Region_North='".$Region_North."', Region_South='".$Region_South."', Age_Young='".$Age_Young."', Age_Middle='".Age_Middle."', Age_Senior='".$Age_Senior."', Colour_Dull='".$Colour_Dull."', Colour_Bright='".$Colour_Bright."', Colour_Neutral='".$Colour_Neutral."', Gender_Male='".$Gender_Male."', Gender_Female='".$Gender_Female."', Gender_Other='".$Gender_Other."' where ID='".$id."'";
 
+    mysqli_query($con, $update);
+    $status = "Record Updated Successfully. </br></br>
+    <a href='demographyView'>View Updated Record</a>";
+    echo '<p style="color:#FF0000;">'.$status.'</p>';
+  }
+  else 
+  {
+?>
   <div>
-  <br><br><br>
-  <center>
-  <h1>Add New Sales Record</h1>
   <form name="form" method="post" action=""> 
   <input type="hidden" name="new" value="1" />
-
-  <br>
+  <input name="id" type="hidden" value="<?php echo $row['ID'];?>" />
   <table>
     <tr>
-      <td><p>Year: </td><td><input type="text" name="year" placeholder="Enter Username" 
-      required /></p></td>
+      <td><p>Year: </td><td><input type="text" name="Year" placeholder="Enter Year" 
+      required value="<?php echo $row['Year'];?>" /></p></td>
     </tr>
     <tr>
-      <td><p>Jan: </td><td><input type="text" name="Jan" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Total: </td><td><input type="text" name="Total" placeholder="Enter Total" 
+      required value="<?php echo $row['Total'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Feb: </td><td><input type="text" name="Feb" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Region East: </td><td><input type="text" name="Region East" placeholder="Enter Region East" 
+      required value="<?php echo $row['Region_East'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Mar: </td><td><input type="text" name="Mar" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Region West: </td><td><input type="text" name="Region West" placeholder="Enter Region West" 
+      required value="<?php echo $row['Region_West'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Apr: </td><td><input type="text" name="Apr" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Region North: </td><td><input type="text" name="Region North" placeholder="Enter Region North" 
+      required value="<?php echo $row['Region_North'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>May: </td><td><input type="text" name="May" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Region South: </td><td><input type="text" name="Region South" placeholder="Enter Region South" 
+      required value="<?php echo $row['Region_South'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Jun: </td><td><input type="text" name="Jun" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Age Young: </td><td><input type="text" name="Age Young" placeholder="Enter Age Young" 
+      required value="<?php echo $row['Age_Young'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Jul: </td><td><input type="text" name="Jul" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Age Middle: </td><td><input type="text" name="Age Middle" placeholder="Enter Age Middle" 
+      required value="<?php echo $row['Age_Middle'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Aug: </td><td><input type="text" name="Aug" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Age Senior: </td><td><input type="text" name="Age Senior" placeholder="Enter Age Senior" 
+      required value="<?php echo $row['Age_Senior'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Sep: </td><td><input type="text" name="Sep" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Colour Dull: </td><td><input type="text" name="Colour Dull" placeholder="Enter Colour Dull" 
+      required value="<?php echo $row['Colour_Dull'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Oct: </td><td><input type="text" name="Oct" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Colour Bright: </td><td><input type="text" name="Colour Bright" placeholder="Enter Colour Bright" 
+      required value="<?php echo $row['Colour_Bright'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Nov: </td><td><input type="text" name="Nov" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Colour Neutral: </td><td><input type="text" name="Colour Neutral" placeholder="Enter Colour Neutral" 
+      required value="<?php echo $row['Colour_Neutral'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Dec: </td><td><input type="text" name="Dcm" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Gender Male: </td><td><input type="text" name="Gender Male" placeholder="Enter Gender Male" 
+      required value="<?php echo $row['Gender_Male'];?>" /></p></td>
     </tr>
-    <tr>
-      <td><p>Total: </td><td><input type="text" name="Total" placeholder="Enter Sales " 
-      required /></p></td>
+      <td><p>Gender Female: </td><td><input type="text" name="Gender Female" placeholder="Enter Gender Female" 
+      required value="<?php echo $row['Gender_Female'];?>" /></p></td>
+    </tr>
+      <td><p>Gender Other: </td><td><input type="text" name="Gender Other" placeholder="Enter Gender Other" 
+      required value="<?php echo $row['Gender_Other'];?>" /></p></td>
     </tr>
   </table>
-  <p><input name="submit" type="submit" value="Submit" /></p>
-  </form>
-  <p style="color:#FF0000;"><?php echo $status; ?></p>
-  </div>
+
+<p><input name="submit" type="submit" value="Update" /></p>
+</form>
+<?php } ?>
+</div>
 </div>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

@@ -1,5 +1,5 @@
 <?php
-session_start();
+  session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,8 +12,8 @@ session_start();
   <meta content="" name="keywords">
 
 <?php 
-require('./admin/db.php'); 
-require('header2.php'); 
+  require('./admin/db.php'); 
+  require('header2.php'); 
 ?>
 
 <body>
@@ -124,7 +124,7 @@ require('header2.php');
                   <div class="activite-label">Week 1</div>
                   <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                   <div class="activity-content">
-                    Initiated project related <a href="#" class="fw-bold text-dark">research</a> and creating the dataset
+                    Initiated project related research and creating the dataset
                   </div>
                 </div><!-- End project item-->
 
@@ -156,7 +156,7 @@ require('header2.php');
                   <div class="activite-label">Week 3</div>
                   <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
                   <div class="activity-content">
-                    Started with ML algorithms to <a href="#" class="fw-bold text-dark">predict future sales trends </a> in the automobile industry
+                    Completed all planned features for B2C and B2B 
                   </div>
                 </div><!-- End project item-->
 
@@ -177,18 +177,10 @@ require('header2.php');
 </section>
     
   </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
+  <!-- Footer -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
     </div>
   </footer><!-- End Footer -->
 

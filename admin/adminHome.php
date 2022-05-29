@@ -1,7 +1,7 @@
 <?php
 require('db.php');
-//include("auth.php");
-session_start();
+include("auth.php");
+//session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,9 +21,6 @@ session_start();
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <!--link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet"-->
   <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
   
   <!-- Chart JS Files -->
@@ -32,13 +29,7 @@ session_start();
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-   <!-- ======= Header ======= -->
+   <!-- Header -->
    <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -73,7 +64,7 @@ session_start();
                 if(isset($_SESSION["admin_username"]))
                 {
                   echo "<h6>".$_SESSION['admin_username']."</h6>";
-                  echo "<span>".$_SESSION['admin_email']."</span>";
+                  //echo "<span>".$_SESSION['admin_email']."</span>";
                 }
                 else
                 {
@@ -86,18 +77,18 @@ session_start();
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="faq.php">
+            <!--li>
+              <a class="dropdown-item d-flex align-items-center" href="faq">
                 <i class="bi bi-question-circle"></i>
                 <span>Need Help?</span>
               </a>
-            </li>
+            </li-->
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
+              <a class="dropdown-item d-flex align-items-center" href="adminLogout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>

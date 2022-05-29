@@ -5,23 +5,31 @@
   $status = "";
   if(isset($_POST['new']) && $_POST['new']==1)
   {
-    $username =$_REQUEST['username'];
-    $email =$_REQUEST['email'];
-    $password =$_REQUEST['password'];
-    $password = md5($password);
-    $trn_date = date("Y-m-d H:i:s");
-    $ins_query="INSERT INTO sgdb_users(username,email,password,trn_date) VALUES
-      ('$username','$email','$password','$trn_date')";
+    $Ex_showroom_price=$_REQUEST['Ex_showroom_price'];
+    $Cylinders =$_REQUEST['Cylinders'];
+    $Drivetrain =$_REQUEST['Drivetrain'];
+    $Engine_location=$_REQUEST['Engine_location'];
+    $Fuel_tank_capacity =$_REQUEST['Fuel_tank_capacity'];
+    $Fuel_type =$_REQUEST['Fuel_type'];
+    $Body_type=$_REQUEST['Body_type'];
+    $City_mileage =$_REQUEST['City_mileage'];
+    $Power =$_REQUEST['Power'];
+    $Gears =$_REQUEST['Gears'];
+    $Torque =$_REQUEST['Torque'];
+    $Seating_capacity=$_REQUEST['Seating_capacity'];
+    $Boot_space =$_REQUEST['Boot_space'];
+    $Transmission =$_REQUEST['Transmission'];
+    $ins_query="INSERT INTO Specs(Ex_showroom_price,Cylinders,Drivetrain,Engine_location,Fuel_tank_capacity,Fuel_type,Body_type,City_mileage,Power,Gears,Torque,Seating_capacity,Boot_space,Transmission) VALUES  ('$Ex_showroom_price','$Cylinders','$Drivetrain','$Engine_location','$Fuel_tank_capacity','$Fuel_type','$Body_type','$City_mileage','$Power','$Gears','$Torque','$Seating_capacity','$Boot_space','$Transmission')";
       mysqli_query($con,$ins_query);
     $status = "New Record Added Successfully.
-    </br></br><a href='usersView'>View Added Record</a>";
+    </br></br><a href='specsView'>View Added Record</a>";
   }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert New Record</title>
+<title>Add Specs Record</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <!-- Favicons -->
@@ -43,7 +51,7 @@
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
-   <!-- Header-->
+   <!-- Header -->
    <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -52,8 +60,9 @@
       <span class="d-none d-lg-block">CarDB Analytics</span>
     </a>
   </div><!-- End Logo -->
-<span class="d-none d-lg-block"><p><a <p><a href="adminHome">Admin Dashboard</a> 
-| <a href="usersView">View User Records</a> 
+  
+<span class="d-none d-lg-block"><p><p><a href="adminHome">Admin Dashboard</a> 
+| <a href="specsView">View Specs Records</a> 
 | <a href="adminLogout">Logout</a></p></span>
 
 <nav class="header-nav ms-auto">
@@ -64,6 +73,7 @@
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             
             <?php 
+                // For header dropdown (logged in user)
                 if(isset($_SESSION["admin_username"]))
                 {
                   echo "<span class='d-none d-md-block dropdown-toggle ps-2'>".$_SESSION['admin_username']."</span>";
@@ -125,22 +135,66 @@
 <div>
 <br><br><br>
 <center>
-<h1>Add New User Record</h1>
+<h1>Add New Specs Record</h1>
 <form name="form" method="post" action=""> 
 <input type="hidden" name="new" value="1" />
 
 <br>
 <table>
   <tr>
-    <td><p>Username: </td><td><input type="text" name="username" placeholder="Enter Username" 
+    <td><p>Ex Showroom Price: </td><td><input type="text" name="Ex_showroom_price" placeholder="Enter showroom price" 
     required /></p></td>
   </tr>
   <tr>
-    <td><p>Email: </td><td><input type="text" name="email" placeholder="Enter Email" 
+    <td><p>Cylinders: </td><td><input type="text" name="Cylinders" placeholder="Enter Cylinders" 
     required /></p></td>
   </tr>
   <tr>
-    <td><p>Password: </td><td><input type="text" name="password" placeholder="Enter Password" 
+    <td><p>Drivetrain: </td><td><input type="text" name="Drivetrain" placeholder="Enter Drivetrain" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Engine Location: </td><td><input type="text" name="Engine_location" placeholder="Enter engine location" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Fuel Tank Capacity: </td><td><input type="text" name="Fuel_tank_capacity" placeholder="Enter fuel tank capacity" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Fuel Type: </td><td><input type="text" name="Fuel_type" placeholder="Enter fuel type" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Body Type: </td><td><input type="text" name="Body_type" placeholder="Enter body type" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>City Mileage: </td><td><input type="text" name="City_mileage" placeholder="Enter city mileage" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Gears: </td><td><input type="text" name="Gears" placeholder="Enter Gears" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Power: </td><td><input type="text" name="Power" placeholder="Enter Power" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Torque: </td><td><input type="text" name="Torque" placeholder="Enter Torque" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Seating Capacity: </td><td><input type="text" name="Seating_capacity" placeholder="Enter seating capacity" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Transmission: </td><td><input type="text" name="Transmission" placeholder="Enter Transmission" 
+    required /></p></td>
+  </tr>
+  <tr>
+    <td><p>Boot Space: </td><td><input type="text" name="Boot_space" placeholder="Enter boot space" 
     required /></p></td>
   </tr>
 </table>

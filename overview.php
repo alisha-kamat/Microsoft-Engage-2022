@@ -1,5 +1,5 @@
 <?php
-session_start();
+  session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,15 +12,15 @@ session_start();
   <meta content="" name="keywords">
 
 <?php 
-require('./admin/db.php'); 
-require('header2.php'); 
+  require('./admin/db.php');
+  require('header2.php');
 ?>
 
 <body>
 
 
 
-      <?php require('./menu.php'); ?>
+  <?php require('./menu.php'); ?>
 
   <main id="main" class="main">
 
@@ -41,11 +41,11 @@ require('header2.php');
         <div class="col-lg-8">
           <div class="row">
 
-<!-- Revenue Card -->
+          <!-- Popular car Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
               <?php 
-		  $maxyear_query = "select max(year) as MaxYear from sales;";
+		              $maxyear_query = "select max(year) as MaxYear from sales;";
                   $maxyear_result = mysqli_query($con,$maxyear_query);
                   $maxyear_row = mysqli_fetch_assoc($maxyear_result);
                   $maxyear  = $maxyear_row['MaxYear'];
@@ -104,7 +104,7 @@ require('header2.php');
               </div>
             </div><!-- End Sales Card -->
 
-<!-- Revenue Card -->
+          <!-- FUel type Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
               <?php 
@@ -131,9 +131,9 @@ require('header2.php');
                 </div>
 
               </div>
-            </div><!-- End Most popular car card -->
+            </div><!-- End Fuel type card -->
 
-            <!-- Sales Card -->
+            <!-- Transmission type Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
 
@@ -159,9 +159,12 @@ require('header2.php');
                 </div>
 
               </div>
-            </div><!-- End Sales Card -->            
+            </div><!-- End Transmission type Card -->            
 	
-	<center><h2><br>Car Variants available in the markets</h2></center>
+          <div class="col-lg-12">
+           <div class="card">
+             <div class="card-body">
+	            <center><h2><br>Car Variants available in the market<br></h2></center></div></div></div>
 
           <div class="col-lg-6">
           <div class="card">
@@ -172,24 +175,24 @@ require('header2.php');
               <div id="seatsChart" style="min-height: 400px;" class="echart"></div>
 
               <script>
-		<?php 
-		   $count = 0;
-		   $capacity_query = "SELECT COUNT(*), Seating_capacity FROM Specs GROUP BY Seating_capacity ORDER BY Seating_capacity asc;";
-		   $capacity_result = mysqli_query($con,$capacity_query);
-		   $data = "";
-		   $cols = "";
-		   while($row = mysqli_fetch_assoc($capacity_result))
-		   {
-		      if($count>0) 
-		      {
-			$data .= ", ";
-			$cols .= ", ";
-		      }
-		      $data .= $row['COUNT(*)'];
-		      $cols .= "'".$row['Seating_capacity']."'";
-		      $count++;
-		   }
-		?>
+              <?php 
+                $count = 0;
+                $capacity_query = "SELECT COUNT(*), Seating_capacity FROM Specs GROUP BY Seating_capacity ORDER BY Seating_capacity asc;";
+                $capacity_result = mysqli_query($con,$capacity_query);
+                $data = "";
+                $cols = "";
+                while($row = mysqli_fetch_assoc($capacity_result))
+                {
+                    if($count>0) 
+                    {
+                      $data .= ", ";
+                      $cols .= ", ";
+                    }
+                    $data .= $row['COUNT(*)'];
+                    $cols .= "'".$row['Seating_capacity']."'";
+                    $count++;
+                }
+              ?>
                 document.addEventListener("DOMContentLoaded", () => {
                   echarts.init(document.querySelector("#seatsChart")).setOption({
                     xAxis: {
@@ -220,24 +223,24 @@ require('header2.php');
               <div id="fuelChart" style="min-height: 400px;" class="echart"></div>
 
               <script>
-		<?php 
-		   $count = 0;
-		   $capacity_query = "SELECT COUNT(*), Fuel_Type FROM Specs GROUP BY Fuel_Type ORDER BY Fuel_Type asc;";
-		   $capacity_result = mysqli_query($con,$capacity_query);
-		   $data = "";
-		   $cols = "";
-		   while($row = mysqli_fetch_assoc($capacity_result))
-		   {
-		      if($count>0) 
-		      {
-			$data .= ", ";
-			$cols .= ", ";
-		      }
-		      $data .= $row['COUNT(*)'];
-		      $cols .= "'".$row['Fuel_Type']."'";
-		      $count++;
-		   }
-		?>
+              <?php 
+                $count = 0;
+                $capacity_query = "SELECT COUNT(*), Fuel_Type FROM Specs GROUP BY Fuel_Type ORDER BY Fuel_Type asc;";
+                $capacity_result = mysqli_query($con,$capacity_query);
+                $data = "";
+                $cols = "";
+                while($row = mysqli_fetch_assoc($capacity_result))
+                {
+                    if($count>0) 
+                    {
+                      $data .= ", ";
+                      $cols .= ", ";
+                    }
+                    $data .= $row['COUNT(*)'];
+                    $cols .= "'".$row['Fuel_Type']."'";
+                    $count++;
+                }
+              ?>
                 document.addEventListener("DOMContentLoaded", () => {
                   echarts.init(document.querySelector("#fuelChart")).setOption({
                     xAxis: {
@@ -261,54 +264,7 @@ require('header2.php');
         </div>
 
   
-          <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Based on Car Body Type</h5>
 
-              <!-- Bar Chart -->
-              <div id="bodyChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-		<?php 
-		   $count = 0;
-		   $capacity_query = "SELECT COUNT(*), Body_Type FROM Specs GROUP BY Body_Type ORDER BY Body_Type asc;";
-		   $capacity_result = mysqli_query($con,$capacity_query);
-		   $data = "";
-		   $cols = "";
-		   while($row = mysqli_fetch_assoc($capacity_result))
-		   {
-		      if($count>0) 
-		      {
-			$data .= ", ";
-			$cols .= ", ";
-		      }
-		      $data .= $row['COUNT(*)'];
-		      $cols .= "'".$row['Body_Type']."'";
-		      $count++;
-		   }
-		?>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#bodyChart")).setOption({
-                    xAxis: {
-                      type: 'category',
-                      data: [<?php echo $cols;?>]
-                    },
-                    yAxis: {
-                      type: 'value'
-                    },
-                    series: [{
-                      data: [<?php echo $data;?>],
-                      type: 'bar'
-                    }]
-                  });
-                });
-              </script>
-              <!-- End Bar Chart -->
-
-            </div>
-          </div>
-        </div>
 
             <!-- Reports -->
             <!--div class="col-12">
@@ -399,12 +355,12 @@ require('header2.php');
 
 
             <!-- Top 5 Selling cars -->
-            <div class="col-12">
+            <!--div class="col-12">
               <div class="card top-selling overflow-auto">
 
                  <?php 
                   $top_query = "Select Sales.Make, Sales.Model, Sales.Variant, Specs.Ex_showroom_price, SUM(Sales.Total) as STotal from Specs INNER JOIN Sales ON Sales.Year = " . $maxyear . " and Sales.Make = Specs.Make and Sales.Model = Specs.Model and Sales.Variant = Specs.Variant group by Sales.Make order by STotal DESC;";
-echo $top_query;
+//echo $top_query;
                   $result = mysqli_query($con,$top_query);
                   ?>
 
@@ -442,246 +398,14 @@ echo $top_query;
                 </div>
 
               </div>
-            </div><!-- End Top 5 Selling Cars  -->
+            </div--><!-- End Top 5 Selling Cars  -->
 
-
-
-          <div class="col-lg-8">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Transmission Type</h5>
-
-              <!-- Bar Chart -->
-              <div id="transmissionChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-		<?php 
-		   $count = 0;
-		   $capacity_query = "SELECT COUNT(*), Transmission FROM Specs GROUP BY Transmission ORDER BY Transmission asc;";
-		   $capacity_result = mysqli_query($con,$capacity_query);
-		   $data = "";
-		   $cols = "";
-		   while($row = mysqli_fetch_assoc($capacity_result))
-		   {
-		      if($count>0) 
-		      {
-			$data .= ", ";
-			$cols .= ", ";
-		      }
-		      $data .= $row['COUNT(*)'];
-		      $cols .= "'".$row['Transmission']."'";
-		      $count++;
-		   }
-		?>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#transmissionChart")).setOption({
-                    xAxis: {
-                      type: 'category',
-                      data: [<?php echo $cols;?>]
-                    },
-                    yAxis: {
-                      type: 'value'
-                    },
-                    series: [{
-                      data: [<?php echo $data;?>],
-                      type: 'bar'
-                    }]
-                  });
-                });
-              </script>
-              <!-- End Bar Chart -->
-
-            </div>
-          </div>
-        </div>
-
-          <!-- Car Body Type - Pie Chart -->
-          
-    <!--div class="col-lg-6">
-          <div class="card">
-            <div class="card-body pb-0">
-              <h5 class="card-title">Transmission Type <span>| 2021</span></h5>
-
-              <div id="pieChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#pieChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Distribution',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [
-                        <?php 
-                        /*$tbl_count = 0;
-                        //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
-                        $query = "Select distinct(Demography.Year), Specs.Transmission, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Transmission;";
-                        $result = mysqli_query($con,$query);
-                        $data = "";
-                        while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} */?>                        
-                        {
-                          value: <?php// echo $row['Total']; ?>,
-                          name: '<?php //echo $row['Transmission']; ?>'
-                        }
-                        <?php //$tbl_count++;} ?>
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div--><!-- Car Body Type - End Pie Chart -->
-              <!--/div>
-
-              <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body pb-0">
-              <h5 class="card-title">Fuel Type <span>| 2021</span></h5>
-
-              <div id="piChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#piChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Distribution',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [
-                        <?php 
-                        /*$tbl_count = 0;
-                        //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
-                        $query = "Select distinct(Demography.Year), Specs.Fuel_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Fuel_Type;";
-                        $result = mysqli_query($con,$query);
-                        $data = "";
-                        while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";} */ ?>                        
-                        {
-                          value: <?php //echo $row['Total']; ?>,
-                          name: '<?php //echo $row['Fuel_Type']; ?>'
-                        }
-                        <?php //$tbl_count++;} ?>
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div--><!-- Car Body Type - End Pie Chart -->
-              <!--/div-->
 
           </div>
         </div><!-- End Left side columns -->
 
         <!-- Right side columns -->
-        <div class="col-lg-4">
-
-          <!-- Car Body Type - Pie Chart -->
-          <!--div class="card">
-
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Car Body Type <span>| 2021</span></h5>
-
-              <div id="bodyChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#bodyChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Distribution',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [
-                        <?php 
-                        /*$tbl_count = 0;
-                        //$colors = ['#897C87', '#82B2B8', '#D9C2BD', '#CA9C95'];
-                        $query = "Select distinct(Demography.Year), Specs.Body_Type, Demography.Total from Specs, Demography where Specs.Make = Demography.Make and Specs.Model = Demography.Model and Specs.Variant = Demography.Variant group by Specs.Body_Type;";
-                        $result = mysqli_query($con,$query);
-                        $data = "";
-                        while($row = mysqli_fetch_assoc($result)) { if($tbl_count>0) {echo ",";}*/ ?>                        
-                        {
-                          value: <?php //echo $row['Total']; ?>,
-                          name: '<?php //echo $row['Body_Type']; ?>'
-                        }
-                        <?php //$tbl_count++;} ?>
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div--><!-- Car Body Type - End Pie Chart -->        
-
-
+        <div class="col-lg-4">      
           <!-- News & Updates Traffic -->
           <div class="card">
 
@@ -691,8 +415,8 @@ echo $top_query;
               <div class="news">
                 <div class="post-item clearfix">
                   <img src="assets/img/news-1.jpg" alt="">
-                  <h4><a href="https://www.lhpes.com/blog/how-does-big-data-impact-automotive-industry" rel="nofollow">How Does Big Data Impact the Automotive Industry? </a></h4>
-                  <p>In general, data is collected in a number of different ways. Again, keeping the automotive industry in focus...</p>
+                  <h4><a href="https://www.careerizma.com/blog/data-analytics-automotive-industry/">Data analytics for Automotive Industry - Careerizma </a></h4>
+                  <p>Today, automotive innovations like electric and self-driving cars have completely changed the world...</p>
                 </div>
 
                 <div class="post-item clearfix">
@@ -728,6 +452,150 @@ echo $top_query;
         </div><!-- End Right side columns -->
 
       </div>
+	      <div class="row">
+          <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Based on Car Body Type</h5>
+
+              <!-- Bar Chart -->
+              <div id="bodyChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                  <?php 
+                    $count = 0;
+                    $capacity_query = "SELECT COUNT(*), Body_Type FROM Specs GROUP BY Body_Type ORDER BY Body_Type asc;";
+                    $capacity_result = mysqli_query($con,$capacity_query);
+                    $data = "";
+                    $cols = "";
+                    while($row = mysqli_fetch_assoc($capacity_result))
+                    {
+                        if($count>0) 
+                        {
+                          $data .= ", ";
+                          $cols .= ", ";
+                        }
+                        $data .= $row['COUNT(*)'];
+                        $cols .= "'".$row['Body_Type']."'";
+                        $count++;
+                    }
+                  ?>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#bodyChart")).setOption({
+                    xAxis: {
+                      type: 'category',
+                      data: [<?php echo $cols;?>]
+                    },
+                    yAxis: {
+                      type: 'value'
+                    },
+                    series: [{
+                      data: [<?php echo $data;?>],
+                      type: 'bar'
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Bar Chart -->
+
+            </div>
+          </div>
+        </div>
+
+          <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Based on Transmission Type</h5>
+
+              <!-- Bar Chart -->
+              <div id="transmissionChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                <?php 
+                  $count = 0;
+                  $capacity_query = "SELECT COUNT(*), Transmission FROM Specs GROUP BY Transmission ORDER BY Transmission asc;";
+                  $capacity_result = mysqli_query($con,$capacity_query);
+                  $data = "";
+                  $cols = "";
+                  while($row = mysqli_fetch_assoc($capacity_result))
+                  {
+                      if($count>0) 
+                      {
+                        $data .= ", ";
+                        $cols .= ", ";
+                      }
+                      $data .= $row['COUNT(*)'];
+                      $cols .= "'".$row['Transmission']."'";
+                      $count++;
+                  }
+                ?>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#transmissionChart")).setOption({
+                    xAxis: {
+                      type: 'category',
+                      data: [<?php echo $cols;?>]
+                    },
+                    yAxis: {
+                      type: 'value'
+                    },
+                    series: [{
+                      data: [<?php echo $data;?>],
+                      type: 'bar'
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Bar Chart -->
+
+            </div>
+          </div>
+        </div>
+       </div>
+	    <div class="row">
+        <div class="col-lg-10">
+         <div class="card">
+         <div class="card-body">
+        <br>
+        <h3>Number of options for various budget ranges</h3>
+        <br><br>
+            <table class="table datatable">
+        <thead>
+        <tr>
+          <th></th>
+          <th>Budget Range</th>
+          <th>Number of Options</th>
+        </tr>
+        </thead>
+        <?php
+                $min_query="Select MIN(Ex_showroom_price) from specs;";
+                $max_query="Select MAX(Ex_showroom_price) from specs;";
+                $min_result = mysqli_query($con,$min_query);
+                $min_row = mysqli_fetch_assoc($min_result);
+                $max_result = mysqli_query($con,$max_query);
+                $max_row = mysqli_fetch_assoc($max_result);
+                $analysis = "";
+                $range = round(($max_row['MAX(Ex_showroom_price)']-$min_row['MIN(Ex_showroom_price)'])/10);
+                $iter = 10;
+                $count = 1;
+                      for($i = 1; $i<$iter;$i++)
+                      {   
+                echo "<tr>";
+                $lower = round(($i-1)*$range/100000)*100000;
+                $upper = round($i*$range/100000)*100000;
+                //echo "₹".($lower/100000)." lakh  - "; 
+                //echo "₹".($upper/100000)." lakh"; 
+                $budget_query = "Select COUNT(*) as carCount from Specs where Ex_showroom_price between ".$lower." and ".$upper.";";
+                $budget_result = mysqli_query($con,$budget_query);
+                      $budget_row = mysqli_fetch_assoc($budget_result);
+                //echo " --->  ".$budget_row['carCount'];
+                echo "<td>".$count."</td>";
+                echo "<td>₹".($lower/100000)." lakh - ₹".($upper/100000)." lakh</td>";
+                echo "<td>".$budget_row['carCount']."</td>";
+                      echo "</tr>";
+                $count++;
+                } 
+                echo "</table></div></div></div></div>";
+          ?>
     </section>
 
 
@@ -737,14 +605,7 @@ echo $top_query;
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      &copy; Copyright <strong><span>CarDB</span></strong>. All Rights Reserved
     </div>
   </footer><!-- End Footer -->
 

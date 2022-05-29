@@ -1,16 +1,38 @@
+<?php 
+  require('db.php'); 
+  //require('../header2.php'); 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-  <title>Login</title>
+  <title>Admin Login</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-<?php 
-  require('./admin/db.php'); 
-  require('header2.php'); 
-?>
+  <!-- Favicons -->
+  <link href="../assets/img/cardb-logo.svg" rel="icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  
+  <!-- Chart JS Files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+  <!-- Template Main CSS File -->
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+
+</head>
 
 <body>
 
@@ -23,8 +45,8 @@
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
-                <a href="homepage" class="logo d-flex align-items-center w-auto">
-                  <img src="assets/img/cardb-logo.svg" alt="">
+                <a href="../homepage" class="logo d-flex align-items-center w-auto">
+                  <img src="../assets/img/cardb-logo.svg" alt="">
                   <span class="d-none d-lg-block">CarDB Analytics</span>
                 </a>
               </div><!-- End Logo -->
@@ -44,26 +66,26 @@
                   $password = stripslashes($_REQUEST['password']);
                   $password = mysqli_real_escape_string($con,$password);
                   //Checking is user existing in the database or not
-                  $query = "SELECT * FROM sgdb_users WHERE username='$username'
+                  $query = "SELECT * FROM admin_users WHERE username='$username'
                   and password='".md5($password)."'";
                   $result = mysqli_query($con,$query) or die(mysqli_error($con));
                   $rows = mysqli_num_rows($result);
                     if($rows==1)
                     {
-                      $_SESSION['username'] = $username;
+                      $_SESSION['admin_username'] = $username;
                       $row = mysqli_fetch_assoc($result);
-                      $_SESSION['email'] = $row['email'];
-                      // Redirect user to dashboard if login successful
-                      header("Location: dashboard");
+                      //$_SESSION['email'] = $row['email'];
+                      // Redirect user to adminHome
+                      header("Location: adminHome");
                     }
-                  else
-                  {
-                    echo "<br><center><span class='text-danger small pt-1 fw-bold'>Invalid Login details. Try again.</span></center>";
-                  } 
-                  }
-                  ?>
+                    else
+                    {
+                      echo "<br><center><span class='text-danger small pt-1 fw-bold'>Invalid Login details. Try again.</span></center>";
+                    } 
+                }
+                ?>
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
+                    <h5 class="card-title text-center pb-0 fs-4">Login to access the admin panel</h5>
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
@@ -92,9 +114,6 @@
                     </div>
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="register">Create an account</a></p>
                     </div>
                   </form>
 

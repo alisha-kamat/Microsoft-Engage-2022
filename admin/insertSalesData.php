@@ -504,7 +504,7 @@ $sql .= "INSERT INTO Sales (Make, Model, Variant, Year, Jan, Feb, Mar, Apr, May,
 $sql .= "INSERT INTO Sales (Make, Model, Variant, Year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dcm, Total) VALUES ('', '', '', , ,  , , , , , , , , , , , );";
 
 if ($con->multi_query($sql) === TRUE) {
-  echo "New records created successfully<br>";
+  echo "New sales records created successfully<br>";
 } else {
   echo "Error: " . $sql . "<br>" . $con->error;
 }

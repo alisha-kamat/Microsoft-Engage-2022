@@ -1,7 +1,10 @@
 <?php
-require('db.php');
-//include("auth.php");
-session_start();
+  // Connect to database
+  require('db.php');
+
+  // Check if admin is logged in
+  include("auth.php");  
+  session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,13 +35,7 @@ session_start();
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-   <!-- ======= Header ======= -->
+   <!--Header-->
    <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -47,9 +44,9 @@ session_start();
       <span class="d-none d-lg-block">CarDB Analytics</span>
     </a>
   </div><!-- End Logo -->
-<span class="d-none d-lg-block"><p><a <p><a href="adminHome">Admin Dashboard</a> 
+<span class="d-none d-lg-block"><p> <p><a href="adminHome">Admin Dashboard</a> 
 | <a href="addUsersRecord">Add User</a> 
-| <a href="logout">Logout</a></p></span>
+| <a href="adminLogout">Logout</a></p></span>
 
 <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -76,7 +73,7 @@ session_start();
                 if(isset($_SESSION["admin_username"]))
                 {
                   echo "<h6>".$_SESSION['admin_username']."</h6>";
-                  echo "<span>".$_SESSION['admin_email']."</span>";
+                  //echo "<span>".$_SESSION['admin_email']."</span>";
                 }
                 else
                 {
@@ -89,18 +86,18 @@ session_start();
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            <!--li>
               <a class="dropdown-item d-flex align-items-center" href="faq">
                 <i class="bi bi-question-circle"></i>
                 <span>Need Help?</span>
               </a>
-            </li>
+            </li-->
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout">
+              <a class="dropdown-item d-flex align-items-center" href="adminLogout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -124,43 +121,46 @@ session_start();
 
           <div class="card">
             <div class="card-body">
-<table class="table datatable">
-<thead>
-<tr>
-<th><strong>S.No</strong></th>
-<th><strong>Username</strong></th>
-<th><strong>Email</strong></th>
-<th><strong>Password</strong></th>
-<th><strong>Transaction Date</strong></th>
-<th><strong>Edit</strong></th>
-<th><strong>Delete</strong></th>
-</tr>
-</thead>
-<tbody>
-<?php
-$count=1;
-$sel_query="Select * from sgdb_users;";
-$result = mysqli_query($con,$sel_query);
-while($row = mysqli_fetch_assoc($result)) { ?>
-<tr><td align="center"><?php echo $count; ?></td>
-<td align="center"><?php echo $row["username"]; ?></td>
-<td align="center"><?php echo $row["email"]; ?></td>
-<td align="center"><?php echo $row["password"]; ?></td>
-<td align="center"><?php echo $row["trn_date"]; ?></td>
-<td>
-<a href="editUsersRecord?id=<?php echo $row["ID"]; ?>">Edit</a>
-</td>
-<td align="center">
-<a href="deleteUsersRecord?id=<?php echo $row["ID"]; ?>">Delete</a>
-</td>
-</tr>
-<?php $count++; } ?>
-</tbody>
-</table>
-</div>
-</div></div>
-</div>
-</section>
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th><strong>S.No</strong></th>
+                    <th><strong>Username</strong></th>
+                    <th><strong>Email</strong></th>
+                    <th><strong>Password</strong></th>
+                    <th><strong>Transaction Date</strong></th>
+                    <th><strong>Edit</strong></th>
+                    <th><strong>Delete</strong></th>
+                  </tr>
+                </thead>
+              <tbody>
+              <?php
+                $count=1;
+                $sel_query="Select * from sgdb_users;";
+                $result = mysqli_query($con,$sel_query);
+                while($row = mysqli_fetch_assoc($result))
+                 { ?>
+                  <tr><td align="center"><?php echo $count; ?></td>
+                    <td align="center"><?php echo $row["username"]; ?></td>
+                    <td align="center"><?php echo $row["email"]; ?></td>
+                    <td align="center"><?php echo $row["password"]; ?></td>
+                    <td align="center"><?php echo $row["trn_date"]; ?></td>
+                    <td>
+                    <a href="editUsersRecord?id=<?php echo $row["ID"]; ?>">Edit</a>
+                    </td>
+                    <td align="center">
+                    <a href="deleteUsersRecord?id=<?php echo $row["ID"]; ?>">Delete</a>
+                    </td>
+                  </tr>
+                <?php $count++; } 
+              ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->

@@ -1,7 +1,9 @@
 <?php
-require('db.php');
-//include("auth.php");
-session_start();
+  // Connect to database
+  require('db.php');
+  //Check if admin is logged in
+  include("auth.php");
+//session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,9 +23,6 @@ session_start();
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <!--link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet"-->
   <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
   
   <!-- Chart JS Files -->
@@ -32,24 +31,18 @@ session_start();
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-   <!-- ======= Header ======= -->
+   <!-- Header -->
    <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="../homepage.php" class="logo d-flex align-items-center">
+    <a href="../homepage" class="logo d-flex align-items-center">
       <img src="../assets/img/cardb-logo.svg" alt="">
       <span class="d-none d-lg-block">CarDB Analytics</span>
     </a>
   </div><!-- End Logo -->
-<span class="d-none d-lg-block"><p><a href="adminHome.php">Admin Dashboard</a> 
-| <a href="addDemographicRecord.php">Add Demographic Data</a> 
-| <a href="logout.php">Logout</a></p></span>
+<span class="d-none d-lg-block"><p><a href="adminHome">Admin Dashboard</a> 
+| <a href="addDemographyRecord">Add Demographic Data</a> 
+| <a href="adminLogout">Logout</a></p></span>
 
 <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -76,7 +69,7 @@ session_start();
                 if(isset($_SESSION["admin_username"]))
                 {
                   echo "<h6>".$_SESSION['admin_username']."</h6>";
-                  echo "<span>".$_SESSION['admin_email']."</span>";
+                  //echo "<span>".$_SESSION['admin_email']."</span>";
                 }
                 else
                 {
@@ -89,18 +82,18 @@ session_start();
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="faq.php">
+            <!--li>
+              <a class="dropdown-item d-flex align-items-center" href="faq">
                 <i class="bi bi-question-circle"></i>
                 <span>Need Help?</span>
               </a>
-            </li>
+            </li-->
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
+              <a class="dropdown-item d-flex align-items-center" href="adminLogout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -116,9 +109,6 @@ session_start();
 </head>
 <body>
 <div class="form">
-<!--p><a href="dashboard.php">Dashboard</a> 
-| <a href="insert.php">Insert New Record</a> 
-| <a href="logout.php">Logout</a></p-->
 <section class="section">
 <br><br><br>
 <center><h2>View Demographic Records</h2></center>
@@ -126,71 +116,73 @@ session_start();
 
           <div class="card">
             <div class="card-body">
-<table class="table datatable">
-<thead>
-<tr>
-<th><strong>S.No</strong></th>
-<th><strong>Make</strong></th>
-<th><strong>Model</strong></th>
-<th><strong>Variant</strong></th>
-<th><strong>Year</strong></th>
-<th><strong>Total</strong></th>
-<th><strong>East Region</strong></th>
-<th><strong>West Region</strong></th>
-<th><strong>North Region</strong></th>
-<th><strong>South Region</strong></th>
-<th><strong>Young Age</strong></th>
-<th><strong>Middle Age</strong></th>
-<th><strong>Senior Age</strong></th>
-<th><strong>Dull Colour</strong></th>
-<th><strong>Bright Colour</strong></th>
-<th><strong>Neutral Colour</strong></th>
-<th><strong>Male Gender</strong></th>
-<th><strong>Female Gender</strong></th>
-<th><strong>Other Gender</strong></th>
-<th><strong>Edit</strong></th>
-<th><strong>Delete</strong></th>
-</tr>
-</thead>
-<tbody>
-<?php
-$count=1;
-$sel_query="Select * from demography;";
-$result = mysqli_query($con,$sel_query);
-while($row = mysqli_fetch_assoc($result)) { ?>
-<tr><td align="center"><?php echo $count; ?></td>
-<td align="center"><?php echo $row["Make"]; ?></td>
-<td align="center"><?php echo $row["Model"]; ?></td>
-<td align="center"><?php echo $row["Variant"]; ?></td>
-<td align="center"><?php echo $row["Year"]; ?></td>
-<td align="center"><?php echo $row["Total"]; ?></td>
-<td align="center"><?php echo $row["Region_East"]; ?></td>
-<td align="center"><?php echo $row["Region_West"]; ?></td>
-<td align="center"><?php echo $row["Region_North"]; ?></td>
-<td align="center"><?php echo $row["Region_South"]; ?></td>
-<td align="center"><?php echo $row["Age_Young"]; ?></td>
-<td align="center"><?php echo $row["Age_Middle"]; ?></td>
-<td align="center"><?php echo $row["Age_Senior"]; ?></td>
-<td align="center"><?php echo $row["Colour_Dull"]; ?></td>
-<td align="center"><?php echo $row["Colour_Bright"]; ?></td>
-<td align="center"><?php echo $row["Colour_Neutral"]; ?></td>
-<td align="center"><?php echo $row["Gender_Male"]; ?></td>
-<td align="center"><?php echo $row["Gender_Female"]; ?></td>
-<td align="center"><?php echo $row["Gender_Other"]; ?></td>
-<td align="center">
-<a href="edit.php?id=<?php echo $row["ID"]; ?>">Edit</a>
-</td>
-<td align="center">
-<a href="delete.php?id=<?php echo $row["ID"]; ?>">Delete</a>
-</td>
-</tr>
-<?php $count++; } ?>
-</tbody>
-</table>
-</div>
-</div></div>
-</div>
-</section>
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th><strong>S.No</strong></th>
+                    <th><strong>Make</strong></th>
+                    <th><strong>Model</strong></th>
+                    <th><strong>Variant</strong></th>
+                    <th><strong>Year</strong></th>
+                    <th><strong>Total</strong></th>
+                    <th><strong>East Region</strong></th>
+                    <th><strong>West Region</strong></th>
+                    <th><strong>North Region</strong></th>
+                    <th><strong>South Region</strong></th>
+                    <th><strong>Young Age</strong></th>
+                    <th><strong>Middle Age</strong></th>
+                    <th><strong>Senior Age</strong></th>
+                    <th><strong>Dull Colour</strong></th>
+                    <th><strong>Bright Colour</strong></th>
+                    <th><strong>Neutral Colour</strong></th>
+                    <th><strong>Male Gender</strong></th>
+                    <th><strong>Female Gender</strong></th>
+                    <th><strong>Other Gender</strong></th>
+                    <th><strong>Edit</strong></th>
+                    <th><strong>Delete</strong></th>
+                  </tr>
+                </thead>
+              <tbody>
+              <?php
+                $count=1;
+                $sel_query="Select * from demography;";
+                $result = mysqli_query($con,$sel_query);
+                while($row = mysqli_fetch_assoc($result)) 
+                { ?>
+                  <tr><td align="center"><?php echo $count; ?></td>
+                  <td align="center"><?php echo $row["Make"]; ?></td>
+                  <td align="center"><?php echo $row["Model"]; ?></td>
+                  <td align="center"><?php echo $row["Variant"]; ?></td>
+                  <td align="center"><?php echo $row["Year"]; ?></td>
+                  <td align="center"><?php echo $row["Total"]; ?></td>
+                  <td align="center"><?php echo $row["Region_East"]; ?></td>
+                  <td align="center"><?php echo $row["Region_West"]; ?></td>
+                  <td align="center"><?php echo $row["Region_North"]; ?></td>
+                  <td align="center"><?php echo $row["Region_South"]; ?></td>
+                  <td align="center"><?php echo $row["Age_Young"]; ?></td>
+                  <td align="center"><?php echo $row["Age_Middle"]; ?></td>
+                  <td align="center"><?php echo $row["Age_Senior"]; ?></td>
+                  <td align="center"><?php echo $row["Colour_Dull"]; ?></td>
+                  <td align="center"><?php echo $row["Colour_Bright"]; ?></td>
+                  <td align="center"><?php echo $row["Colour_Neutral"]; ?></td>
+                  <td align="center"><?php echo $row["Gender_Male"]; ?></td>
+                  <td align="center"><?php echo $row["Gender_Female"]; ?></td>
+                  <td align="center"><?php echo $row["Gender_Other"]; ?></td>
+                  <td align="center">
+                <a href="editDemographyRecord?id=<?php echo $row["ID"]; ?>">Edit</a>
+                </td>
+                <td align="center">
+                <a href="deleteDemographyRecord?id=<?php echo $row["ID"]; ?>">Delete</a>
+                </td>
+                </tr>
+              <?php $count++; } ?>
+              </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->

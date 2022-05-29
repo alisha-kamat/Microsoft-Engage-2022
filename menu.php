@@ -1,4 +1,4 @@
-  <!-- ======= Header ======= -->
+  <!--  Header  -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
@@ -35,32 +35,34 @@
                 {
                   echo "<h6>".$_SESSION['username']."</h6>";
                   echo "<span>".$_SESSION['email']."</span>";
-                }
+		          ?>
+          	  </li>
+            	<li>
+              	<hr class="dropdown-divider">
+            	</li>
+
+	            <li>
+              	  <a class="dropdown-item d-flex align-items-center" href="logout">
+                  <i class="bi bi-box-arrow-right"></i>
+                 <span>Sign Out</span>
+                <?php } 
                 else
                 {
                   echo "<h6>Guest</h6>";
                   echo "<span>Not logged in</span>";
-                }
+                  ?>
+          	  </li>
+            	<li>
+              	<hr class="dropdown-divider">
+            	</li>
+
+	            <li>
+              	  <a class="dropdown-item d-flex align-items-center" href="login">
+                  <i class="bi bi-box-arrow-right"></i>
+                 <span>Sign In</span>
+		          <?php }
               ?>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="faq.php">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
               </a>
             </li>
 
@@ -72,17 +74,11 @@
 
   </header><!-- End Header -->
 
-<!-- ======= Sidebar ======= -->
+<!-- Sidebar  -->
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-      <!--li class="nav-item">
-        <a class="nav-link collapsed" href="dashboard.php">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li--><!-- End Dashboard Nav -->
 
 <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#research-nav" data-bs-toggle="collapse" href="#">
@@ -134,46 +130,33 @@
           </li>                    
         </ul>        
       </li><!-- End Analytics Nav -->      
-       
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
-          <i class="bi bi-graph-up"></i>
-          <span>Predictive Analytics</span>
-        </a>
-      </li><!-- End Predictive Analytics Nav -->   
+         
       
       <li class="nav-heading">Pages</li>      
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="team.php">
+        <a class="nav-link collapsed" href="team">
           <i class="bi bi-person"></i>
           <span>Team</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="faq.php">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </a>
-      </li><!-- End F.A.Q Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="contact.php">
+        <a class="nav-link collapsed" href="contact">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="register.php">
+        <a class="nav-link collapsed" href="register">
           <i class="bi bi-card-list"></i>
           <span>Register</span>
         </a>
       </li><!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="login.php">
+        <a class="nav-link collapsed" href="login">
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
         </a>
